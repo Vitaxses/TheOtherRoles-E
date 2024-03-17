@@ -10,10 +10,10 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 ![eisbison infographic](./Images/TOR_Roles.png)
 
 
-# The Other Roles
+# The Other Roles - Enhanced
 
-The **The Other Roles** is a mod for [Among Us](https://store.steampowered.com/app/945360/Among_Us) which adds many new roles, new [Settings](#settings) and new [Custom Hats](#custom-hats) to the game.
-Even more roles are coming soon. :)
+The **The Other Roles - Enhanced** is a mod for [Among Us](https://store.steampowered.com/app/945360/Among_Us) which adds many new roles, new [Settings](#settings) and new [Custom Hats](#custom-hats) to the game.
+Updated Consistently.
 
 | Impostor | Crewmate | Neutral | Modifier | Gamemode |
 |----------|-------------|-----------------|----------------|----------------|
@@ -30,7 +30,7 @@ Even more roles are coming soon. :)
 | [Bounty Hunter](#bounty-hunter) | [Hacker](#hacker) | [Befriender](#befriender) | [Shifter](#shifter) |
 | [Witch](#witch) | [Tracker](#tracker) | | [Flash](#flash)  |
 | [Ninja](#ninja) | [Snitch](#snitch) | | [Giant](#giant) |  |
-| [Bomber](#bomber) | [Spy](#spy) | | [1TimeKIller](#1TimeKiller) |
+| [Bomber](#bomber) | [Spy](#spy) | | [1TimeKiller](#1timekiller) |
 | [Evil Guesser](#guesser) | [Portalmaker](#portalmaker) | | [Recruiter](#recruiter) |
 | [Swooper](#swooper) | [Security Guard](#security-guard) |  |  |
 | [Sniper](#sniper) | [Medium](#medium) |  |  |
@@ -130,24 +130,18 @@ docker run -d -p 22023:22023/udp --env IMPOSTOR_AntiCheatEnabled=false --env IMP
 
 
 # Credits & Resources
-Team:
-Mallöris    K3ndo    Bavari    Gendelo
+TOR-E-Team:
+Vitaxses
 
-Former Team Members:
-Eisbison (GOAT)    Thunderstorm584    EndOfFile
+TOR-Team + TOR-Devs:
+Devs: EnoPM    twix    NesTT, Rest of torTeam: Mallöris    K3ndo    Bavari    Gendelo
 
-Additional Devs:
-EnoPM    twix    NesTT
-
-Github Contributors:
-Alex2911    amsyarasyiq    MaximeGillot
-Psynomit    probablyadnf    JustASysAdmin
-
-[Discord](https://discord.gg/77RkMJHWsM]Discord) Moderators:</b>
-Draco Cordraconis    Streamblox (formerly)
-Thanks to all our discord helpers!
+Special Thanks to TheOtherRoles Team for letting me make this mod!
 
 Thanks to miniduikboot & GD for hosting modded servers (and so much more)
+
+TheOtherRoles - For The Coding Framework
+The Other Roles Credits: 
 
 
 [OxygenFilter](https://github.com/NuclearPowered/Reactor.OxygenFilter) - For all the versions between v2.3.0 and v2.6.1, we were using the OxygenFilter for automatic deobfuscation\
@@ -280,6 +274,55 @@ Settings: 2 special Crewmate roles, Snitch: 100%, Hacker: 10%, Tracker: 30%\
 Result: Snitch is assigned, then one role out of the pool [Hacker, Tracker, Tracker, Tracker] is being selected\
 Note: Changing the settings to Hacker: 20%, Tracker: 60% would statistically result in the same outcome .
 
+## Sniper
+### **Team: Impostors**
+The Sniper doesn't Lunch at people when killing Unlike the normal Impostor.
+
+### Game Options
+
+| Name | Description |
+|----------|:-------------:|
+| Sniper Spawn Chance | -
+| Sniper Cooldown | - 
+-----------------------
+
+## Teleporter
+### **Team: Impostors**
+The Teleporter Can set a Location to Teleport to and At Will Teleport To the selected Location.
+
+### Game Options
+
+| Name | Description |
+|----------|:-------------:|
+| Teleporter Spawn Chance | -
+| Teleport Cooldown | - 
+-----------------------
+
+## Sniper
+### **Team: Impostors**
+The Sniper doesn't Lunch at people when killing Unlike the normal Impostor.
+
+### Game Options
+
+| Name | Description |
+|----------|:-------------:|
+| Sniper Spawn Chance | -
+| Sniper Cooldown | - 
+-----------------------
+
+## Swooper
+### **Team: Impostors**
+The Swooper can go Invisible Temporarily.\
+The Swooper can only Kill while Invisible.\
+
+### Game Options
+
+| Name | Description |
+|----------|:-------------:|
+| Swooper Spawn Chance | -
+| Swooper Cooldown | - 
+| Swooper Duration | -
+-----------------------
 
 ## Mafia
 ### **Team: Impostors**
@@ -566,6 +609,36 @@ Depending on the options, the Guesser can't guess the shielded player and depend
 
 -----------------------
 
+## Haunter
+### **Team: Neutral**
+The Haunter does not have any tasks, they have to Win as solo.\
+The Haunter is a Neutral Killer But Can only Kill when Haunting.
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Haunter Spawn Chance | -
+| Haunter Imposter Vision | -
+| Haunter Kill Cooldown | -
+| Haunter Haunt Duration | -
+| Haunter Haunt Cooldown | -
+-----------------------
+
+## Befriender
+### **Team: Neutral**
+The Befriender does not have any tasks, they have to make Everyone Win.\
+The Befriender can befriend other players by pressing the Befriend button and remaining next to the player for a few seconds.\
+If the player that the Befriender befriending walks out of range, the cooldown will reset to 0.\
+After befriending everyone alive the Befriender can Befriend all the players which results in Everyone winning.
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Befriender Spawn Chance | -
+| Befriender Countdown| -
+| Befriender Duration | The time it takes to befriend a player | -
+-----------------------
+
 ## Jester
 ### **Team: Neutral**
 The Jester does not have any tasks. They win the game as a solo, if they get voted out during a meeting.
@@ -613,9 +686,10 @@ The priority of the win conditions is the following:
 4. Team Impostor wins by sabotage
 5. Team Crew wins by tasks (also possible if the whole Crew is dead)
 6. Lovers among the last three players win
-7. Team Jackal wins by outnumbering (When the team Jackal contains an equal or greater amount of players than the Crew and there are 0 Impostors left and team Jackal contains no Lover)
-8. Team Impostor wins by outnumbering (When the team Impostors contains an equal or greater amount of players than the Crew and there are 0 players of the team Jackal left and team Impostors contains no Lover)
-9. Team Crew wins by outnumbering (When there is no player of the team Jackal and the team Impostors left)
+7. Team Haunter wins by outnumbering (When the team Jackal contains an equal or greater amount of players than the Crew and there are 0 imposters left and team Haunter contains no Lover)
+8. Team Jackal wins by outnumbering (When the team Jackal contains an equal or greater amount of players than the Crew and there are 0 Impostors left, 0 Haunter left and team Jackal contains no Lover)
+9. Team Impostor wins by outnumbering (When the team Impostors contains an equal or greater amount of players than the Crew and there are 0 players of the team Jackal left, 0 haunter left and team Impostors contains no Lover)
+10. Team Crew wins by outnumbering (When there is no player of the team Jackal and the team Impostors left)
 
 **NOTE:**
 - The Jackal (and their Sidekick) may be killed by a Sheriff.
@@ -762,6 +836,55 @@ the Sheriff. While the Thief hasn't fired, their tasks do not count towards the 
 | Thief Has Impostor Vision | -
 | Thief Can Use Vents | -
 | Thief Can Guess To Steal Role | -
+-----------------------
+
+## Ghost
+### **Team: Crewmates**
+The Ghost can Teleport to any player to catch killers in the act.\
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Ghost Spawn Chance | -
+| Ghost Teleports | How many times the Ghost can teleport | -
+| Ghost Imposter Vision | -
+| Ghost Can Teleport to people in vents | -
+| Ghost Can Teleport to people with 0s Kill Cooldown | -
+-----------------------
+
+## Ghost
+### **Team: Crewmates**
+The Ghost can Teleport to any player to catch killers in the act.\
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Ghost Spawn Chance | -
+| Ghost Teleports | How many times the Ghost can teleport | -
+| Ghost Imposter Vision | -
+| Ghost Can Teleport to people in vents | -
+| Ghost Can Teleport to people with 0s Kill Cooldown | -
+-----------------------
+
+## Sacraficer
+### **Team: Crewmates**
+The Sacraficer can select a player to protect.\
+When a killer tries to kill the selected player the Sacraficer dies instead of the selected player.\
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Sacraficer Spawn Chance | -
+-----------------------
+
+## Betrayer
+### **Team: Crewmates**
+When The Betrayer finishes all tasks they become an Impostor.
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Betrayer Spawn Chance | -
 -----------------------
 
 ## Mayor
@@ -1176,6 +1299,64 @@ The traps have a maximum of charges (uses) and a configurable amount of tasks ar
 # Modifier
 A Modifier is an addition to your Impostor/Neutral/Crewmate role.
 Some Modifiers can be ingame more than once (Quantity option).
+
+## Flash
+
+The Flash Can Run at the Speed of Light.\
+\
+**NOTE**
+- Impostor, Neutral or Crewmate roles can have this Modifier
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Flash Spawn Chance | -
+| Flash Quantity | -
+| Flash Speed | -
+-----------------------
+
+## Giant
+
+The Giant Can Run at the Speed and Size of a Mountain.\
+\
+**NOTE**
+- Impostor, Neutral or Crewmate roles can have this Modifier
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Giant Spawn Chance | -
+| Giant Quantity | -
+| Giant Speed | -
+| Giant Size | -
+-----------------------
+
+## Recruiter
+
+The Recruiter Can Recruit a Crewmate to be there Fellow impostor.\
+
+**NOTE**
+- Only Impostor roles can have this Modifier
+- The Recruiter only gets Assigned when theres 1 impostor
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Recruiter Spawn Chance | -
+-----------------------
+
+## 1TimeKiller
+
+The 1TimeKiller gets a KillButton But Can Only be used Once.\
+
+**NOTE**
+- Only Crewmate roles can have this Modifier
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| 1TimeKiller Spawn Chance | -
+-----------------------
 
 ## Bloody
 
