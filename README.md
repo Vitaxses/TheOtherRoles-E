@@ -26,21 +26,19 @@ Even more roles are coming soon. :)
 | [Eraser](#eraser) | [Time Master](#time-master) | [Prosecutor](#prosecutor) | [Mini](#mini) |
 | [Trickster](#trickster) | [Medic](#medic) | [Pursuer](#pursuer) | [VIP](#vip) |
 | [Cleaner](#cleaner) | [Swapper](#swapper) | [Thief](#thief) | [Invert](#invert) |
-| [Warlock](#warlock) | [Seer](#seer) |  | [Chameleon](#chameleon) |
-| [Bounty Hunter](#bounty-hunter) | [Hacker](#hacker) |  | [Shifter](#shifter)
-| [Witch](#witch) | [Tracker](#tracker) | [Flash](#flash) |  |
-| [Ninja](#ninja) | [Snitch](#snitch) | [Giant](#giant) |  |
-| [Bomber](#bomber) | [Spy](#spy) |  | [1TimeKIller](#1TimeKiller) |
-| [Evil Guesser](#guesser) | [Portalmaker](#portalmaker) | [Recruiter](#recruiter) |  |
+| [Warlock](#warlock) | [Seer](#seer) | [Haunter](#haunter) | [Chameleon](#chameleon) |
+| [Bounty Hunter](#bounty-hunter) | [Hacker](#hacker) | [Befriender](#befriender) | [Shifter](#shifter) |
+| [Witch](#witch) | [Tracker](#tracker) | | [Flash](#flash)  |
+| [Ninja](#ninja) | [Snitch](#snitch) | | [Giant](#giant) |  |
+| [Bomber](#bomber) | [Spy](#spy) | | [1TimeKIller](#1TimeKiller) |
+| [Evil Guesser](#guesser) | [Portalmaker](#portalmaker) | | [Recruiter](#recruiter) |
 | [Swooper](#swooper) | [Security Guard](#security-guard) |  |  |
 | [Sniper](#sniper) | [Medium](#medium) |  |  |
 | [Teleporter](#teleporter) | [Trapper](#trapper) |  |  |
 | | [Nice Guesser](#guesser) | |  |
 | | [Ghost](#ghost) | | |
 | | [Sacraficer](#sacraficer) | | |
-| | [Sacraficer](#Betrayer) | | |
-| | | [Haunter](#haunter) | |
-| | | [Befriender](#befriender) | |
+| | [Betrayer](#betrayer) | | |
 
 The [Role Assignment](#role-assignment) section explains how the roles are being distributed among the players.
 
