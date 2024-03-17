@@ -108,6 +108,20 @@ namespace TheOtherRoles.Patches {
             Dictionary<byte, int> impSettings = new Dictionary<byte, int>();
             Dictionary<byte, int> neutralSettings = new Dictionary<byte, int>();
             Dictionary<byte, int> crewSettings = new Dictionary<byte, int>();
+
+            impSettings.Add((byte)RoleId.Swooper, CustomOptionHolder.swooperSpawnRate.getSelection());
+            impSettings.Add((byte)RoleId.Tasker, CustomOptionHolder.taskerSpawnRate.getSelection());
+            impSettings.Add((byte)RoleId.Sniper, CustomOptionHolder.sniperSpawnRate.getSelection());
+            impSettings.Add((byte)RoleId.Teleporter, CustomOptionHolder.teleporterSpawnRate.getSelection());
+            impSettings.Add((byte)RoleId.EvilTrapper, CustomOptionHolder.evilTrapperSpawnRate.getSelection());
+
+            neutralSettings.Add((byte)RoleId.Haunter, CustomOptionHolder.haunterSpawnRate.getSelection());
+            neutralSettings.Add((byte)RoleId.Befriender, CustomOptionHolder.befrienderSpawnRate.getSelection());
+
+            crewSettings.Add((byte)RoleId.Ghost, CustomOptionHolder.ghostSpawnRate.getSelection());
+            crewSettings.Add((byte)RoleId.Sacraficer, CustomOptionHolder.sacraficerSpawnRate.getSelection());
+            crewSettings.Add((byte)RoleId.Betrayer, CustomOptionHolder.betrayerSpawnRate.getSelection());
+            crewSettings.Add((byte)RoleId.Whisper, CustomOptionHolder.whisperSpawnRate.getSelection());
             
             impSettings.Add((byte)RoleId.Morphling, CustomOptionHolder.morphlingSpawnRate.getSelection());
             impSettings.Add((byte)RoleId.Camouflager, CustomOptionHolder.camouflagerSpawnRate.getSelection());
@@ -435,8 +449,14 @@ namespace TheOtherRoles.Patches {
                 RoleId.Vip,
                 RoleId.Invert,
                 RoleId.Chameleon,
-                RoleId.Shifter
+                RoleId.Shifter,
+                RoleId.Giant, // ADDED
+                RoleId.Flash, // ADDED
+                RoleId.OneTimeKiller // ADDED
             });
+            if (getRoleAssignmentData().impostors.Count == 1) {
+                allModifiers.Add(RoleId.Recruiter);
+            }
 
             if (rnd.Next(1, 101) <= CustomOptionHolder.modifierLover.getSelection() * 10) { // Assign lover
                 bool isEvilLover = rnd.Next(1, 101) <= CustomOptionHolder.modifierLoverImpLoverRate.getSelection() * 10;

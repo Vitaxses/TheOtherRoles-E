@@ -24,6 +24,95 @@ namespace TheOtherRoles {
         public static CustomOption anyPlayerCanStopStart;
         public static CustomOption enableEventMode;
 
+        // ADDED:
+        public static CustomOption whisperSpawnRate;
+        public static CustomOption whisperCooldown;
+        public static CustomOption whisperDuration;
+
+        public static CustomOption enableCodenameHorsemode;
+        public static CustomOption enableCodenameDisableHorses;
+
+        //ADDED:
+
+        public static CustomOption swooperSpawnRate;
+        public static CustomOption swooperTimeInvisible;
+        public static CustomOption swooperCooldown;
+        public static CustomOption swooperCanVent;
+
+        //ADDED:
+        public static CustomOption modifierFlashSpawnRate;
+        public static CustomOption modifierFlashQuantity;
+        public static CustomOption modifierFlashSpeed;
+
+        //ADDED:
+        public static CustomOption modifierGiantSpawnRate;
+        public static CustomOption modifierGiantQuantity;
+        public static CustomOption modifierGiantSpeed;
+        public static CustomOption modifierGiantSize;
+
+        //ADDED:
+        public static CustomOption ghostSpawnRate;
+        public static CustomOption ghostTeleports;
+        public static CustomOption ghostImposterVision;
+
+        //ADDED:
+        public static CustomOption sniperSpawnRate;
+        public static CustomOption sniperSnipeCD;
+
+        //ADDED:
+        public static CustomOption haunterSpawnRate;
+        public static CustomOption haunterKillCooldown;
+        public static CustomOption haunterHauntDuration;
+        public static CustomOption haunterHauntCooldown;
+        public static CustomOption adminSeeHaunter;
+        public static CustomOption haunterImposterVision;
+
+        //ADDED:
+
+        public static CustomOption betrayerSpawnRate;
+
+        //ADDED:
+        public static CustomOption taskerSpawnRate;
+        public static CustomOption taskerTasks;
+        public static CustomOption taskerCountMinSeconds;
+        public static CustomOption taskerCountMaxSeconds;
+        public static CustomOption taskerSlower;
+        public static CustomOption taskerKillCooldown;
+        public static CustomOption taskerCanDoVisual;
+
+        //ADDED:
+        public static CustomOption teleporterSpawnRate;
+        public static CustomOption teleporterCooldown;
+
+        //ADDED:
+        public static CustomOption wrufSpawnRate;
+        public static CustomOption wrufCooldown;
+        public static CustomOption wrufDuration;
+
+        //ADDED:
+        public static CustomOption sacraficerSpawnRate;
+
+        //ADDED:
+
+        public static CustomOption modifierRecruiterSpawnRate;
+        public static CustomOption modifierRecruiterQuantity;
+        
+        // ADDED:
+        public static CustomOption ghostTeleportTo0CD;
+        public static CustomOption ghostCanTeleportToVents;
+
+        // ADDED:
+        public static CustomOption modifierOneTimeKillerSpawnRate;
+
+        // ADDED:
+        public static CustomOption evilTrapperSpawnRate;
+        public static CustomOption evilTrapperMaxCountOfDeadBodys;
+
+        // ADDED:
+        public static CustomOption befrienderSpawnRate;
+        public static CustomOption befrienderDuration;
+        public static CustomOption befrienderCooldown;
+
         public static CustomOption mafiaSpawnRate;
         public static CustomOption janitorCooldown;
 
@@ -428,6 +517,64 @@ namespace TheOtherRoles {
             modifiersCountMin = CustomOption.Create(306, Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Minimum Modifiers"), 15f, 0f, 15f, 1f);
             modifiersCountMax = CustomOption.Create(307, Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Maximum Modifiers"), 15f, 0f, 15f, 1f);
             
+            swooperSpawnRate = CustomOption.Create(4000, Types.Impostor, cs(Swooper.color, "Swooper"), rates, null, true);
+            swooperTimeInvisible = CustomOption.Create(4001, Types.Impostor, "Swooper Duration", 12f, 3f, 70, 2.5f, swooperSpawnRate);
+            swooperCooldown = CustomOption.Create(4002, Types.Impostor, "Swooper Cooldown", 17f, 2f, 60f, 2.5f, swooperSpawnRate);
+            swooperCanVent = CustomOption.Create(4003, Types.Impostor, "Can Vent", false, swooperSpawnRate);
+
+            taskerSpawnRate = CustomOption.Create(4004, Types.Impostor, cs(Tasker.color, "Tasker"), rates, null, true);
+            taskerSlower = CustomOption.Create(4005, Types.Impostor, "How much slower kill cooldown is", 0.5f, 0f, 60f, 0.5f, taskerSpawnRate);
+            taskerCountMaxSeconds = CustomOption.Create(4006, Types.Impostor, "Seconds to Remove Max", 11f, 2f, 60f, 2.5f, taskerSpawnRate);
+            taskerCountMinSeconds = CustomOption.Create(4007, Types.Impostor, "Seconds to Remove Min", 5f, 2f, 60f, 2.5f, taskerSpawnRate);
+            taskerTasks = CustomOption.Create(4008, Types.Impostor, "Tasks", 7, 1, 10, 1, taskerSpawnRate);
+            taskerKillCooldown = CustomOption.Create(4009, Types.Impostor, "Kill Cooldown", 18, 3, 60, 2.5f, taskerSpawnRate);
+            taskerCanDoVisual = CustomOption.Create(4010, Types.Impostor, "Can do Visual-Task", false, taskerSpawnRate);
+
+            haunterSpawnRate = CustomOption.Create(4011, Types.Neutral, cs(Haunter.color, "Haunter"), rates, null, true);
+            haunterKillCooldown = CustomOption.Create(4012, Types.Neutral, "Haunter's kill Cooldown", 1.5f, 0f, 50f, 1f, haunterSpawnRate);
+            haunterHauntDuration = CustomOption.Create(4013, Types.Neutral, "Haunt Duration", 8f, 3f, 40f, 2.5f, haunterSpawnRate);
+            haunterHauntCooldown = CustomOption.Create(4014, Types.Neutral, "Haunt Cooldown", 25f, 3f, 60f, 2.5f, haunterSpawnRate);
+            adminSeeHaunter = CustomOption.Create(4015, Types.Neutral, "Haunter is visible on Admin", true, haunterSpawnRate);
+            haunterImposterVision = CustomOption.Create(4016, Types.Neutral, "Imposter Vision", true, haunterSpawnRate);
+
+            ghostSpawnRate = CustomOption.Create(4017, Types.Crewmate, cs(Ghost.color, "Ghost"), rates, null, true);
+            ghostTeleports = CustomOption.Create(4018, Types.Crewmate, "Teleports", 3, 1, 60,  2.5f, ghostSpawnRate);
+            ghostCanTeleportToVents = CustomOption.Create(4019, Types.Crewmate, "Can Teleport to People in Vents", true, ghostSpawnRate);
+            ghostTeleportTo0CD = CustomOption.Create(4020, Types.Crewmate, "Can Teleport to People With 0-Sec Cooldown", false, ghostSpawnRate);
+            ghostImposterVision = CustomOption.Create(4021, Types.Crewmate, "Imposter Vision", true, ghostSpawnRate);
+
+            sniperSpawnRate = CustomOption.Create(4022, Types.Impostor, cs(Palette.ImpostorRed , "Sniper"), rates, null, true);
+            sniperSnipeCD = CustomOption.Create(4023, Types.Impostor, "Snipe Cooldown", 28f, 0f, 60f, 2f, sniperSpawnRate);
+
+            teleporterSpawnRate = CustomOption.Create(4024, Types.Impostor, cs(Palette.ImpostorRed, "Teleporter"), rates, null, true);
+            teleporterCooldown = CustomOption.Create(4025, Types.Impostor, "Cooldown", 11.5f, 1f, 59.5f, 2.5f, teleporterSpawnRate);
+
+            sacraficerSpawnRate = CustomOption.Create(4029, Types.Crewmate, cs(Sacraficer.color, "Sacraficer"), rates, null, true);
+
+            betrayerSpawnRate = CustomOption.Create(4030, Types.Crewmate, cs(Betrayer.color, "Betrayer"), rates, null, true);
+
+            modifierFlashSpawnRate = CustomOption.Create(4031, Types.Modifier, cs(Color.yellow, "Flash"), rates, null, true);
+            modifierFlashQuantity = CustomOption.Create(4032, Types.Modifier, "Quantity", ratesModifier, modifierFlashSpawnRate);
+            modifierFlashSpeed = CustomOption.Create(4033, Types.Modifier, "Speed", 2.5f, 0.5f, 10.0f, 0.1f, modifierFlashSpawnRate);
+
+            modifierGiantSpawnRate = CustomOption.Create(4034, Types.Modifier, cs(Color.yellow, "Giant"), rates, null, true);
+            modifierGiantQuantity = CustomOption.Create(4035, Types.Modifier, "Quantity", ratesModifier, modifierGiantSpawnRate);
+            modifierGiantSpeed = CustomOption.Create(4036, Types.Modifier, "Speed", 0.2f, 0.2f, 10f, 0.1f, modifierGiantSpawnRate);
+            modifierGiantSize = CustomOption.Create(4037, Types.Modifier, "Size", 1.0f, 0.8f, 1.8f, 0.1f, modifierGiantSpawnRate);
+            
+            modifierRecruiterSpawnRate = CustomOption.Create(4038, Types.Modifier, cs(Recruiter.color, "Recruiter"), rates, null, true);
+            modifierRecruiterQuantity = CustomOption.Create(4039, Types.Modifier, "Quantity", 1f, 0f, 1f, 1f, modifierRecruiterSpawnRate);
+
+            modifierOneTimeKillerSpawnRate = CustomOption.Create(4040, Types.Modifier, cs(Sheriff.color, "1-TimeKiller"), rates, null, true);
+
+            evilTrapperSpawnRate = CustomOption.Create(4041, Types.Impostor, cs(Palette.ImpostorRed, "Evil-Trapper"), rates, null, true);
+            evilTrapperMaxCountOfDeadBodys = CustomOption.Create(4042, Types.Impostor, "Max body's trapped", 4, 1, 12, 1f, evilTrapperSpawnRate);
+
+            befrienderSpawnRate = CustomOption.Create(4042, Types.Neutral, cs(Befriender.color, "Befriender"), rates, null, true);
+            befrienderCooldown = CustomOption.Create(4043, Types.Neutral, "Cooldown", 10.5f, 0.5f, 30f, 1.5f, befrienderSpawnRate);
+            befrienderDuration = CustomOption.Create(4044, Types.Neutral, "Duration", 1f, 0f, 15f, 1f, befrienderSpawnRate);
+
+
             mafiaSpawnRate = CustomOption.Create(18, Types.Impostor, cs(Janitor.color, "Mafia"), rates, null, true);
             janitorCooldown = CustomOption.Create(19, Types.Impostor, "Janitor Cooldown", 30f, 10f, 60f, 2.5f, mafiaSpawnRate);
 

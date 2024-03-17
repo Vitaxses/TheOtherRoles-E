@@ -78,26 +78,24 @@ namespace TheOtherRoles.Modules {
 
                 popUp.gameObject.SetActive(true);
                 string creditsString = @$"<align=""center""><b>Team:</b>
-Mallöris    K3ndo    Bavari    Gendelo
+<b>TOR-E-Team</b>
+Vitaxses
 
-<b>Former Team Members:</b>
-Eisbison (GOAT)    Thunderstorm584    EndOfFile
+<b>TOR-Team + TOR-Devs:</b>
+Devs: EnoPM    twix    NesTT, Rest of torTeam: Mallöris    K3ndo    Bavari    Gendelo
 
-<b>Additional Devs:</b>
-EnoPM    twix    NesTT
-
-<b>Github Contributors:</b>
-Alex2911    amsyarasyiq    MaximeGillot
-Psynomit    probablyadnf    JustASysAdmin
-
-<b>[https://discord.gg/77RkMJHWsM]Discord[] Moderators:</b>
-Draco Cordraconis    Streamblox (formerly)
-Thanks to all our discord helpers!
+Special Thanks to TheOtherRoles Team for letting me make this mod!
 
 Thanks to miniduikboot & GD for hosting modded servers (and so much more)
 
 ";
                 creditsString += $@"<size=60%> <b>Other Credits & Resources:</b>
+TheOtherRoles - For The Coding Framework
+
+
+The Other Roles Credits: 
+
+
 OxygenFilter - For the versions v2.3.0 to v2.6.1, we were using the OxygenFilter for automatic deobfuscation
 Reactor - The framework used for all versions before v2.0.0, and again since 4.2.0
 BepInEx - Used to hook game functions
@@ -120,11 +118,11 @@ ugackMiner53 - Idea and core code for the Prop Hunt game mode</size>";
                 creditsString += "</align>";
 
                 Assets.InnerNet.Announcement creditsAnnouncement = new() {
-                    Id = "torCredits",
+                    Id = "tor-E-Credits",
                     Language = 0,
                     Number = 500,
-                    Title = "The Other Roles\nCredits & Resources",
-                    ShortTitle = "TOR Credits",
+                    Title = "The Other Roles Enhanced\nCredits & Resources",
+                    ShortTitle = "TOR-E Credits",
                     SubTitle = "",
                     PinState = false,
                     Date = "01.07.2021",

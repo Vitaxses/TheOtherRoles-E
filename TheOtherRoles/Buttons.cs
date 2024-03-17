@@ -18,6 +18,26 @@ namespace TheOtherRoles
     {
         private static bool initialized = false;
 
+        public static CustomButton whisperButton;
+        public static CustomButton swooperSweepsButton;
+
+        public static CustomButton recruiterRecruitsButton;
+
+        public static CustomButton haunterHauntButton;
+        public static CustomButton haunterKillButton;
+
+        public static CustomButton sacraficeButton;
+
+        public static CustomButton teleporterButton;
+
+        public static CustomButton ghostTpButton;
+
+        public static CustomButton sniperSnipeButton;
+        public static CustomButton modifier1TimeKiller;
+        public static CustomButton evilTrapperSelectButton;
+
+        public static CustomButton befrienderButton;
+
         private static CustomButton engineerRepairButton;
         private static CustomButton janitorCleanButton;
         public static CustomButton sheriffKillButton;
@@ -97,6 +117,23 @@ namespace TheOtherRoles
                     return;
                 }
             }
+            swooperSweepsButton.MaxTimer = Swooper.cooldownUse;
+            recruiterRecruitsButton.MaxTimer = 0f;
+
+            haunterHauntButton.MaxTimer = Haunter.hauntCooldown;
+            haunterKillButton.MaxTimer = Haunter.killCD;
+
+            whisperButton.MaxTimer = Whisper.cooldown;
+
+            teleporterButton.MaxTimer = Teleporter.Cooldown;
+            
+            sniperSnipeButton.MaxTimer = Sniper.SnipeCD;
+            ghostTpButton.MaxTimer = 0f;
+            sacraficeButton.MaxTimer = 0f;
+            modifier1TimeKiller.MaxTimer = 0f;
+            evilTrapperSelectButton.MaxTimer = 0.5f;
+            befrienderButton.MaxTimer = Befriender.cooldown;
+
             engineerRepairButton.MaxTimer = 0f;
             janitorCleanButton.MaxTimer = Janitor.cooldown;
             sheriffKillButton.MaxTimer = Sheriff.cooldown;
@@ -294,6 +331,367 @@ namespace TheOtherRoles
         public static void createButtonsPostfix(HudManager __instance) {
             // get map id, or raise error to wait...
             var mapId = GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+
+            whisperButton = new CustomButton(
+                () => {
+                    if (Whisper.hasToSetMap && !Whisper.canTeleport) {
+                        Whisper.canTeleport = true;
+                        Whisper.hasToSetMap = false;
+                        Whisper.oldLoc = Whisper.player.transform.localPosition;
+                        Whisper.location = Whisper.player.transform.localPosition;
+                        whisperButton.Sprite = Whisper.getPartOfMapSprite();
+                        whisperButton.Timer = whisperButton.MaxTimer;
+                        Whisper.player.Collider.isTrigger = false;
+                    } else if (!Whisper.hasToSetMap && Whisper.canTeleport && Whisper.location != new Vector3(0,0,0)) {
+                        Whisper.canTeleport = false;
+                        Whisper.hasToSetMap = true;
+
+                        MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
+                        invisibleWriter.Write(Whisper.player.PlayerId);
+                        invisibleWriter.Write(byte.MinValue);
+                        AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
+
+                        RPCProcedure.setInvisible(Whisper.player.PlayerId, byte.MinValue);
+
+                        Whisper.player.transform.position = Whisper.location;
+                        Whisper.location = new Vector3(0,0,0);
+                        whisperButton.Sprite = __instance.ReportButton.graphic.sprite;
+                        whisperButton.Timer = whisperButton.MaxTimer;
+                        Whisper.player.Collider.isTrigger = true;
+                    }
+                },
+                () => { return Whisper.player && Whisper.player == CachedPlayer.LocalPlayer.PlayerControl; },
+                () => { return Whisper.player != null; },
+                () => {
+                    whisperButton.Timer = 13f; 
+                    Whisper.location = new Vector3(0,0,0); 
+                    Whisper.canTeleport = false;
+                    Whisper.hasToSetMap = true;
+                    whisperButton.Sprite = Whisper.getPartOfMapSprite();
+                },
+                Whisper.getPartOfMapSprite(),
+                CustomButton.ButtonPositions.lowerRowLeft,
+                __instance,
+                null,
+                true,
+                Whisper.duration,
+                () => {
+                    Whisper.player.Collider.isTrigger = false;
+                    Whisper.hasToSetMap = true;
+                    Whisper.canTeleport = false;
+                    whisperButton.Timer = whisperButton.MaxTimer;
+                    whisperButton.Sprite = Whisper.getPartOfMapSprite();
+
+                    MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
+                    invisibleWriter.Write(Whisper.player.PlayerId);
+                    invisibleWriter.Write(byte.MaxValue);
+                    AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
+
+                    RPCProcedure.setInvisible(Whisper.player.PlayerId, byte.MaxValue);
+
+                    Whisper.player.transform.localPosition = Whisper.oldLoc;
+                },
+                false,
+                "Whisper"
+            );
+
+            befrienderButton = new CustomButton(
+                () => {
+                    bool BefriendedEveryoneAlive = Befriender.befriendedEveryoneAlive();
+                    if (BefriendedEveryoneAlive) {
+                        MessageWriter winWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.BefrienderWin, Hazel.SendOption.Reliable, -1);
+                        AmongUsClient.Instance.FinishRpcImmediately(winWriter);
+                        RPCProcedure.BefrienderWin();
+                        befrienderButton.HasEffect = false;
+                    } else if (Arsonist.currentTarget != null) {
+                        Befriender.befrienderTarget = Befriender.currentTarget;
+                        befrienderButton.HasEffect = true;
+                        SoundEffectsManager.play("arsonistDouse");
+                    }
+                },
+                () => { return Befriender.befriender != null && Befriender.befriender == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead; },
+                () => {
+                    bool dousedEveryoneAlive = Befriender.befriendedEveryoneAlive();
+                    if (dousedEveryoneAlive) befrienderButton.actionButton.graphic.sprite = Befriender.getIgniteSprite();
+                    
+                    if (befrienderButton.isEffectActive && Befriender.befrienderTarget != Befriender.currentTarget) {
+                        Befriender.befrienderTarget = null;
+                        arsonistButton.Timer = 0f;
+                        arsonistButton.isEffectActive = false;
+                    }
+
+                    return CachedPlayer.LocalPlayer.PlayerControl.CanMove && (dousedEveryoneAlive || Befriender.currentTarget != null);
+                },
+                () => {
+                    befrienderButton.Timer = befrienderButton.MaxTimer;
+                    befrienderButton.isEffectActive = false;
+                    Befriender.befrienderTarget = null;
+                },
+                Befriender.getDouseSprite(),
+                CustomButton.ButtonPositions.lowerRowRight,
+                __instance,
+                KeyCode.F,
+                true,
+                Befriender.duration,
+                () => {
+                    if (Befriender.befrienderTarget != null) Befriender.befriendedPlayers.Add(Befriender.befrienderTarget);
+                    
+                    befrienderButton.Timer = Befriender.befriendedEveryoneAlive() ? 0 : befrienderButton.MaxTimer;
+
+                    foreach (PlayerControl p in Befriender.befriendedPlayers) {
+                        if (TORMapOptions.playerIcons.ContainsKey(p.PlayerId)) {
+                            TORMapOptions.playerIcons[p.PlayerId].setSemiTransparent(false);
+                        }
+                    }
+
+                    // Ghost Info
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.ShareGhostInfo, Hazel.SendOption.Reliable, -1);
+                    writer.Write(CachedPlayer.LocalPlayer.PlayerId);
+                    writer.Write((byte)RPCProcedure.GhostInfoTypes.BefrienderDouse);
+                    writer.Write(Befriender.befrienderTarget.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+                    Befriender.befrienderTarget = null;
+                }
+            );
+
+            evilTrapperSelectButton = new CustomButton(
+                () => {
+                foreach (Collider2D collider2D in Physics2D.OverlapCircleAll(CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition(), CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance, Constants.PlayersOnlyMask)) {
+                        if (collider2D.tag == "DeadBody")
+                        {
+                            DeadBody component = collider2D.GetComponent<DeadBody>();
+                            if (component && !component.Reported)
+                            {
+                                Vector2 truePosition = CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition();
+                                Vector2 truePosition2 = component.TruePosition;
+                                if (Vector2.Distance(truePosition2, truePosition) <= CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance && CachedPlayer.LocalPlayer.PlayerControl.CanMove && !PhysicsHelpers.AnythingBetween(truePosition, truePosition2, Constants.ShipAndObjectsMask, false))
+                                {
+                                    EvilTrapper.currentSelectedBody = component;
+                                    EvilTrapper.trappedBodys.Add(EvilTrapper.currentSelectedBody);
+                                    EvilTrapper.hasSelectedBody = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    },
+                    () => { return EvilTrapper.player && EvilTrapper.player == CachedPlayer.LocalPlayer.PlayerControl && !EvilTrapper.hasSelectedBody; },
+                    () => { return __instance.ReportButton.graphic.color == Palette.EnabledColor && !EvilTrapper.hasSelectedBody && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
+                    () => {EvilTrapper.trappedBodys.Clear(); EvilTrapper.hasSelectedBody = false; EvilTrapper.currentSelectedBody = null; },
+                    __instance.ReportButton.graphic.sprite,
+                    CustomButton.ButtonPositions.upperRowLeft,
+                    __instance,
+                    null,
+                    false,
+                    "Trap"
+                    );
+
+
+
+
+            modifier1TimeKiller = new CustomButton(
+                () => {
+                    PlayerControl killer = OneTimeKiller.player;
+                    Helpers.MurderPlayer(killer, OneTimeKiller.currentTarget, true);
+                    OneTimeKiller.hasKilled = true;
+                    modifier1TimeKiller.actionButton.Hide();
+                },
+                () => { return !OneTimeKiller.hasKilled && OneTimeKiller.player != null && OneTimeKiller.player == CachedPlayer.LocalPlayer.PlayerControl; },
+                () => { return !OneTimeKiller.hasKilled && OneTimeKiller.currentTarget != null; },
+                () => { modifier1TimeKiller.Timer = modifier1TimeKiller.MaxTimer; },
+                __instance.KillButton.graphic.sprite,
+                CustomButton.ButtonPositions.upperRowRight,
+                __instance,
+                KeyCode.Q
+            );
+
+            sacraficeButton = new CustomButton(() => {
+                    Sacraficer.target = Sacraficer.currentTarget;
+            },
+            () => { return Sacraficer.sacraficer != null && Sacraficer.target == null && Sacraficer.sacraficer == CachedPlayer.LocalPlayer.PlayerControl;; },
+            () => { return Sacraficer.currentTarget != null && Sacraficer.target == null; },
+            () => { if (Sacraficer.target != null) sacraficeButton.setActive(false); },
+            Sacraficer.getSelectSprite(),
+            new Vector3(0, 1f, 0),
+            __instance,
+            null,
+            true,
+            1f,
+            () => { sacraficeButton.setActive(false); },
+            false,
+            "Sacrafice"
+            );
+
+            teleporterButton = new CustomButton(() => {
+                if (!Teleporter.hasPlacedLoc()) {
+                    Teleporter.loc = Teleporter.teleporter.transform.position;
+                    teleporterButton.Sprite = Teleporter.getTpSprite();
+                    teleporterButton.actionButtonLabelText.text = "Teleport";
+                    teleporterButton.actionButton.buttonLabelText.text = "Teleport";
+                    teleporterButton.Timer = 1f;
+                    Teleporter.hasPlacedLocation = true;
+                    /// SAT LOCATION!
+                } else {
+                    Teleporter.teleporter.transform.position = Teleporter.loc;
+                    teleporterButton.Sprite = Teleporter.getPlaceSprite();
+                    teleporterButton.actionButtonLabelText.text = "setLocation";
+                    teleporterButton.actionButton.buttonLabelText.text = "setLocation";
+                    teleporterButton.Timer = teleporterButton.MaxTimer;
+                    Teleporter.hasPlacedLocation = false;
+                    Teleporter.loc = new Vector3(0,0,0);
+                    // TPED
+                }},
+            () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl; },
+            () => { return Teleporter.teleporter != null; },
+            () => { Teleporter.loc = new Vector3(0, 0, 0); },
+            Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f,() => {},false,"setLocation");
+
+            sniperSnipeButton = new CustomButton(() => {
+            //if (Helpers.checkMurderAttemptAndKill(Sniper.sniper, Sniper.currentTarget) == MurderAttemptResult.SuppressKill) return;
+
+                Helpers.MurderPlayer(Sniper.sniper, Sniper.currentTarget, false);
+
+                sniperSnipeButton.Timer = sniperSnipeButton.MaxTimer; 
+                Sniper.currentTarget = null;
+                },
+                () => { return Sniper.sniper != null && Sniper.sniper == CachedPlayer.LocalPlayer.PlayerControl; },
+                () => { return Sniper.sniper != null && Sniper.currentTarget != null && Sniper.sniper.CanMove; },
+                () => { sniperSnipeButton.Timer = 0f; },
+                Sniper.getSnipeSprite(),
+                CustomButton.ButtonPositions.upperRowLeft,
+                __instance,
+                KeyCode.K,
+                false,
+                "Snipe"
+                );
+
+            ghostTpButton = new CustomButton(
+                () => {
+                    List<PlayerControl> players = PlayerControl.AllPlayerControls.ToArray().ToList();
+                    players.RemoveAll(x => x.Data.Disconnected);
+                    players.RemoveAll(x => x.Data.IsDead);
+                    players.RemoveAll(x => x.inMovingPlat);
+                    if (!Ghost.canTeleportToPeopleInVents) { players.RemoveAll(x => x.inVent); }
+                    if (!Ghost.canTeleportToPeopleWithCooldownFor0Sec) { players.RemoveAll(x => !(x.killTimer > 0f)); }
+
+
+
+                    System.Random rnd = new System.Random();
+                    PlayerControl playerToTpTo = players[rnd.Next(players.Count)];
+
+                    Ghost.ghost.gameObject.transform.position = playerToTpTo.gameObject.transform.position;
+                    Ghost.TeleportsLeft = Ghost.TeleportsLeft - 1f;
+                    },
+                () => {return Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerControl; },
+                () => { return Ghost.ghost != null && Ghost.TeleportsLeft > 0; },
+                () => {},
+                Ghost.getTeleportSprite(),
+                CustomButton.ButtonPositions.upperRowLeft,
+                __instance,
+                null,
+                true,
+                1f,
+                () => {ghostTpButton.actionButtonLabelText.text = "Teleport-" + Ghost.TeleportsLeft + "";},
+                false,
+                "Teleport-"+ (int) Ghost.TeleportsLeft
+                    );
+
+
+            //ADDED:
+            haunterKillButton = new CustomButton(
+                () => {
+                    if (Helpers.checkMurderAttemptAndKill(Haunter.haunter, Haunter.currentTarget) == MurderAttemptResult.SuppressKill) return;
+
+                    haunterKillButton.Timer = jackalKillButton.MaxTimer; 
+                    Haunter.currentTarget = null;
+                },
+                () => { return Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead; },
+                () => { return Haunter.currentTarget != null && Haunter.isHaunting && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
+                () => { haunterKillButton.Timer = haunterKillButton.MaxTimer;},
+                __instance.KillButton.graphic.sprite,
+                CustomButton.ButtonPositions.upperRowRight,
+                __instance,
+                KeyCode.Q
+            );
+
+            // ADDED:
+            haunterHauntButton = new CustomButton(
+                () => {
+                    Haunter.isHaunting = true;
+                    haunterKillButton.actionButton.Show();
+                    haunterHauntButton.Timer = haunterHauntButton.MaxTimer;
+                },
+                () => { return Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl; },
+                () => { return Haunter.haunter != null && !Haunter.isHaunting; },
+                () => {},
+                Haunter.getHauntSprite(),
+                CustomButton.ButtonPositions.upperRowCenter,
+                __instance,
+                KeyCode.H,
+                true,
+                Haunter.hauntDuration,
+                () => {Haunter.isHaunting = false; haunterHauntButton.Timer = haunterHauntButton.MaxTimer; haunterKillButton.actionButton.Hide(); },
+                false,
+                "Haun't"
+            );
+
+            //ADDED:
+            recruiterRecruitsButton = new CustomButton(
+                () => {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, Hazel.SendOption.Reliable, -1);
+                    writer.Write(Recruiter.currentTarget.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Recruiter.FutureRecruited = Recruiter.currentTarget;
+                    RPCProcedure.setRole((byte)RoleId.Impostor ,Recruiter.currentTarget.PlayerId);
+                    SoundEffectsManager.play("shifterShift");
+                    Recruiter.FutureRecruited.cosmetics.nameText.color = Palette.ImpostorRed;
+                    Recruiter.FutureRecruited.SetRole(AmongUs.GameOptions.RoleTypes.Impostor);
+                },
+                () => { return Recruiter.recruiter != null && Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl) && Recruiter.FutureRecruited == null && !CachedPlayer.LocalPlayer.Data.IsDead; },
+                () => { return Recruiter.currentTarget && Recruiter.FutureRecruited == null && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
+                () => {},
+                Shifter.getButtonSprite(),
+                new Vector3(0, 1f, 0),
+                __instance,
+                null,
+                true
+            );  
+
+
+            //ADDED
+            swooperSweepsButton = new CustomButton(
+                () => {
+                    Helpers.showFlash(Palette.Black); 
+                    swooperSweepsButton.Sprite = __instance.KillButton.graphic.sprite;
+                    Debug.Log("showflash");
+                    MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
+                    invisibleWriter.Write(Swooper.swooper.PlayerId);
+                    invisibleWriter.Write(byte.MinValue);
+                    AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
+                    RPCProcedure.setInvisible(Swooper.swooper.PlayerId, byte.MinValue);
+                    Debug.Log("sat invisible");
+                    SoundEffectsManager.play("morplhingmorph");},
+                () => { return Swooper.swooper != null && Swooper.swooper == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead;},
+                () => { return Swooper.swooper.CanMove; },
+                () => { swooperSweepsButton.Timer = swooperSweepsButton.MaxTimer; },
+                Swooper.getSwoopSprite(),
+                CustomButton.ButtonPositions.upperRowLeft,
+                __instance,
+                KeyCode.F,
+                true,
+                Swooper.duration,
+                () => {
+                    swooperSweepsButton.Sprite = Swooper.getSwoopSprite();
+                MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
+                invisibleWriter.Write(Swooper.swooper.PlayerId);
+                invisibleWriter.Write(byte.MaxValue);
+                AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
+                RPCProcedure.setInvisible(Swooper.swooper.PlayerId, byte.MaxValue); SoundEffectsManager.play("morplhingsample"); },
+                false, 
+                "Swoop"
+            );
+
 
             // Engineer Repair
             engineerRepairButton = new CustomButton(

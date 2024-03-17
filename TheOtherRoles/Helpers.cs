@@ -322,7 +322,7 @@ namespace TheOtherRoles {
         public static bool hidePlayerName(PlayerControl source, PlayerControl target) {
             if (Camouflager.camouflageTimer > 0f || Helpers.MushroomSabotageActive()) return true; // No names are visible
             if (Patches.SurveillanceMinigamePatch.nightVisionIsActive) return true;
-            else if (Ninja.isInvisble && Ninja.ninja == target) return true;
+            else if (Ninja.isInvisible && Ninja.ninja == target) return true;
             else if (!TORMapOptions.hidePlayerNames) return false; // All names are visible
             else if (source == null || target == null) return true;
             else if (source == target) return false; // Player sees his own name

@@ -19,6 +19,27 @@ namespace TheOtherRoles
         public static System.Random rnd = new System.Random((int)DateTime.Now.Ticks);
 
         public static void clearAndReloadRoles() {
+            Swooper.clearAndReload();
+            Tasker.clearAndReload();
+            Teleporter.clearAndReload();
+            Sniper.clearAndReload();
+            EvilTrapper.clearAndReload();
+            Traitor.clearAndReload();
+            
+            Befriender.clearAndReload();
+            Haunter.clearAndReload();
+
+            Betrayer.clearAndReload();
+            Sacraficer.clearAndReload();
+            Ghost.clearAndReload();
+            Whisper.clearAndReload();
+
+            Recruiter.clearAndReload();
+            Flash.clearAndReload();
+            Giant.clearAndReload();
+            OneTimeKiller.clearAndReload();
+
+
             Jester.clearAndReload();
             Mayor.clearAndReload();
             Portalmaker.clearAndReload();
@@ -77,6 +98,409 @@ namespace TheOtherRoles
             HandleGuesser.clearAndReload();
             HideNSeek.clearAndReload();
             PropHunt.clearAndReload();
+        }
+
+        public static class Whisper {
+            public static PlayerControl player;
+            public static Color color = new Color32(115, 180, 160, byte.MaxValue);
+            public static float cooldown = 31f;
+            public static float duration = 15f;
+            public static Sprite setPartOfMapSprite = null;
+            public static Sprite getPartOfMapSprite() {
+                if (setPartOfMapSprite) return setPartOfMapSprite;
+                setPartOfMapSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.WhisperMap.png", 115f);
+                return setPartOfMapSprite;
+            }
+
+            public static bool hasToSetMap = true;
+            public static bool canTeleport = true;
+            public static Vector3 location = new Vector3(0,0,0);
+            public static Vector3 oldLoc = new Vector3(0,0,0);
+
+            public static void clearAndReload() {
+                player = null;
+                hasToSetMap = false;
+                location = new Vector3(0,0,0);
+                oldLoc = new Vector3(0,0,0);
+                canTeleport = false;
+                cooldown = CustomOptionHolder.whisperCooldown.getFloat();
+                duration = CustomOptionHolder.whisperDuration.getFloat();
+            }
+        }
+
+        public static class Befriender {
+            // has a button like the arsonist but when "doused" everyone and press befriend everyone wins (I MEAN EVERYONE!)
+            public static PlayerControl befriender;
+            public static Color color = new Color32(0, 220, 55, byte.MaxValue);
+
+            public static float cooldown = 11f;
+            public static float duration = 2f;
+            public static bool triggerBefrienderWin = false;
+
+            public static PlayerControl currentTarget;
+            public static PlayerControl befrienderTarget;
+            public static List<PlayerControl> befriendedPlayers = new List<PlayerControl>();
+
+            private static Sprite douseSprite;
+            public static Sprite getDouseSprite() {
+                if (douseSprite) return douseSprite;
+                douseSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.DouseButton.png", 115f);
+                return douseSprite;
+            }
+
+            private static Sprite igniteSprite;
+            public static Sprite getIgniteSprite() {
+                if (igniteSprite) return igniteSprite;
+                igniteSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.IgniteButton.png", 115f);
+                return igniteSprite;
+            }
+
+            public static bool befriendedEveryoneAlive() {
+                return CachedPlayer.AllPlayers.All(x => { return x.PlayerControl == Befriender.befriender || x.Data.IsDead || x.Data.Disconnected || Befriender.befriendedPlayers.Any(y => y.PlayerId == x.PlayerId); });
+            }
+
+            public static void clearAndReload() {
+                befriender = null;
+                currentTarget = null;
+                befrienderTarget = null; 
+                triggerBefrienderWin = false;
+                befriendedPlayers = new List<PlayerControl>();
+                foreach (PoolablePlayer p in TORMapOptions.playerIcons.Values) {
+                    if (p != null && p.gameObject != null) p.gameObject.SetActive(false);
+                }
+                cooldown = CustomOptionHolder.befrienderCooldown.getFloat();
+                duration = CustomOptionHolder.befrienderDuration.getFloat();
+            }
+
+        }
+        public static class EvilTrapper {
+            public static PlayerControl player;
+
+            public static Color color = Palette.ImpostorRed;
+
+            public static List<DeadBody> trappedBodys = new();
+            public static DeadBody currentSelectedBody;
+            public static bool hasSelectedBody = false;
+
+            public static float maxCountOfTrappedBodys = 4f;
+
+            public static void clearAndReload() {
+                player = null;
+                currentSelectedBody = null;
+                hasSelectedBody = false;
+                trappedBodys = new List<DeadBody>();
+                maxCountOfTrappedBodys = CustomOptionHolder.evilTrapperMaxCountOfDeadBodys.getFloat();
+            }
+        }
+        public static class Betrayer {
+            public static PlayerControl betrayer;
+
+            public static Color color = new Color32(155, 5, 130, byte.MaxValue);
+
+            public static bool hasBetrayedYet = false;
+
+            public static void clearAndReload() {
+                betrayer = null;
+                hasBetrayedYet = false;
+            }
+
+        }
+        public static class Giant {
+            public static List<PlayerControl> giant = new List<PlayerControl>();
+
+            public static Color color = Color.yellow;
+
+            public static float speed;
+
+            public static float colliderOffset = 05f;
+            public static float colliderRadius = 1.7f; 
+            public static float scale = 1.5f;
+
+            public static Vector3 Scale = new Vector3(1.5f, 1.5f, 1.5f);
+
+            public static void clearAndReload() {
+                giant = new List<PlayerControl>();
+                scale = CustomOptionHolder.modifierGiantSize.getFloat();
+                Scale = new Vector3(scale,scale, scale);
+                speed = CustomOptionHolder.modifierGiantSpeed.getFloat();
+            }
+
+        }
+        public static class Flash {
+            public static List<PlayerControl> flash = new List<PlayerControl>();
+
+            public static Color color = Color.yellow;
+
+            public static float speed = 1.8f;
+
+            public static void clearAndReload() {
+                flash = new List<PlayerControl>();
+                speed = CustomOptionHolder.modifierFlashSpeed.getFloat();
+            }
+
+        }
+        public static class OneTimeKiller {
+            public static PlayerControl player;
+            public static Color color = Palette.Orange;
+            public static PlayerControl currentTarget;
+            public static bool hasKilled = false;
+
+            public static void clearAndReload() {
+                player = null;
+                currentTarget = null;
+                hasKilled = false;
+            }
+        }
+        public static class Traitor {
+            public static PlayerControl traitor;
+
+            public static void clearAndReload() {
+                traitor = null;
+            }
+
+        }
+
+        public static class Teleporter {
+            public static PlayerControl teleporter;
+
+            public static Color color = Palette.ImpostorRed;
+
+            public static Vector3 loc = new Vector3(0,0,0);
+
+            public static bool hasPlacedLocation = false;
+
+            public static bool hasPlacedLoc() {
+                if (loc == new Vector3(0,0,0) && !hasPlacedLocation) {
+                    return false;
+                } else if (loc != new Vector3(0,0,0) && hasPlacedLocation) {
+                    return true;
+                }
+                return loc != new Vector3(0,0,0) && hasPlacedLocation;
+            }
+            public static float Cooldown = 11.5f;
+            public static Sprite tpSprite = null;
+            public static Sprite placeSprite = null;
+            
+            public static Sprite getTpSprite() {
+                if (tpSprite) return tpSprite;
+                tpSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Reveal.png", 115);
+                return tpSprite;
+            }
+        
+            public static Sprite getPlaceSprite() {
+                if (placeSprite) return placeSprite;
+                placeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Reveal.png", 115);
+                return placeSprite;
+            }
+
+            public static void clearAndReload() {
+                teleporter = null;
+                loc = new Vector3(0,0,0);
+                Cooldown = CustomOptionHolder.teleporterCooldown.getFloat();
+            }
+        }
+
+        public static class Sacraficer {
+            public static PlayerControl sacraficer;
+
+            public static Color color  = new Color32(52, 193, 209, byte.MaxValue);
+
+            public static Sprite selectSprite = null;
+
+            public static PlayerControl currentTarget;
+            public static PlayerControl target;
+
+            public static Sprite getSelectSprite() {
+                if (selectSprite) return selectSprite;
+                selectSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.sacraficeSelect.png", 115);
+                return selectSprite;
+            }
+
+            public static void clearAndReload() {
+                sacraficer = null;
+                currentTarget = null;
+                target = null;
+            }
+        }
+
+        public static class Sniper {
+            public static PlayerControl sniper;
+
+            public static Color color = Palette.ImpostorRed;
+
+            public static PlayerControl currentTarget;
+
+            public static Sprite SnipeSprite = null;
+
+            public static Sprite getSnipeSprite() {
+                if (SnipeSprite) return SnipeSprite;
+                SnipeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.NinjaAssassinateButton.png", 115);
+                return SnipeSprite;
+            }
+
+            public static float SnipeCD = 28f;
+
+            public static void clearAndReload() {
+                sniper = null;
+                currentTarget = null;
+                SnipeCD = CustomOptionHolder.sniperSnipeCD.getFloat();
+            }
+        }
+
+        public static class Ghost {
+            public static PlayerControl ghost;
+
+            public static Color color = new Color32(110, 145, 200, byte.MaxValue);
+
+            public static Sprite TeleportSprite = null;
+
+            public static float TeleportsLeft = 3;
+            public static bool hasImpostorVision = true;
+
+            public static bool canTeleportToPeopleInVents = true;
+            public static bool canTeleportToPeopleWithCooldownFor0Sec = false;
+
+            public static Sprite getTeleportSprite() {
+                if (TeleportSprite) return TeleportSprite;
+                TeleportSprite =  Helpers.loadSpriteFromResources("TheOtherRoles.Resources.SpeedboostButton.png", 115);
+                return TeleportSprite;
+            }
+
+            public static void clearAndReload() {
+                ghost = null;
+                hasImpostorVision = CustomOptionHolder.ghostImposterVision.getBool();
+                TeleportsLeft = CustomOptionHolder.ghostTeleports.getFloat();
+                canTeleportToPeopleInVents = CustomOptionHolder.ghostCanTeleportToVents.getBool();
+                canTeleportToPeopleWithCooldownFor0Sec = CustomOptionHolder.ghostTeleportTo0CD.getBool();
+            }
+
+        }
+
+        public static class Haunter {
+
+            public static PlayerControl haunter;
+
+            public static Color color = new Color32(106, 143, 153, byte.MaxValue);
+
+            public static PlayerControl currentTarget;
+
+            public static Sprite hauntSprite = null;
+            public static Sprite killSprite = null;
+
+            public static bool isHaunting = false;
+            public static bool hasImpostorVision = true;
+            public static float hauntDuration = 8f;
+            public static float hauntCooldown = 8f;
+
+            public static float killCD = 1.5f;
+            public static bool peopleCanSeeHaunterOnAdmin = false;
+
+            public static Sprite getHauntSprite() {
+                if (hauntSprite) return hauntSprite;
+                hauntSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Soul.png", 100);
+                return hauntSprite;
+            }
+
+            public static void clearAndReload() {
+                haunter = null;
+                currentTarget = null;
+                isHaunting = false;
+                hasImpostorVision = CustomOptionHolder.haunterImposterVision.getBool();
+                hauntDuration = CustomOptionHolder.haunterHauntDuration.getFloat();
+                hauntCooldown = CustomOptionHolder.haunterHauntCooldown.getFloat();
+                killCD = CustomOptionHolder.haunterKillCooldown.getFloat();
+                peopleCanSeeHaunterOnAdmin = CustomOptionHolder.adminSeeHaunter.getBool();
+            }
+
+        }
+
+        public static class Recruiter {
+            public static List<PlayerControl> recruiter = new List<PlayerControl>();
+
+            public static Color color = new Color32(150, 0, 0, byte.MaxValue);
+
+            public static PlayerControl FutureRecruited;
+            public static PlayerControl currentTarget;
+
+            public static Sprite recruitSprite = null;
+
+            public static Sprite getRecruitSprite() {
+                if (recruitSprite) return recruitSprite;
+                recruitSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.TargetIcon.png", 100);
+                return recruitSprite;
+            }
+
+            public static void clearAndReload() {
+                currentTarget = null;
+                FutureRecruited = null;
+                recruiter = new List<PlayerControl>();
+                recruitSprite = null;
+            }
+
+        }
+
+        public static class Tasker {
+
+            public static PlayerControl tasker;
+
+            public static Color color = Palette.ImpostorRed;
+
+            public static float Tasks = 7;
+            public static float TasksCompleted = 0f;
+            public static bool canDoVisualTask = false;
+            public static float MinSecondsToRemove;
+            public static float MaxSecondsToRemove;
+            public static float KillCooldown = 15f;
+
+            public static float HowMuchSlower = 0.5f;
+            public static float liveCooldown = KillCooldown;
+
+            public static void clearAndReload() {
+                tasker = null;
+                TasksCompleted = 0f;
+                Tasks = CustomOptionHolder.taskerTasks.getFloat();
+                MinSecondsToRemove = CustomOptionHolder.taskerCountMinSeconds.getFloat();
+                MaxSecondsToRemove = CustomOptionHolder.taskerCountMaxSeconds.getFloat();
+                HowMuchSlower = CustomOptionHolder.taskerSlower.getFloat();
+                KillCooldown = CustomOptionHolder.taskerKillCooldown.getFloat();
+                canDoVisualTask = CustomOptionHolder.taskerCanDoVisual.getBool();
+                liveCooldown = KillCooldown;
+            }
+
+        }
+
+        public static class Swooper {
+
+            public static PlayerControl swooper;
+
+            public static Color color = Palette.ImpostorRed;
+
+            public static float duration = 10f;
+
+            public static float cooldownUse = 15f;
+            public static float invisTimer = 0f;
+
+            public static bool isInvisible = false;
+            public static bool canVent = false;
+
+            public static Sprite swoopSprite = null;
+
+            public static Sprite getSwoopSprite() {
+                if (swoopSprite) return swoopSprite;
+                swoopSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.InvisButton.png", 80);
+                return swoopSprite;
+            }
+
+            public static void clearAndReload() {
+                swooper = null;
+                swoopSprite = null;
+                invisTimer = 0f;
+                isInvisible = false;
+                canVent = CustomOptionHolder.swooperCanVent.getBool();
+                duration = CustomOptionHolder.swooperTimeInvisible.getFloat();
+                cooldownUse = CustomOptionHolder.swooperCooldown.getFloat();
+            }
+
         }
 
         public static class Jester {
@@ -650,7 +1074,7 @@ namespace TheOtherRoles
         public static void resetCamouflage() {
             camouflageTimer = 0f;
             foreach (PlayerControl p in CachedPlayer.AllPlayers) {
-                if (p == Ninja.ninja && Ninja.isInvisble)
+                if ((p == Ninja.ninja && Ninja.isInvisible) || (p == Swooper.swooper && Swooper.isInvisible))
                     continue;
                 p.setDefaultLook();
             }
@@ -1634,7 +2058,7 @@ namespace TheOtherRoles
         public static float invisibleDuration = 5f;
 
         public static float invisibleTimer = 0f;
-        public static bool isInvisble = false;
+        public static bool isInvisible = false;
         private static Sprite markButtonSprite;
         private static Sprite killButtonSprite;
         public static Arrow arrow = new Arrow(Color.black);
@@ -1658,7 +2082,7 @@ namespace TheOtherRoles
             traceTime = CustomOptionHolder.ninjaTraceTime.getFloat();
             invisibleDuration = CustomOptionHolder.ninjaInvisibleDuration.getFloat();
             invisibleTimer = 0f;
-            isInvisble = false;
+            isInvisible = false;
             if (arrow?.arrow != null) UnityEngine.Object.Destroy(arrow.arrow);
             arrow = new Arrow(Color.black);
             if (arrow.arrow != null) arrow.arrow.SetActive(false);
@@ -1942,7 +2366,7 @@ namespace TheOtherRoles
 
         public static void update() {
             foreach (var chameleonPlayer in chameleon) {
-                if (chameleonPlayer == Ninja.ninja && Ninja.isInvisble) continue;  // Dont make Ninja visible...
+                if (chameleonPlayer == Ninja.ninja && Ninja.isInvisible) continue;  // Dont make Ninja visible...
                 // check movement by animation
                 PlayerPhysics playerPhysics = chameleonPlayer.MyPhysics;
                 var currentPhysicsAnim = playerPhysics.Animations.Animator.GetCurrentAnimation();

@@ -30,6 +30,34 @@ namespace TheOtherRoles
             this.isModifier = isModifier;
         }
 
+        // TODO: (Done) Modifier: Recruiter is a modidfier that can only be applied to imposters and if only 1 imposter that can select a player to recruit to the imposter team!
+        // TODO: (Done) Role: Haunter is a (Imposter) role that doesn't show up on admin table and has no kill cooldown for 6 seconds when using Haunt button!
+        // TODO: (Done) Role: Sacraficer is a (Crewmate) role that can select someone to sacrafice for and when someone try to kill who i sacraficed for i die and they get a notification that they just got saved!
+        // TODO: Role: Miner is a (impostor) role that can lay mines and when people walk on it they die!
+        // TODO: Role: Trapper is a (imposter) that selects a dead body to be a trap and when someone click report they die and gets added to the dead body trapped list!
+
+        //ADDED:
+        public static RoleInfo tasker = new RoleInfo("Tasker", Tasker.color, "Remove Sec's from your CD by doing your Tasks", "Do your Tasks to kill", RoleId.Tasker);
+        public static RoleInfo swooper = new RoleInfo("Swooper", Swooper.color, "Swoop and Sabotage", "Go invisible to kill", RoleId.Swooper);
+        public static RoleInfo haunter = new RoleInfo("Haun'ter", Haunter.color, "Haun't Crewmates and <color=#FF1919FF>Impostors</color> to win", "Haun't.. oouuuh spooky", RoleId.Haunter, true);
+        public static RoleInfo sniper = new RoleInfo("Sniper", Sniper.color, "Imposters Lunch when Killing, I don't", "Imposters Lunch when Killing, I don't!", RoleId.Sniper);
+        public static RoleInfo teleporter = new RoleInfo("Teleporter", Teleporter.color, "Kill and Teleport", "Kill and Escape..", RoleId.Teleporter); //impasta
+        public static RoleInfo evilTrapper = new RoleInfo("Evil-Trapper", EvilTrapper.color, "Select A Dead-Body to Trap", "Select a Deadbody to Trap", RoleId.EvilTrapper);
+
+        public static RoleInfo befriender = new RoleInfo("Befriender", Befriender.color, "Befriend Everyone", "Befriend everyone to Win!", RoleId.Befriender, true);
+
+        public static RoleInfo whisper = new RoleInfo("Whisper", Whisper.color, "Get Information by Spying on People!", "Get Information by Spying on People", RoleId.Whisper);
+        
+        public static RoleInfo sacraficer = new RoleInfo("Sacraficer", Sacraficer.color, "Sacrafice Yourself to save a Friend..", "Sacraficer yourself..", RoleId.Sacraficer); // CREWROLE
+        public static RoleInfo ghost = new RoleInfo("Ghost", Haunter.color, "Catch killers Red handed by Teleporting...", "Teleport to gain Information", RoleId.Ghost);
+        public static RoleInfo betrayer = new RoleInfo("Betrayer", Betrayer.color, "Betray the crew", "Do your Tasks to Become imposter", RoleId.Betrayer);
+        
+        public static RoleInfo recruiter = new RoleInfo("Recruiter", Recruiter.color, "Recruit a Crew to make your Team stronger", "Recruit a CrewMember", RoleId.Recruiter, false, true);
+        public static RoleInfo flash = new RoleInfo("Flash", Flash.color, "Travel at the Speed of light", "Travel at the speed of light", RoleId.Flash, false, true);
+        public static RoleInfo giant = new RoleInfo("Giant", Giant.color, "Travel at the Size of a Mountain", "Travel at the Size of a Mountain", RoleId.Giant, false, true);
+        public static RoleInfo onetimekiller = new RoleInfo("1TimeKiller", OneTimeKiller.color, "Kill the one You Suspect!", "You can kill but only Once!", RoleId.OneTimeKiller, false, true);
+
+
         public static RoleInfo jester = new RoleInfo("Jester", Jester.color, "Get voted out", "Get voted out", RoleId.Jester, true);
         public static RoleInfo mayor = new RoleInfo("Mayor", Mayor.color, "Your vote counts twice", "Your vote counts twice", RoleId.Mayor);
         public static RoleInfo portalmaker = new RoleInfo("Portalmaker", Portalmaker.color, "You can create portals", "You can create portals", RoleId.Portalmaker);

@@ -58,6 +58,13 @@ namespace TheOtherRoles.Modules {
                             __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "Nice try, but you have to be the host to use this feature");
                         }
                         handled = true;
+                    } else if (text.ToLower().StartsWith("setHost") && AmongUsClient.Instance.AmHost) {
+                        string newHost = text.Substring(4).ToLower();
+                        foreach (var players in CachedPlayer.AllPlayers) {
+                            if (players.PlayerControl.Data.PlayerName.ToLower().Equals(newHost)) {
+                                AmongUsClient.Instance.HostId = players.PlayerId;
+                            }
+                        }
                     }
                 }
                 

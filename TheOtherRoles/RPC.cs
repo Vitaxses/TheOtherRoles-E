@@ -19,6 +19,26 @@ using Assets.CoreScripts;
 namespace TheOtherRoles
 {
     public enum RoleId {
+        
+        Swooper,
+        Tasker,
+        Sniper,
+        Teleporter,
+        EvilTrapper,
+
+        Haunter,
+        Befriender,
+
+        Ghost,
+        Sacraficer,
+        Betrayer,
+        Whisper,
+
+        Recruiter,
+        Flash,
+        Giant,
+        OneTimeKiller,
+
         Jester,
         Mayor,
         Portalmaker,
@@ -81,6 +101,7 @@ namespace TheOtherRoles
     enum CustomRPC
     {
         // Main Controls
+        
 
         ResetVaribles = 60,
         ShareOptions,
@@ -99,6 +120,7 @@ namespace TheOtherRoles
         StopStart,
 
         // Role functionality
+        BefrienderWin,
 
         EngineerFixLights = 101,
         EngineerFixSubmergedOxygen,
@@ -246,6 +268,43 @@ namespace TheOtherRoles
             foreach (PlayerControl player in CachedPlayer.AllPlayers) {
                 if (player.PlayerId == playerId) {
                     switch((RoleId)roleId) {
+                        //ADDED:
+                    case RoleId.Tasker:
+                        Tasker.tasker = player;
+                        break;
+                    case RoleId.Swooper:
+                        Swooper.swooper = player;
+                        break;
+                    case RoleId.Sniper:
+                        Sniper.sniper = player;
+                        break;
+                    case RoleId.Teleporter:
+                        Teleporter.teleporter = player;
+                        break;
+                    case RoleId.EvilTrapper:
+                        EvilTrapper.player = player;
+                        break;
+
+                    case RoleId.Haunter:
+                        Haunter.haunter = player;
+                        break;
+                    case RoleId.Befriender:
+                        Befriender.befriender = player;
+                        break;
+                    
+                    case RoleId.Whisper:
+                        Whisper.player = player;
+                        break;
+                    case RoleId.Ghost:
+                        Ghost.ghost = player;
+                        break;
+                    case RoleId.Betrayer:
+                        Betrayer.betrayer = player;
+                        break;
+                    case RoleId.Sacraficer:
+                        Sacraficer.sacraficer = player;
+                        break;
+
                     case RoleId.Jester:
                         Jester.jester = player;
                         break;
@@ -391,6 +450,19 @@ namespace TheOtherRoles
         public static void setModifier(byte modifierId, byte playerId, byte flag) {
             PlayerControl player = Helpers.playerById(playerId); 
             switch ((RoleId)modifierId) {
+                case RoleId.Recruiter:
+                    Recruiter.recruiter.Add(player);
+                    break;
+                case RoleId.Giant:
+                    Giant.giant.Add(player);
+                    break;
+                case RoleId.Flash:
+                    Flash.flash.Add(player);
+                    break;
+                case RoleId.OneTimeKiller:
+                    OneTimeKiller.player = player;
+                    break;
+                    
                 case RoleId.Bait:
                     Bait.bait.Add(player);
                     break;
@@ -710,6 +782,11 @@ namespace TheOtherRoles
             if (player == null || !player.canBeErased()) return;
 
             // Crewmate roles
+            if (player == Ghost.ghost) Ghost.clearAndReload();
+            if (player == Haunter.haunter) Haunter.clearAndReload();
+            if (player == Betrayer.betrayer) Betrayer.clearAndReload();
+            if (player == Whisper.player) Whisper.clearAndReload();
+
             if (player == Mayor.mayor) Mayor.clearAndReload();
             if (player == Portalmaker.portalmaker) Portalmaker.clearAndReload();
             if (player == Engineer.engineer) Engineer.clearAndReload();
@@ -817,28 +894,69 @@ namespace TheOtherRoles
 
         public static void setInvisible(byte playerId, byte flag)
         {
+            // if flag is max value i become visible & if flag is min value i become invisible!
             PlayerControl target = Helpers.playerById(playerId);
             if (target == null) return;
-            if (flag == byte.MaxValue)
-            {
-                target.cosmetics.currentBodySprite.BodySprite.color = Color.white;
-                target.cosmetics.colorBlindText.gameObject.SetActive(DataManager.Settings.Accessibility.ColorBlindMode);
-                target.cosmetics.colorBlindText.color = target.cosmetics.colorBlindText.color.SetAlpha(1f);
 
-                if (Camouflager.camouflageTimer <= 0 && !Helpers.MushroomSabotageActive()) target.setDefaultLook();
-                Ninja.isInvisble = false;
-                return;
+            if (target == Swooper.swooper && target.cosmetics != null) {
+                // IS SWOOPER
+                if (flag == byte.MaxValue) {
+                    // BECOME VISIBLE
+                    target.cosmetics.currentBodySprite.BodySprite.color = Color.white;
+                    target.cosmetics.colorBlindText.gameObject.SetActive(DataManager.Settings.Accessibility.ColorBlindMode);
+                    target.cosmetics.colorBlindText.color = target.cosmetics.colorBlindText.color.SetAlpha(1f);
+
+                    target.cosmetics.isNameVisible = true;
+                    target.cosmetics.nameText.color.SetAlpha(1f);
+
+                    if (Camouflager.camouflageTimer <= 0 && !Helpers.MushroomSabotageActive()) target.setDefaultLook();
+                    Swooper.isInvisible = false;
+                    return;
+                }
+
+                target.setLook("", 6, "", "", "", "");
+                Color color = Color.clear;
+                bool canSee = CachedPlayer.LocalPlayer.Data.Role.IsImpostor || CachedPlayer.LocalPlayer.Data.IsDead;
+                if (canSee) color.a = 0.1f;
+                target.cosmetics.currentBodySprite.BodySprite.color = color;
+
+                target.cosmetics.isNameVisible = false;
+                target.cosmetics.nameText.color.SetAlpha(0f);
+                target.cosmetics.currentBodySprite.BodySprite.color = color;
+                target.cosmetics.colorBlindText.gameObject.SetActive(false);
+                target.cosmetics.colorBlindText.color = target.cosmetics.colorBlindText.color.SetAlpha(canSee ? 0.1f : 0f);
+                Swooper.invisTimer = Swooper.duration;
+                Swooper.isInvisible = true;
+
+            } else if (target == Ninja.ninja && target.cosmetics != null) {
+                    // IS NINJA
+                    if (flag == byte.MaxValue)
+                    {
+                        target.cosmetics.currentBodySprite.BodySprite.color = Color.white;
+                        target.cosmetics.colorBlindText.gameObject.SetActive(DataManager.Settings.Accessibility.ColorBlindMode);
+                        target.cosmetics.colorBlindText.color = target.cosmetics.colorBlindText.color.SetAlpha(1f);
+
+                        target.cosmetics.isNameVisible = true;
+                        target.cosmetics.nameText.color.SetAlpha(1f);
+
+                        if (Camouflager.camouflageTimer <= 0 && !Helpers.MushroomSabotageActive()) target.setDefaultLook();
+                            Ninja.isInvisible = false;
+                        return;
+                    }
+
+                target.setLook("", 6, "", "", "", "");
+                Color color = Color.clear;
+                bool canSee = CachedPlayer.LocalPlayer.Data.Role.IsImpostor || CachedPlayer.LocalPlayer.Data.IsDead;
+                if (canSee) color.a = 0.1f;
+                
+                target.cosmetics.isNameVisible = false;
+                target.cosmetics.nameText.color.SetAlpha(0f);
+                target.cosmetics.currentBodySprite.BodySprite.color = color;
+                target.cosmetics.colorBlindText.gameObject.SetActive(false);
+                target.cosmetics.colorBlindText.color = target.cosmetics.colorBlindText.color.SetAlpha(canSee ? 0.1f : 0f);
+                Ninja.invisibleTimer = Ninja.invisibleDuration;
+                Ninja.isInvisible = true;
             }
-
-            target.setLook("", 6, "", "", "", "");
-            Color color = Color.clear;
-            bool canSee = CachedPlayer.LocalPlayer.Data.Role.IsImpostor || CachedPlayer.LocalPlayer.Data.IsDead;
-            if (canSee) color.a = 0.1f;
-            target.cosmetics.currentBodySprite.BodySprite.color = color;
-            target.cosmetics.colorBlindText.gameObject.SetActive(false);
-            target.cosmetics.colorBlindText.color = target.cosmetics.colorBlindText.color.SetAlpha(canSee ? 0.1f : 0f);
-            Ninja.invisibleTimer = Ninja.invisibleDuration;
-            Ninja.isInvisble = true;
         }
 
         public static void placePortal(byte[] buff) {
@@ -928,6 +1046,16 @@ namespace TheOtherRoles
             }
 
             TORMapOptions.ventsToSeal.Add(vent);
+        }
+
+        public static void BefrienderWin() {
+            Befriender.triggerBefrienderWin = true;
+            foreach (PlayerControl p in CachedPlayer.AllPlayers) {
+                if (p != Befriender.befriender) {
+                    p.Exiled();
+                    overrideDeathReasonAndKiller(p, DeadPlayer.CustomDeathReason.Arson, Befriender.befriender);
+                }
+            }
         }
 
         public static void arsonistWin() {
@@ -1219,6 +1347,7 @@ namespace TheOtherRoles
             DetectiveOrMedicInfo,
             VampireTimer,
             DeathReasonAndKiller,
+            BefrienderDouse,
         }
 
         public static void receiveGhostInfo (byte senderId, MessageReader reader) {
@@ -1226,6 +1355,9 @@ namespace TheOtherRoles
 
             GhostInfoTypes infoType = (GhostInfoTypes)reader.ReadByte();
             switch (infoType) {
+                case GhostInfoTypes.BefrienderDouse:
+                    Befriender.befriendedPlayers.Add(Helpers.playerById(reader.ReadByte()));
+                    break;
                 case GhostInfoTypes.HandcuffNoticed:
                     Deputy.setHandcuffedKnows(true, senderId);
                     break;

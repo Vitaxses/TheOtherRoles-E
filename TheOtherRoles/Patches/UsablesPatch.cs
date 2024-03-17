@@ -244,6 +244,15 @@ namespace TheOtherRoles.Patches {
                 statusText = "The Lawyer can't start an emergency meeting";
                 if (Lawyer.isProsecutor) statusText = "The Prosecutor can't start an emergency meeting";
             }
+            if (Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl) {
+                roleCanCallEmergency = false;
+                statusText = "The Haun'ter can't start an emergency meeting";
+            }
+            if (Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerControl) {
+                roleCanCallEmergency = false;
+                statusText = "The Ghost can't start an emergency meeting";
+            }
+            
 
             if (!roleCanCallEmergency) {
                 __instance.StatusText.text = statusText;
@@ -275,6 +284,8 @@ namespace TheOtherRoles.Patches {
             canUse = couldUse = false;
             if (Swapper.swapper != null && Swapper.swapper == CachedPlayer.LocalPlayer.PlayerControl)
                 return !__instance.TaskTypes.Any(x => x == TaskTypes.FixLights || x == TaskTypes.FixComms);
+            if (Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerPhysics) 
+                return !__instance.TaskTypes.Any(x => x == TaskTypes.FixLights || x == TaskTypes.FixComms || x == TaskTypes.RestoreOxy);
             if (__instance.AllowImpostor) return true;
             if (!Helpers.hasFakeTasks(pc.Object)) return true;
             __result = float.MaxValue;
@@ -289,6 +300,9 @@ namespace TheOtherRoles.Patches {
             if (Swapper.swapper != null && Swapper.swapper == CachedPlayer.LocalPlayer.PlayerControl) {
                 __instance.Close();
             }
+            if (Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerControl) {
+                __instance.Close();
+            }
         }
     }
 
@@ -297,6 +311,9 @@ namespace TheOtherRoles.Patches {
         static void Postfix(SwitchMinigame __instance) {
             // Block Swapper from fixing lights. One could also just delete the PlayerTask, but I wanted to do it the same way as with coms for now.
             if (Swapper.swapper != null && Swapper.swapper == CachedPlayer.LocalPlayer.PlayerControl) {
+                __instance.Close();
+            }
+            if (Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerControl) {
                 __instance.Close();
             }
         }

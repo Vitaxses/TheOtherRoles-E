@@ -18,7 +18,9 @@ namespace TheOtherRoles.Patches {
         JesterWin = 13,
         ArsonistWin = 14,
         VultureWin = 15,
-        ProsecutorWin = 16
+        ProsecutorWin = 16,
+        HaunterWin = 17, 
+        BefrienderWin = 18
     }
 
     enum WinCondition {
@@ -27,6 +29,8 @@ namespace TheOtherRoles.Patches {
         LoversSoloWin,
         JesterWin,
         JackalWin,
+        HaunterWin, 
+        BefrienderWin, 
         MiniLose,
         ArsonistWin,
         VultureWin,
@@ -81,7 +85,7 @@ namespace TheOtherRoles.Patches {
                 var (tasksCompleted, tasksTotal) = TasksHandler.taskInfo(playerControl.Data);
                 bool isGuesser = HandleGuesser.isGuesserGm && HandleGuesser.isGuesser(playerControl.PlayerId);
                 int? killCount = GameHistory.deadPlayers.FindAll(x => x.killerIfExisting != null && x.killerIfExisting.PlayerId == playerControl.PlayerId).Count;
-                if (killCount == 0 && !(new List<RoleInfo>() { RoleInfo.sheriff, RoleInfo.jackal, RoleInfo.sidekick, RoleInfo.thief }.Contains(RoleInfo.getRoleInfoForPlayer(playerControl, false).FirstOrDefault()) || playerControl.Data.Role.IsImpostor)) {
+                if (killCount == 0 && !(new List<RoleInfo>() { RoleInfo.haunter, RoleInfo.sheriff, RoleInfo.jackal, RoleInfo.sidekick, RoleInfo.thief }.Contains(RoleInfo.getRoleInfoForPlayer(playerControl, false).FirstOrDefault()) || playerControl.Data.Role.IsImpostor)) {
                     killCount = null;
                     }
                 string roleString = RoleInfo.GetRolesString(playerControl, true, true, false);
@@ -99,6 +103,9 @@ namespace TheOtherRoles.Patches {
             if (Pursuer.pursuer != null) notWinners.Add(Pursuer.pursuer);
             if (Thief.thief != null) notWinners.Add(Thief.thief);
 
+            if (Haunter.haunter != null) notWinners.Add(Haunter.haunter);
+            if (Befriender.befriender != null) notWinners.Add(Befriender.befriender);
+
             notWinners.AddRange(Jackal.formerJackals);
 
             List<WinningPlayerData> winnersToRemove = new List<WinningPlayerData>();
@@ -115,7 +122,10 @@ namespace TheOtherRoles.Patches {
             bool vultureWin = Vulture.vulture != null && gameOverReason == (GameOverReason)CustomGameOverReason.VultureWin;
             bool prosecutorWin = Lawyer.lawyer != null && gameOverReason == (GameOverReason)CustomGameOverReason.ProsecutorWin;
 
-            bool isPursurerLose = jesterWin || arsonistWin || miniLose || vultureWin || teamJackalWin;
+            bool haunterWin = Haunter.haunter != null && gameOverReason == (GameOverReason)CustomGameOverReason.HaunterWin;
+            bool befrienderWin = Befriender.befriender != null && gameOverReason == (GameOverReason)CustomGameOverReason.BefrienderWin;
+
+            bool isPursurerLose = jesterWin || arsonistWin || miniLose || vultureWin || teamJackalWin || haunterWin || befrienderWin;
 
             // Mini lose
             if (miniLose) {
@@ -132,6 +142,24 @@ namespace TheOtherRoles.Patches {
                 WinningPlayerData wpd = new WinningPlayerData(Jester.jester.Data);
                 TempData.winners.Add(wpd);
                 AdditionalTempData.winCondition = WinCondition.JesterWin;
+            }
+
+            else if (haunterWin) {
+                TempData.winners= new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                WinningPlayerData wpd = new WinningPlayerData(Haunter.haunter.Data);
+                TempData.winners.Add(wpd);
+                AdditionalTempData.winCondition = WinCondition.HaunterWin;
+            }
+
+            else if (befrienderWin) {
+                AdditionalTempData.winCondition = WinCondition.BefrienderWin;
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls) {
+                    if (!p.Data.IsDead) {
+                        GameData.PlayerInfo d = p.Data;
+                        TempData.winners.Add(new WinningPlayerData(d));
+                    }
+                }
             }
 
             // Arsonist win
@@ -293,6 +321,17 @@ namespace TheOtherRoles.Patches {
                 textRenderer.text = "Jester Wins";
                 textRenderer.color = Jester.color;
             }
+
+            else if (AdditionalTempData.winCondition == WinCondition.HaunterWin) {
+                textRenderer.text = "Haunter Wins";
+                textRenderer.color = Haunter.color;
+            }
+            else if (AdditionalTempData.winCondition == WinCondition.BefrienderWin) {
+                textRenderer.text = "Everyone Wins (Befriender)";
+                textRenderer.color = Befriender.color;
+                __instance.BackgroundBar.material.SetColor("_Color", new Color32(255, 255, 255, byte.MaxValue));
+            }
+
             else if (AdditionalTempData.winCondition == WinCondition.ArsonistWin) {
                 textRenderer.text = "Arsonist Wins";
                 textRenderer.color = Arsonist.color;
@@ -386,6 +425,25 @@ namespace TheOtherRoles.Patches {
             if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
             if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
             if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
+            if (CheckAndEndGameForHaunterWin(__instance, statistics)) return false; 
+            if (checkAndEndGameForBefrienderWin(__instance)) return false;
+            return false;
+        }
+
+        private static bool checkAndEndGameForBefrienderWin(ShipStatus __instance) {
+            if (Befriender.triggerBefrienderWin) {
+                GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.BefrienderWin, false);
+                return true;
+            }
+            return false;
+        }
+
+        private static bool CheckAndEndGameForHaunterWin(ShipStatus __instance, PlayerStatistics statistics) {
+            if (statistics.TeamHaunterAlive >= statistics.TotalAlive - statistics.TeamHaunterAlive && statistics.TeamImpostorsAlive == 0 && !(statistics.HaunterHasAliveLover && statistics.TeamLoversAlive == 2) && statistics.TeamJackalAlive==0) {
+                //__instance.enabled = false;
+                GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.HaunterWin, false);
+                return true;
+            }
             return false;
         }
 
@@ -480,7 +538,7 @@ namespace TheOtherRoles.Patches {
         }
 
         private static bool CheckAndEndGameForJackalWin(ShipStatus __instance, PlayerStatistics statistics) {
-            if (statistics.TeamJackalAlive >= statistics.TotalAlive - statistics.TeamJackalAlive && statistics.TeamImpostorsAlive == 0 && !(statistics.TeamJackalHasAliveLover && statistics.TeamLoversAlive == 2)) {
+            if (statistics.TeamJackalAlive >= statistics.TotalAlive - statistics.TeamJackalAlive && statistics.TeamImpostorsAlive == 0 && !(statistics.TeamJackalHasAliveLover && statistics.TeamLoversAlive == 2) && statistics.TeamHaunterAlive==0) {
                 //__instance.enabled = false;
                 GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.TeamJackalWin, false);
                 return true;
@@ -492,7 +550,7 @@ namespace TheOtherRoles.Patches {
             if (HideNSeek.isHideNSeekGM || PropHunt.isPropHuntGM) 
                 if ((0 != statistics.TotalAlive - statistics.TeamImpostorsAlive)) return false;
 
-            if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive && statistics.TeamJackalAlive == 0 && !(statistics.TeamImpostorHasAliveLover && statistics.TeamLoversAlive == 2)) {
+            if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive && statistics.TeamJackalAlive == 0 && statistics.TeamHaunterAlive == 0 && !(statistics.TeamImpostorHasAliveLover && statistics.TeamLoversAlive == 2)) {
                 //__instance.enabled = false;
                 GameOverReason endReason;
                 switch (TempData.LastDeathReason) {
@@ -522,7 +580,7 @@ namespace TheOtherRoles.Patches {
                 GameManager.Instance.RpcEndGame(GameOverReason.HumansByVote, false);
                 return true;
             }
-            if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0) {
+            if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0 && statistics.TeamHaunterAlive == 0) {
                 //__instance.enabled = false;
                 GameManager.Instance.RpcEndGame(GameOverReason.HumansByVote, false);
                 return true;
@@ -541,10 +599,12 @@ namespace TheOtherRoles.Patches {
     internal class PlayerStatistics {
         public int TeamImpostorsAlive {get;set;}
         public int TeamJackalAlive {get;set;}
+        public int TeamHaunterAlive {get;set;}
         public int TeamLoversAlive {get;set;}
         public int TotalAlive {get;set;}
         public bool TeamImpostorHasAliveLover {get;set;}
         public bool TeamJackalHasAliveLover {get;set;}
+        public bool HaunterHasAliveLover {get;set;}
 
         public PlayerStatistics(ShipStatus __instance) {
             GetPlayerCounts();
@@ -555,12 +615,14 @@ namespace TheOtherRoles.Patches {
         }
 
         private void GetPlayerCounts() {
+            int numHaunterAlive = 0;
             int numJackalAlive = 0;
             int numImpostorsAlive = 0;
             int numLoversAlive = 0;
             int numTotalAlive = 0;
             bool impLover = false;
             bool jackalLover = false;
+            bool haunterLover = false;
 
             foreach (var playerInfo in GameData.Instance.AllPlayers.GetFastEnumerator())
             {
@@ -577,6 +639,10 @@ namespace TheOtherRoles.Patches {
                             numImpostorsAlive++;
                             if (lover) impLover = true;
                         }
+                        if (Haunter.haunter != null && Haunter.haunter.PlayerId == playerInfo.PlayerId) {
+                            numHaunterAlive++;
+                            if (lover) haunterLover = true;
+                        }
                         if (Jackal.jackal != null && Jackal.jackal.PlayerId == playerInfo.PlayerId) {
                             numJackalAlive++;
                             if (lover) jackalLover = true;
@@ -589,12 +655,14 @@ namespace TheOtherRoles.Patches {
                 }
             }
 
+            TeamHaunterAlive = numHaunterAlive; 
             TeamJackalAlive = numJackalAlive;
             TeamImpostorsAlive = numImpostorsAlive;
             TeamLoversAlive = numLoversAlive;
             TotalAlive = numTotalAlive;
             TeamImpostorHasAliveLover = impLover;
             TeamJackalHasAliveLover = jackalLover;
+            HaunterHasAliveLover = haunterLover; 
         }
     }
 }

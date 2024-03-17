@@ -357,7 +357,7 @@ namespace TheOtherRoles.Patches {
 
         static void ninjaUpdate()
         {
-            if (Ninja.isInvisble && Ninja.invisibleTimer <= 0 && Ninja.ninja == CachedPlayer.LocalPlayer.PlayerControl)
+            if (Ninja.isInvisible && Ninja.invisibleTimer <= 0 && Ninja.ninja == CachedPlayer.LocalPlayer.PlayerControl)
             {
                 MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
                 invisibleWriter.Write(Ninja.ninja.PlayerId);

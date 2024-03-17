@@ -189,6 +189,18 @@ namespace TheOtherRoles.Patches {
                             player.NameText.text = Janitor.janitor.Data.PlayerName + " (J)";
             }
 
+            if (CachedPlayer.LocalPlayer != null && CachedPlayer.LocalPlayer.Data.Role.IsImpostor) {
+                foreach (PlayerControl player in CachedPlayer.AllPlayers) {
+                    if (Swooper.swooper != null && Swooper.swooper == player) {
+                        if (Swooper.isInvisible) {
+                            player.cosmetics.nameText.text = " ";
+                        } else {
+                            player.cosmetics.nameText.text = player.Data.PlayerName;
+                        }
+                    }
+                }
+            }
+
             // Lovers
             if (Lovers.lover1 != null && Lovers.lover2 != null && (Lovers.lover1 == CachedPlayer.LocalPlayer.PlayerControl || Lovers.lover2 == CachedPlayer.LocalPlayer.PlayerControl)) {
                 string suffix = Helpers.cs(Lovers.color, " ♥");
@@ -263,7 +275,7 @@ namespace TheOtherRoles.Patches {
         }
 
         public static void miniUpdate() {
-            if (Mini.mini == null || Camouflager.camouflageTimer > 0f || Helpers.MushroomSabotageActive() || Mini.mini == Morphling.morphling && Morphling.morphTimer > 0f || Mini.mini == Ninja.ninja && Ninja.isInvisble || SurveillanceMinigamePatch.nightVisionIsActive) return;
+            if (Mini.mini == null || Camouflager.camouflageTimer > 0f || Helpers.MushroomSabotageActive() || Mini.mini == Morphling.morphling && Morphling.morphTimer > 0f || Mini.mini == Ninja.ninja && Ninja.isInvisible || SurveillanceMinigamePatch.nightVisionIsActive) return;
                 
             float growingProgress = Mini.growingProgress();
             float scale = growingProgress * 0.35f + 0.35f;
@@ -297,6 +309,10 @@ namespace TheOtherRoles.Patches {
                 enabled = false;
             else if (Janitor.janitor != null && Janitor.janitor == CachedPlayer.LocalPlayer.PlayerControl)
                 enabled = false;
+            else if (Swooper.swooper != null && Swooper.swooper == CachedPlayer.LocalPlayer.PlayerControl && !Swooper.isInvisible) {
+                enabled = false; }
+            else if (Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl && !Haunter.isHaunting) {
+                enabled = false; }
             
             if (enabled) __instance.KillButton.Show();
             else __instance.KillButton.Hide();
@@ -349,6 +365,8 @@ namespace TheOtherRoles.Patches {
             timerUpdate();
             // Mini
             miniUpdate();
+
+            
 
             // Deputy Sabotage, Use and Vent Button Disabling
             updateReportButton(__instance);
