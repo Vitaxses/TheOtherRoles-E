@@ -54,7 +54,7 @@ namespace TheOtherRoles
         
         public static RoleInfo recruiter = new RoleInfo("Recruiter", Recruiter.color, "Recruit a Crew to make your Team stronger", "Recruit a CrewMember", RoleId.Recruiter, false, true);
         public static RoleInfo flash = new RoleInfo("Flash", Flash.color, "Travel at the Speed of light", "Travel at the speed of light", RoleId.Flash, false, true);
-        public static RoleInfo giant = new RoleInfo("Giant", Giant.color, "Travel at the Size of a Mountain", "Travel at the Size of a Mountain", RoleId.Giant, false, true);
+        public static RoleInfo giant = new RoleInfo("Giant", Giant.color, "Travel at the Speed and Size of a Mountain", "Travel at the Speed and Size of a Mountain", RoleId.Giant, false, true);
         public static RoleInfo onetimekiller = new RoleInfo("1TimeKiller", OneTimeKiller.color, "Kill the one You Suspect!", "You can kill but only Once!", RoleId.OneTimeKiller, false, true);
 
 
@@ -127,6 +127,14 @@ namespace TheOtherRoles
 
         public static List<RoleInfo> allRoleInfos = new List<RoleInfo>() {
             impostor,
+            haunter,
+            tasker,
+            swooper,
+            sniper,
+            teleporter,
+            befriender, 
+            evilTrapper,
+            whisper,
             godfather,
             mafioso,
             janitor,
@@ -154,6 +162,9 @@ namespace TheOtherRoles
             thief,
             prosecutor,
             crewmate,
+            ghost,
+            sacraficer,
+            betrayer,
             mayor,
             portalmaker,
             engineer,
@@ -170,6 +181,10 @@ namespace TheOtherRoles
             snitch,
             spy,
             securityGuard,
+            recruiter, 
+            flash, 
+            giant, 
+            onetimekiller,
             bait,
             medium,
             trapper,
@@ -205,11 +220,32 @@ namespace TheOtherRoles
                 if (Invert.invert.Any(x => x.PlayerId == p.PlayerId)) infos.Add(invert);
                 if (Chameleon.chameleon.Any(x => x.PlayerId == p.PlayerId)) infos.Add(chameleon);
                 if (p == Shifter.shifter) infos.Add(shifter);
+
+
+                if (Recruiter.recruiter.Any(x => x.PlayerId == p.PlayerId)) infos.Add(recruiter);
+                if (p == Flash.flash.Any(x => x.PlayerId == p.PlayerId)) infos.Add(flash);
+                if (p == Giant.giant.Any(x => x.PlayerId == p.PlayerId)) infos.Add(giant);
+                if (p == OneTimeKiller.player) infos.Add(onetimekiller); 
+
             }
 
             int count = infos.Count;  // Save count after modifiers are added so that the role count can be checked
 
             // Special roles
+            if (p == Swooper.swooper) infos.Add(swooper);
+            if (p == Tasker.tasker) infos.Add(tasker);
+            if (p == Haunter.haunter) infos.Add(haunter);
+            if (p == Sniper.sniper) infos.Add(sniper);
+            if (p == Teleporter.teleporter) infos.Add(teleporter);
+            if (p == EvilTrapper.player) infos.Add(evilTrapper);
+
+            if (p == Befriender.befriender) infos.Add(befriender);
+
+            if (p == Betrayer.betrayer) infos.Add(betrayer); 
+            if (p == Ghost.ghost) infos.Add(ghost); 
+            if (p == Sacraficer.sacraficer) infos.Add(sacraficer);
+            if (p == Whisper.player) infos.Add(whisper);
+
             if (p == Jester.jester) infos.Add(jester);
             if (p == Mayor.mayor) infos.Add(mayor);
             if (p == Portalmaker.portalmaker) infos.Add(portalmaker);

@@ -283,13 +283,13 @@ namespace TheOtherRoles
             
             public static Sprite getTpSprite() {
                 if (tpSprite) return tpSprite;
-                tpSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Reveal.png", 115);
+                tpSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
                 return tpSprite;
             }
         
             public static Sprite getPlaceSprite() {
                 if (placeSprite) return placeSprite;
-                placeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Reveal.png", 115);
+                placeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
                 return placeSprite;
             }
 
@@ -312,7 +312,7 @@ namespace TheOtherRoles
 
             public static Sprite getSelectSprite() {
                 if (selectSprite) return selectSprite;
-                selectSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.sacraficeSelect.png", 115);
+                selectSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
                 return selectSprite;
             }
 
@@ -334,7 +334,7 @@ namespace TheOtherRoles
 
             public static Sprite getSnipeSprite() {
                 if (SnipeSprite) return SnipeSprite;
-                SnipeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.NinjaAssassinateButton.png", 115);
+                SnipeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
                 return SnipeSprite;
             }
 
@@ -362,7 +362,7 @@ namespace TheOtherRoles
 
             public static Sprite getTeleportSprite() {
                 if (TeleportSprite) return TeleportSprite;
-                TeleportSprite =  Helpers.loadSpriteFromResources("TheOtherRoles.Resources.SpeedboostButton.png", 115);
+                TeleportSprite =  Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
                 return TeleportSprite;
             }
 
@@ -397,7 +397,7 @@ namespace TheOtherRoles
 
             public static Sprite getHauntSprite() {
                 if (hauntSprite) return hauntSprite;
-                hauntSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Soul.png", 100);
+                hauntSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 100);
                 return hauntSprite;
             }
 
@@ -487,7 +487,7 @@ namespace TheOtherRoles
 
             public static Sprite getSwoopSprite() {
                 if (swoopSprite) return swoopSprite;
-                swoopSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.InvisButton.png", 80);
+                swoopSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 80);
                 return swoopSprite;
             }
 

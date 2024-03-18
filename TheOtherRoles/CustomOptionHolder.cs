@@ -572,7 +572,7 @@ namespace TheOtherRoles {
 
             befrienderSpawnRate = CustomOption.Create(4042, Types.Neutral, cs(Befriender.color, "Befriender"), rates, null, true);
             befrienderCooldown = CustomOption.Create(4043, Types.Neutral, "Cooldown", 10.5f, 0.5f, 30f, 1.5f, befrienderSpawnRate);
-            befrienderDuration = CustomOption.Create(4044, Types.Neutral, "Duration", 1f, 0f, 15f, 1f, befrienderSpawnRate);
+            befrienderDuration = CustomOption.Create(4044, Types.Neutral, "Befriend Duration", 1f, 0f, 15f, 1f, befrienderSpawnRate);
 
 
             mafiaSpawnRate = CustomOption.Create(18, Types.Impostor, cs(Janitor.color, "Mafia"), rates, null, true);
