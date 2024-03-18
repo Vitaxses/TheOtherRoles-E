@@ -139,6 +139,10 @@ Special Thanks to TheOtherRoles Team for letting me make this mod!
 Thanks to miniduikboot & GD for hosting modded servers (and so much more)
 
 TheOtherRoles - For The Coding Framework
+
+The Other Roles Enhanced Credits:
+[The-Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R) - For the Swooper role
+
 The Other Roles Credits: 
 
 
