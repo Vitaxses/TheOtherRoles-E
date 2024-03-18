@@ -35,7 +35,7 @@ Updated Consistently.
 | [Teleporter](#teleporter) | [Trapper](#trapper) |  |  |
 | | [Nice Guesser](#guesser) | |  |
 | | [Ghost](#ghost) | | |
-| | [Sacraficer](#sacraficer) | | |
+| | [Sacrificer](#sacrificer) | | |
 | | [Betrayer](#betrayer) | | |
 
 The [Role Assignment](#role-assignment) section explains how the roles are being distributed among the players.
@@ -57,7 +57,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
   - Added Role: (Neutral) Haunter: Haun't to kill.
   - Added Role: (Neutral) Befriender: Befriend Everyone to make Everyone win.
 
-  - Added Role: (Crewmate) Sacraficer: Sacraficer Yourself to save another.
+  - Added Role: (Crewmate) Sacrificer: Sacrifice Yourself to save another.
   - Added Role: (Crewmate) Ghost: Teleport and catch Killers in the Act.
   - Added Role: (Crewmate) Betrayer: Betrayer the Crew by doing Your Tasks.
 
@@ -868,15 +868,15 @@ The Ghost can Teleport to any player to catch killers in the act.\
 | Ghost Can Teleport to people with 0s Kill Cooldown | -
 -----------------------
 
-## Sacraficer
+## Sacrificer
 ### **Team: Crewmates**
-The Sacraficer can select a player to protect.\
-When a killer tries to kill the selected player the Sacraficer dies instead of the selected player.\
+The Sacrificer can select a player to protect.\
+When a killer tries to kill the selected player the Sacrificer dies instead of the selected player.\
 
 ### Game Options
 | Name | Description |
 |----------|:-------------:|
-| Sacraficer Spawn Chance | -
+| Sacrificer Spawn Chance | -
 -----------------------
 
 ## Betrayer
