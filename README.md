@@ -278,7 +278,7 @@ Note: Changing the settings to Hacker: 20%, Tracker: 60% would statistically res
 
 ## Sniper
 ### **Team: Impostors**
-The Sniper doesn't Lunch at people when killing Unlike the normal Impostor.
+The Sniper doesn't Lunge at people when killing Unlike the normal Impostor.
 
 ### Game Options
 
