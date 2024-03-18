@@ -221,11 +221,11 @@ namespace TheOtherRoles {
         }
 
         public static bool hasFakeTasks(this PlayerControl player) {
-            return (player == Jester.jester || player == Jackal.jackal || player == Sidekick.sidekick || player == Arsonist.arsonist || player == Vulture.vulture || Jackal.formerJackals.Any(x => x == player));
+            return (player == Jester.jester || player == Haunter.haunter || player == Jackal.jackal || player == Sidekick.sidekick || player == Arsonist.arsonist || player == Vulture.vulture || Jackal.formerJackals.Any(x => x == player));
         }
 
         public static bool canBeErased(this PlayerControl player) {
-            return (player != Jackal.jackal && player != Sidekick.sidekick && !Jackal.formerJackals.Any(x => x == player));
+            return (player != Haunter.haunter || player != Jackal.jackal && player != Sidekick.sidekick && !Jackal.formerJackals.Any(x => x == player));
         }
 
         public static bool shouldShowGhostInfo() {
@@ -322,7 +322,7 @@ namespace TheOtherRoles {
         public static bool hidePlayerName(PlayerControl source, PlayerControl target) {
             if (Camouflager.camouflageTimer > 0f || Helpers.MushroomSabotageActive()) return true; // No names are visible
             if (Patches.SurveillanceMinigamePatch.nightVisionIsActive) return true;
-            else if (Ninja.isInvisible && Ninja.ninja == target) return true;
+            else if ((Ninja.isInvisible && Ninja.ninja == target) || (Swooper.isInvisible && Swooper.swooper == target)) return true;
             else if (!TORMapOptions.hidePlayerNames) return false; // All names are visible
             else if (source == null || target == null) return true;
             else if (source == target) return false; // Player sees his own name
@@ -424,6 +424,9 @@ namespace TheOtherRoles {
                     roleCouldUse = false;
                 else if (Mafioso.mafioso != null && Mafioso.mafioso == CachedPlayer.LocalPlayer.PlayerControl && Godfather.godfather != null && !Godfather.godfather.Data.IsDead)
                     roleCouldUse = false;
+                else if ((Tasker.tasker && Tasker.tasker == player) || (!Swooper.canVent && Swooper.swooper != null && Swooper.swooper == player)) {
+                roleCouldUse = false;
+            }
                 else
                     roleCouldUse = true;
             }
@@ -568,7 +571,9 @@ namespace TheOtherRoles {
                 player != Arsonist.arsonist && 
                 player != Vulture.vulture && 
                 player != Lawyer.lawyer && 
-                player != Pursuer.pursuer);
+                player != Pursuer.pursuer &&
+                player != Befriender.befriender
+                );
 
         }
 
@@ -640,7 +645,8 @@ namespace TheOtherRoles {
                 || (Sidekick.sidekick != null && Sidekick.sidekick.PlayerId == player.PlayerId && Sidekick.hasImpostorVision)
                 || (Spy.spy != null && Spy.spy.PlayerId == player.PlayerId && Spy.hasImpostorVision)
                 || (Jester.jester != null && Jester.jester.PlayerId == player.PlayerId && Jester.hasImpostorVision)
-                || (Thief.thief != null && Thief.thief.PlayerId == player.PlayerId && Thief.hasImpostorVision);
+                || (Thief.thief != null && Thief.thief.PlayerId == player.PlayerId && Thief.hasImpostorVision)
+                || (Haunter.haunter != null && Haunter.haunter.PlayerId == player.PlayerId);
         }
         
         public static object TryCast(this Il2CppObjectBase self, Type type)

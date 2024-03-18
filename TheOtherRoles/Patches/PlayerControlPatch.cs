@@ -21,9 +21,72 @@ namespace TheOtherRoles.Patches {
     public static class PlayerControlFixedUpdatePatch {
         // Helpers
 
-        static PlayerControl setTarget(bool onlyCrewmates = false, bool targetPlayersInVents = false, List<PlayerControl> untargetablePlayers = null, PlayerControl targetingPlayer = null) {
+        static void SwooperUpdate()
+        {
+            if (Swooper.isInvisible && Swooper.duration <= 0 && Swooper.swooper == CachedPlayer.LocalPlayer.PlayerControl)
+            {
+                MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
+                invisibleWriter.Write(Swooper.swooper.PlayerId);
+                invisibleWriter.Write(byte.MaxValue);
+                AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
+                RPCProcedure.setInvisible(Swooper.swooper.PlayerId, byte.MaxValue);
+                Swooper.swooper.cosmetics.nameText.text = " ";
+            }
+
+            if (!Swooper.isInvisible && Swooper.swooper == CachedPlayer.LocalPlayer.PlayerControl) {
+                PlayerControl me = Swooper.swooper;
+                me.cosmetics.nameText.text =me.Data.PlayerName;
+                if (me == CachedPlayer.LocalPlayer.PlayerControl) {
+                    // me.killTimer = 0.1f;
+                    // im using KillButtonPatch.cs to do this better
+                }
+            }
+        }
+
+        static void sniperSetTarget() {
+            if (Sniper.sniper == null || Sniper.sniper != CachedPlayer.LocalPlayer.PlayerControl) return;
+            Sniper.currentTarget = setTarget(false, true, null, Sniper.sniper, 2);
+            setPlayerOutline(Sniper.currentTarget, Palette.Black);
+        }
+
+        static void sacraficerSetTarget() {
+            if (Sacraficer.sacraficer == null || Sacraficer.sacraficer != CachedPlayer.LocalPlayer.PlayerControl) return;
+            Sacraficer.currentTarget = setTarget();
+            setPlayerOutline(Sacraficer.currentTarget, Sacraficer.color);
+        }
+
+        static void onetimekillerSetTarget() {
+            if (OneTimeKiller.player == null || OneTimeKiller.player != CachedPlayer.LocalPlayer.PlayerControl) return;
+            OneTimeKiller.currentTarget = setTarget();
+            setPlayerOutline(OneTimeKiller.currentTarget, Palette.AcceptedGreen);
+        }
+
+        static void haunterSetTarget() {
+            if (Haunter.haunter == null || Haunter.haunter != CachedPlayer.LocalPlayer.PlayerControl) return;
+            Haunter.currentTarget = setTarget(false, true, null, Haunter.haunter);
+            setPlayerOutline(Haunter.currentTarget, Haunter.color);
+        }
+
+        static void taskerSetCDTimer(PlayerControl __instance) {
+            Tasker.liveCooldown -= 0.5f * Time.deltaTime;
+            if (CachedPlayer.LocalPlayer.PlayerControl == Tasker.tasker) {
+                if (HudManager.Instance) {
+                    HudManager.Instance.KillButton.SetCoolDown(Tasker.liveCooldown, Tasker.KillCooldown);
+                }
+            }
+        }
+
+        static void recruiterSetTarget() {
+            if (Recruiter.recruiter == null || !Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl)) return;
+            Recruiter.currentTarget = setTarget();
+            if (Recruiter.FutureRecruited == null) setPlayerOutline(Recruiter.currentTarget, Recruiter.color);
+        }
+
+
+        static PlayerControl setTarget(bool onlyCrewmates = false, bool targetPlayersInVents = false, List<PlayerControl> untargetablePlayers = null, PlayerControl targetingPlayer = null, int moreKillDistance = 0) {
             PlayerControl result = null;
             float num = AmongUs.GameOptions.GameOptionsData.KillDistances[Mathf.Clamp(GameOptionsManager.Instance.currentNormalGameOptions.KillDistance, 0, 2)];
+            num += moreKillDistance;
             if (!MapUtilities.CachedShipStatus) return result;
             if (targetingPlayer == null) targetingPlayer = CachedPlayer.LocalPlayer.PlayerControl;
             if (targetingPlayer.Data.IsDead) return result;
@@ -1005,6 +1068,20 @@ namespace TheOtherRoles.Patches {
 
                 //Update pet visibility
                 setPetVisibility();
+
+                SwooperUpdate();
+
+                recruiterSetTarget();
+
+                haunterSetTarget();
+
+                taskerSetCDTimer(__instance);
+
+                sniperSetTarget();
+
+                sacraficerSetTarget();
+
+                onetimekillerSetTarget();
 
                 // Time Master
                 bendTimeUpdate();
