@@ -310,8 +310,8 @@ The Sniper doesn't Lunch at people when killing Unlike the normal Impostor.
 
 ## Swooper
 ### **Team: Impostors**
-The Swooper can go Invisible Temporarily.\
-The Swooper can only Kill while Invisible.\
+The Swooper can go Invisible Temporarily.
+The Swooper can only Kill while Invisible.
 
 ### Game Options
 
