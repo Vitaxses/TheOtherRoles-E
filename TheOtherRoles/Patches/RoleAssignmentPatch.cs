@@ -110,10 +110,10 @@ namespace TheOtherRoles.Patches {
             Dictionary<byte, int> crewSettings = new Dictionary<byte, int>();
 
             impSettings.Add((byte)RoleId.Swooper, CustomOptionHolder.swooperSpawnRate.getSelection());
-            impSettings.Add((byte)RoleId.Tasker, CustomOptionHolder.taskerSpawnRate.getSelection());
+            //impSettings.Add((byte)RoleId.Tasker, CustomOptionHolder.taskerSpawnRate.getSelection());
             impSettings.Add((byte)RoleId.Sniper, CustomOptionHolder.sniperSpawnRate.getSelection());
             impSettings.Add((byte)RoleId.Teleporter, CustomOptionHolder.teleporterSpawnRate.getSelection());
-            impSettings.Add((byte)RoleId.EvilTrapper, CustomOptionHolder.evilTrapperSpawnRate.getSelection());
+            //impSettings.Add((byte)RoleId.EvilTrapper, CustomOptionHolder.evilTrapperSpawnRate.getSelection());
 
             neutralSettings.Add((byte)RoleId.Haunter, CustomOptionHolder.haunterSpawnRate.getSelection());
             neutralSettings.Add((byte)RoleId.Befriender, CustomOptionHolder.befrienderSpawnRate.getSelection());
@@ -577,6 +577,7 @@ namespace TheOtherRoles.Patches {
             byte playerId;
 
             List<PlayerControl> crewPlayer = new List<PlayerControl>(playerList);
+            List<PlayerControl> impPlayer = new List<PlayerControl>(playerList);
             crewPlayer.RemoveAll(x => x.Data.Role.IsImpostor || RoleInfo.getRoleInfoForPlayer(x).Any(r => r.isNeutral));
             if (modifiers.Contains(RoleId.Shifter)) {
                 var crewPlayerShifter = new List<PlayerControl>(crewPlayer);
@@ -585,6 +586,47 @@ namespace TheOtherRoles.Patches {
                 crewPlayer.RemoveAll(x => x.PlayerId == playerId);
                 playerList.RemoveAll(x => x.PlayerId == playerId);
                 modifiers.RemoveAll(x => x == RoleId.Shifter);
+            }
+            if (modifiers.Contains(RoleId.OneTimeKiller)) {
+                var crewPlayerOneTimeKiller = new List<PlayerControl>(crewPlayer);
+                playerId = setModifierToRandomPlayer((byte)RoleId.OneTimeKiller, crewPlayerOneTimeKiller);
+                impPlayer.RemoveAll(x => x.PlayerId == playerId);
+                crewPlayer.RemoveAll(x => x.PlayerId == playerId);
+                playerList.RemoveAll(x => x.PlayerId == playerId);
+                modifiers.RemoveAll(x => x == RoleId.OneTimeKiller);
+            }
+            
+            if (modifiers.Contains(RoleId.Recruiter)) { 
+                var impostorPlayerRecruiter = new List<PlayerControl>(impPlayer);
+                playerId = setModifierToRandomPlayer((byte)RoleId.Recruiter, impostorPlayerRecruiter);
+                impPlayer.RemoveAll(x => x.PlayerId == playerId);
+                crewPlayer.RemoveAll(x => x.PlayerId == playerId);
+                playerList.RemoveAll(x => x.PlayerId == playerId);
+                modifiers.RemoveAll(x => x == RoleId.Recruiter);
+            }
+
+            if (modifiers.Contains(RoleId.Flash)) { 
+                int flashCount = 0;
+                while (flashCount < modifiers.FindAll(x => x == RoleId.Flash).Count) {
+                    playerId = setModifierToRandomPlayer((byte)RoleId.Flash, playerList);
+                    impPlayer.RemoveAll(x => x.PlayerId == playerId);
+                    crewPlayer.RemoveAll(x => x.PlayerId == playerId);
+                    playerList.RemoveAll(x => x.PlayerId == playerId);
+                    flashCount++;
+                }
+                modifiers.RemoveAll(x => x == RoleId.Flash);
+            }
+
+            if (modifiers.Contains(RoleId.Giant)) { 
+                int giantCount = 0;
+                while (giantCount < modifiers.FindAll(x => x == RoleId.Giant).Count) {
+                    playerId = setModifierToRandomPlayer((byte)RoleId.Giant, playerList);
+                    impPlayer.RemoveAll(x => x.PlayerId == playerId);
+                    crewPlayer.RemoveAll(x => x.PlayerId == playerId);
+                    playerList.RemoveAll(x => x.PlayerId == playerId);
+                    giantCount++;
+                }
+                modifiers.RemoveAll(x => x == RoleId.Giant);
             }
             if (modifiers.Contains(RoleId.Sunglasses)) {
                 int sunglassesCount = 0;
@@ -596,6 +638,8 @@ namespace TheOtherRoles.Patches {
                 }
                 modifiers.RemoveAll(x => x == RoleId.Sunglasses);
             }
+
+            
 
             foreach (RoleId modifier in modifiers) {
                 if (playerList.Count == 0) break;
@@ -609,6 +653,21 @@ namespace TheOtherRoles.Patches {
             switch (roleId) {
                 case RoleId.Lover:
                     selection = CustomOptionHolder.modifierLover.getSelection(); break;
+                case RoleId.Recruiter: 
+                    selection = CustomOptionHolder.modifierRecruiterSpawnRate.getSelection();
+                    if (multiplyQuantity) selection *= 1;
+                    break;
+                case RoleId.Flash:
+                    selection = CustomOptionHolder.modifierFlashSpawnRate.getSelection();
+                    if (multiplyQuantity) selection *= CustomOptionHolder.modifierFlashQuantity.getQuantity();
+                    break;
+                case RoleId.Giant:
+                    selection = CustomOptionHolder.modifierGiantSpawnRate.getSelection();
+                    if (multiplyQuantity) selection *= CustomOptionHolder.modifierGiantQuantity.getQuantity();
+                    break;
+                case RoleId.OneTimeKiller: 
+                    selection = CustomOptionHolder.modifierOneTimeKillerSpawnRate.getSelection(); break;
+                    
                 case RoleId.Tiebreaker:
                     selection = CustomOptionHolder.modifierTieBreaker.getSelection(); break;
                 case RoleId.Mini:
