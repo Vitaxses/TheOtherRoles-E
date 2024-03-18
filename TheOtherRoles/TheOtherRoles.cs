@@ -20,10 +20,10 @@ namespace TheOtherRoles
 
         public static void clearAndReloadRoles() {
             Swooper.clearAndReload();
-            Tasker.clearAndReload();
+            //Tasker.clearAndReload();
             Teleporter.clearAndReload();
             Sniper.clearAndReload();
-            EvilTrapper.clearAndReload();
+            //EvilTrapper.clearAndReload();
             Traitor.clearAndReload();
             
             Befriender.clearAndReload();
@@ -32,7 +32,7 @@ namespace TheOtherRoles
             Betrayer.clearAndReload();
             Sacraficer.clearAndReload();
             Ghost.clearAndReload();
-            Whisper.clearAndReload();
+            //Whisper.clearAndReload();
 
             Recruiter.clearAndReload();
             Flash.clearAndReload();

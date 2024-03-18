@@ -121,7 +121,7 @@ namespace TheOtherRoles.Patches {
             crewSettings.Add((byte)RoleId.Ghost, CustomOptionHolder.ghostSpawnRate.getSelection());
             crewSettings.Add((byte)RoleId.Sacraficer, CustomOptionHolder.sacraficerSpawnRate.getSelection());
             crewSettings.Add((byte)RoleId.Betrayer, CustomOptionHolder.betrayerSpawnRate.getSelection());
-            crewSettings.Add((byte)RoleId.Whisper, CustomOptionHolder.whisperSpawnRate.getSelection());
+            //crewSettings.Add((byte)RoleId.Whisper, CustomOptionHolder.whisperSpawnRate.getSelection());
             
             impSettings.Add((byte)RoleId.Morphling, CustomOptionHolder.morphlingSpawnRate.getSelection());
             impSettings.Add((byte)RoleId.Camouflager, CustomOptionHolder.camouflagerSpawnRate.getSelection());
