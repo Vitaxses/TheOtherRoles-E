@@ -21,11 +21,11 @@ namespace TheOtherRoles
     public enum RoleId {
         
         Swooper,
-        Tasker,
+        //Tasker,
         Sniper,
         Teleporter,
         EvilTrapper,
-
+        Revealer,
         Haunter,
         Befriender,
 
@@ -269,9 +269,9 @@ namespace TheOtherRoles
                 if (player.PlayerId == playerId) {
                     switch((RoleId)roleId) {
                         //ADDED:
-                    case RoleId.Tasker:
+                    /*case RoleId.Tasker:
                         Tasker.tasker = player;
-                        break;
+                        break;*/
                     case RoleId.Swooper:
                         Swooper.swooper = player;
                         break;
@@ -284,7 +284,9 @@ namespace TheOtherRoles
                     case RoleId.EvilTrapper:
                         EvilTrapper.player = player;
                         break;
-
+                    case RoleId.Revealer:
+                        Revealer.player = player;
+                        break;
                     case RoleId.Haunter:
                         Haunter.haunter = player;
                         break;

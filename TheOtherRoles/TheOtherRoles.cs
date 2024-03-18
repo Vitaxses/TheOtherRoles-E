@@ -100,6 +100,32 @@ namespace TheOtherRoles
             PropHunt.clearAndReload();
         }
 
+
+        public static class Revealer {
+
+            public static PlayerControl player;
+            public static PlayerControl target;
+            public static List<PlayerControl> allTargets = new();
+
+            public static Color color = new Color32(60, 125, 230, byte.MaxValue);
+
+            public static float cooldown = 42f;
+
+            public static Sprite revealSprite = null;
+            public static Sprite getRevealSprite() {
+                if (revealSprite) return revealSprite;
+                revealSprite = Helpers.loadSpriteFromResources("TheOtherRoles.BetaButton.png", 115);
+                return revealSprite;
+            }
+
+            public static void clearAndReload() {
+                player = null;
+                cooldown = CustomOptionHolder.revealerCooldown.getFloat();
+            }
+
+        }
+
+
         public static class Whisper {
             public static PlayerControl player;
             public static Color color = new Color32(115, 180, 160, byte.MaxValue);
@@ -439,7 +465,7 @@ namespace TheOtherRoles
 
         }
 
-        public static class Tasker {
+        /*public static class Tasker {
 
             public static PlayerControl tasker;
 
@@ -467,7 +493,7 @@ namespace TheOtherRoles
                 liveCooldown = KillCooldown;
             }
 
-        }
+        }*/
 
         public static class Swooper {
 

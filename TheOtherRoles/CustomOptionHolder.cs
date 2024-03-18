@@ -71,6 +71,9 @@ namespace TheOtherRoles {
 
         public static CustomOption betrayerSpawnRate;
 
+        public static CustomOption revealerSpawnRate;
+        public static CustomOption revealerCooldown;
+
         //ADDED:
         public static CustomOption taskerSpawnRate;
         public static CustomOption taskerTasks;
@@ -522,13 +525,13 @@ namespace TheOtherRoles {
             swooperCooldown = CustomOption.Create(4002, Types.Impostor, "Swooper Cooldown", 17f, 2f, 60f, 2.5f, swooperSpawnRate);
             swooperCanVent = CustomOption.Create(4003, Types.Impostor, "Can Vent", false, swooperSpawnRate);
 
-            taskerSpawnRate = CustomOption.Create(4004, Types.Impostor, cs(Tasker.color, "Tasker"), rates, null, true);
+            /*taskerSpawnRate = CustomOption.Create(4004, Types.Impostor, cs(Tasker.color, "Tasker"), rates, null, true);
             taskerSlower = CustomOption.Create(4005, Types.Impostor, "How much slower kill cooldown is", 0.5f, 0f, 60f, 0.5f, taskerSpawnRate);
             taskerCountMaxSeconds = CustomOption.Create(4006, Types.Impostor, "Seconds to Remove Max", 11f, 2f, 60f, 2.5f, taskerSpawnRate);
             taskerCountMinSeconds = CustomOption.Create(4007, Types.Impostor, "Seconds to Remove Min", 5f, 2f, 60f, 2.5f, taskerSpawnRate);
             taskerTasks = CustomOption.Create(4008, Types.Impostor, "Tasks", 7, 1, 10, 1, taskerSpawnRate);
             taskerKillCooldown = CustomOption.Create(4009, Types.Impostor, "Kill Cooldown", 18, 3, 60, 2.5f, taskerSpawnRate);
-            taskerCanDoVisual = CustomOption.Create(4010, Types.Impostor, "Can do Visual-Task", false, taskerSpawnRate);
+            taskerCanDoVisual = CustomOption.Create(4010, Types.Impostor, "Can do Visual-Task", false, taskerSpawnRate);*/
 
             haunterSpawnRate = CustomOption.Create(4011, Types.Neutral, cs(Haunter.color, "Haunter"), rates, null, true);
             haunterKillCooldown = CustomOption.Create(4012, Types.Neutral, "Haunter's kill Cooldown", 1.5f, 0f, 50f, 1f, haunterSpawnRate);
@@ -573,6 +576,9 @@ namespace TheOtherRoles {
             befrienderSpawnRate = CustomOption.Create(4042, Types.Neutral, cs(Befriender.color, "Befriender"), rates, null, true);
             befrienderCooldown = CustomOption.Create(4043, Types.Neutral, "Cooldown", 10.5f, 0.5f, 30f, 1.5f, befrienderSpawnRate);
             befrienderDuration = CustomOption.Create(4044, Types.Neutral, "Befriend Duration", 1f, 0f, 15f, 1f, befrienderSpawnRate);
+
+            revealerSpawnRate = CustomOption.Create(4045, Types.Crewmate, cs(Revealer.color, "Revealer"), rates, null, true);
+            revealerCooldown = CustomOption.Create(4046, Types.Crewmate, "Revealer Cooldown", 31f, 2f, 69f, 2f, revealerSpawnRate);
 
 
             mafiaSpawnRate = CustomOption.Create(18, Types.Impostor, cs(Janitor.color, "Mafia"), rates, null, true);

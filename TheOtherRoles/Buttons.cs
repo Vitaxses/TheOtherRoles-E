@@ -22,6 +22,7 @@ namespace TheOtherRoles
         public static CustomButton swooperSweepsButton;
 
         public static CustomButton recruiterRecruitsButton;
+        public static CustomButton revealerRevealButton;
 
         public static CustomButton haunterHauntButton;
         public static CustomButton haunterKillButton;
@@ -119,6 +120,7 @@ namespace TheOtherRoles
             }
             swooperSweepsButton.MaxTimer = Swooper.cooldownUse;
             recruiterRecruitsButton.MaxTimer = 0f;
+            revealerRevealButton.MaxTimer = Revealer.cooldown;
 
             haunterHauntButton.MaxTimer = Haunter.hauntCooldown;
             haunterKillButton.MaxTimer = Haunter.killCD;
@@ -331,6 +333,55 @@ namespace TheOtherRoles
         public static void createButtonsPostfix(HudManager __instance) {
             // get map id, or raise error to wait...
             var mapId = GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+
+            revealerRevealButton = new CustomButton(
+                () => {
+                    
+                    Revealer.allTargets.Add(Revealer.target);
+                    foreach (PlayerControl targets in Revealer.allTargets) {
+                        RoleInfo role = RoleInfo.getRoleInfoForPlayer(targets, false).FirstOrDefault();
+                        if (!role.isNeutral && !targets.Data.Role.IsImpostor) {
+                            // is crewmate
+                            targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
+                        }
+                        if (role.isNeutral && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                            // is neutral
+                            targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                        }
+                        if (role.isNeutral && targets.Data.Role.IsImpostor) {
+                            // is imp
+                            targets.cosmetics.nameText.color = Palette.ImpostorRed;
+                        }
+                    }
+                    Revealer.target = null;
+                },
+                () => { return Revealer.player != null && Revealer.player == CachedPlayer.LocalPlayer.PlayerControl; },
+                () => { return Revealer.target != null; },
+                () => {
+                    revealerRevealButton.Timer = revealerRevealButton.MaxTimer; 
+                    foreach (PlayerControl targets in Revealer.allTargets) {
+                        RoleInfo role = RoleInfo.getRoleInfoForPlayer(targets, false).FirstOrDefault();
+                        if (!role.isNeutral && !targets.Data.Role.IsImpostor) {
+                            // is crewmate
+                            targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
+                        }
+                        if (role.isNeutral && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                            // is neutral
+                            targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                        }
+                        if (role.isNeutral && targets.Data.Role.IsImpostor) {
+                            // is imp
+                            targets.cosmetics.nameText.color = Palette.ImpostorRed;
+                        }
+                    }
+                },
+                Revealer.getRevealSprite(),
+                CustomButton.ButtonPositions.upperRowLeft,
+                __instance,
+                KeyCode.Q,
+                false,
+                "Reveal"
+                );
 
             whisperButton = new CustomButton(
                 () => {

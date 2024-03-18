@@ -135,17 +135,6 @@ public class RolePatches {
         }
     }
 
-        public static void PostFix(KillButton __instance) {
-            PlayerControl me = CachedPlayer.LocalPlayer;
-            if (__instance != null && me != null) {
-                if (me == Haunter.haunter) {
-                    if (Haunter.isHaunting) {
-                        Haunter.haunter.killTimer = Haunter.killCD;
-                    }
-                }
-            }
-        }
-
     }
 
     /*[HarmonyPatch(typeof(Console), nameof(Console.CanUse))]    
@@ -204,9 +193,9 @@ public class RolePatches {
                     writer.Write(8);
                     writer.Write(Betrayer.betrayer.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPCProcedure.setRole(56, Betrayer.betrayer.PlayerId);
+                    RPCProcedure.setRole((byte)RoleId.Impostor, Betrayer.betrayer.PlayerId);
+                    Betrayer.hasBetrayedYet = true;
                 }
-                Betrayer.hasBetrayedYet = true;
             }
         }
     }

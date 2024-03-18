@@ -20,11 +20,11 @@ namespace TheOtherRoles
         public bool isNeutral;
         public bool isModifier;
 
-        public RoleInfo(string name, Color color, string introDescription, string shortDescription, RoleId roleId, bool isNeutral = false, bool isModifier = false) {
+        public RoleInfo(string name, Color color, string IntroDescription, string TaskDescription, RoleId roleId, bool isNeutral = false, bool isModifier = false) {
             this.color = color;
             this.name = name;
-            this.introDescription = introDescription;
-            this.shortDescription = shortDescription;
+            this.introDescription = IntroDescription;
+            this.shortDescription = TaskDescription;
             this.roleId = roleId;
             this.isNeutral = isNeutral;
             this.isModifier = isModifier;
@@ -36,11 +36,16 @@ namespace TheOtherRoles
         // TODO: Role: Miner is a (impostor) role that can lay mines and when people walk on it they die!
         // TODO: Role: Trapper is a (imposter) that selects a dead body to be a trap and when someone click report they die and gets added to the dead body trapped list!
 
+        // TODO: Role: Reavealer is the TOUR seer role
+        // TODO: Role: Grenadeer is the TOUR grenadeer role
+        // TODO: Role: Phantom is the tour phantom
+
         //ADDED:
-        public static RoleInfo tasker = new RoleInfo("Tasker", Tasker.color, "Remove Sec's from your CD by doing your Tasks", "Do your Tasks to kill", RoleId.Tasker);
+        public static RoleInfo revealer = new RoleInfo("Revealer", Revealer.color, "Catch The Impostor roles by revealing their Role", "Reveal players roles", RoleId.Revealer);
+        //public static RoleInfo tasker = new RoleInfo("Tasker", Tasker.color, "Remove Sec's from your CD by doing your Tasks", "Do your Tasks to kill", RoleId.Tasker);
         public static RoleInfo swooper = new RoleInfo("Swooper", Swooper.color, "Swoop and Sabotage", "Go invisible to kill", RoleId.Swooper);
         public static RoleInfo haunter = new RoleInfo("Haun'ter", Haunter.color, "Haun't Crewmates and <color=#FF1919FF>Impostors</color> to win", "Haun't.. oouuuh spooky", RoleId.Haunter, true);
-        public static RoleInfo sniper = new RoleInfo("Sniper", Sniper.color, "Imposters Lunch when Killing, I don't", "Imposters Lunch when Killing, I don't!", RoleId.Sniper);
+        public static RoleInfo sniper = new RoleInfo("Sniper", Sniper.color, "Impostors Lunch when Killing, I don't", "Impostors Lunch when Killing, I don't!", RoleId.Sniper);
         public static RoleInfo teleporter = new RoleInfo("Teleporter", Teleporter.color, "Kill and Teleport", "Kill and Escape..", RoleId.Teleporter); //impasta
         public static RoleInfo evilTrapper = new RoleInfo("Evil-Trapper", EvilTrapper.color, "Select A Dead-Body to Trap", "Select a Deadbody to Trap", RoleId.EvilTrapper);
 
@@ -128,7 +133,8 @@ namespace TheOtherRoles
         public static List<RoleInfo> allRoleInfos = new List<RoleInfo>() {
             impostor,
             haunter,
-            tasker,
+            revealer,
+            //tasker,
             swooper,
             sniper,
             teleporter,
@@ -232,8 +238,9 @@ namespace TheOtherRoles
             int count = infos.Count;  // Save count after modifiers are added so that the role count can be checked
 
             // Special roles
+            if (p == Revealer.player) infos.Add(revealer);
             if (p == Swooper.swooper) infos.Add(swooper);
-            if (p == Tasker.tasker) infos.Add(tasker);
+            //if (p == Tasker.tasker) infos.Add(tasker);
             if (p == Haunter.haunter) infos.Add(haunter);
             if (p == Sniper.sniper) infos.Add(sniper);
             if (p == Teleporter.teleporter) infos.Add(teleporter);

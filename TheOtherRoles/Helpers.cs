@@ -646,7 +646,8 @@ namespace TheOtherRoles {
                 || (Spy.spy != null && Spy.spy.PlayerId == player.PlayerId && Spy.hasImpostorVision)
                 || (Jester.jester != null && Jester.jester.PlayerId == player.PlayerId && Jester.hasImpostorVision)
                 || (Thief.thief != null && Thief.thief.PlayerId == player.PlayerId && Thief.hasImpostorVision)
-                || (Haunter.haunter != null && Haunter.haunter.PlayerId == player.PlayerId);
+                || (Haunter.haunter != null && Haunter.haunter.PlayerId == player.PlayerId)
+                || (Ghost.ghost != null && Ghost.hasImpostorVision && Ghost.ghost.PlayerId == player.PlayerId);
         }
         
         public static object TryCast(this Il2CppObjectBase self, Type type)

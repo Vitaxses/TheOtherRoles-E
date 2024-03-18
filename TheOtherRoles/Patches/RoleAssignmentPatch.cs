@@ -118,6 +118,7 @@ namespace TheOtherRoles.Patches {
             neutralSettings.Add((byte)RoleId.Haunter, CustomOptionHolder.haunterSpawnRate.getSelection());
             neutralSettings.Add((byte)RoleId.Befriender, CustomOptionHolder.befrienderSpawnRate.getSelection());
 
+            crewSettings.Add((byte)RoleId.Revealer, CustomOptionHolder.revealerSpawnRate.getSelection());
             crewSettings.Add((byte)RoleId.Ghost, CustomOptionHolder.ghostSpawnRate.getSelection());
             crewSettings.Add((byte)RoleId.Sacraficer, CustomOptionHolder.sacraficerSpawnRate.getSelection());
             crewSettings.Add((byte)RoleId.Betrayer, CustomOptionHolder.betrayerSpawnRate.getSelection());

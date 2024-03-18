@@ -67,6 +67,12 @@ namespace TheOtherRoles.Patches {
             setPlayerOutline(Haunter.currentTarget, Haunter.color);
         }
 
+        static void revealerSetTarget() {
+            if (Revealer.player == null || Revealer.player != CachedPlayer.LocalPlayer.PlayerControl) return;
+            Revealer.target = setTarget(false, false, Revealer.allTargets);
+            setPlayerOutline(Revealer.target, Revealer.color);
+        }
+
         static void taskerSetCDTimer(PlayerControl __instance) {
             Tasker.liveCooldown -= 0.5f * Time.deltaTime;
             if (CachedPlayer.LocalPlayer.PlayerControl == Tasker.tasker) {
@@ -1076,6 +1082,8 @@ namespace TheOtherRoles.Patches {
                 haunterSetTarget();
 
                 taskerSetCDTimer(__instance);
+
+                revealerSetTarget();
 
                 sniperSetTarget();
 
