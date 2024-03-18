@@ -33,9 +33,9 @@ Updated Consistently.
 | [Swooper](#swooper) | [Security Guard](#security-guard) |  |  |
 | [Sniper](#sniper) | [Medium](#medium) |  |  |
 | [Teleporter](#teleporter) | [Trapper](#trapper) |  |  |
-| | [Nice Guesser](#guesser) | |  |
+| [EvilTrapper](#eviltrapper) | [Nice Guesser](#guesser) | |  |
 | | [Ghost](#ghost) | | |
-| | [Sacraficer](#sacraficer) | | |
+| | [Sacrificer](#sacrificer) | | |
 | | [Betrayer](#betrayer) | | |
 
 The [Role Assignment](#role-assignment) section explains how the roles are being distributed among the players.
@@ -50,16 +50,18 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
   <summary>Click to show the Changelog</summary>
   
  ### **Version 1.0.0**
-  - Added Role: (Imposter) Swooper: go Invisible Temporarily.
-  - Added Role: (Imposter) Teleporter: Teleport to a set location.
-  - Added Role: (Imposter) Sniper: People lunch when killing, I don't.
+  - Added Role: (Impostor) Swooper: go Invisible Temporarily.
+  - Added Role: (Impostor) Teleporter: Teleport to a set location.
+  - Added Role: (Impostor) Sniper: People lunch when killing, I don't.
+  - Added Role: (Impostor) EvilTrapper: Trap a dead body.
 
   - Added Role: (Neutral) Haunter: Haun't to kill.
   - Added Role: (Neutral) Befriender: Befriend Everyone to make Everyone win.
 
-  - Added Role: (Crewmate) Sacraficer: Sacraficer Yourself to save another.
+  - Added Role: (Crewmate) Sacrificer: Sacrifice Yourself to save another.
   - Added Role: (Crewmate) Ghost: Teleport and catch Killers in the Act.
   - Added Role: (Crewmate) Betrayer: Betrayer the Crew by doing Your Tasks.
+  - Added Role: (Crewmate) Revealer: Reveal the impostors.
 
   - Added Role: (Modifier) Flash: Travel at the Speed of Light.
   - Added Role: (Modifier) Giant: Giant at the Speed and Size of a Mountain.
@@ -141,7 +143,8 @@ Thanks to miniduikboot & GD for hosting modded servers (and so much more)
 TheOtherRoles - For The Coding Framework
 
 The Other Roles Enhanced Credits:
-[The-Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R) - For the Swooper role
+
+[The-Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R) - For the Swooper role & The Revealer role
 
 The Other Roles Credits: 
 
@@ -278,7 +281,7 @@ Note: Changing the settings to Hacker: 20%, Tracker: 60% would statistically res
 
 ## Sniper
 ### **Team: Impostors**
-The Sniper doesn't Lunch at people when killing Unlike the normal Impostor.
+The Sniper doesn't Lunge at people when killing Unlike the normal Impostor.
 
 ### Game Options
 
@@ -286,6 +289,18 @@ The Sniper doesn't Lunch at people when killing Unlike the normal Impostor.
 |----------|:-------------:|
 | Sniper Spawn Chance | -
 | Sniper Cooldown | - 
+-----------------------
+
+## EvilTrapper
+### **Team: Impostors**
+Select a dead body to trap and kill who reports to make a infinite loop.
+
+### Game Options
+
+| Name | Description |
+|----------|:-------------:|
+| EvilTrapper Spawn Chance | -
+| EvilTrapper MaxDeaths | The max of Trap kills 
 -----------------------
 
 ## Teleporter
@@ -840,6 +855,18 @@ the Sheriff. While the Thief hasn't fired, their tasks do not count towards the 
 | Thief Can Guess To Steal Role | -
 -----------------------
 
+## Revealer
+### **Team: Crewmates**
+The Revealer can reveal someone's role by clicking the reveal button.
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Revealer Spawn Chance | -
+| Show Neutral | -
+-----------------------
+
+
 ## Ghost
 ### **Team: Crewmates**
 The Ghost can Teleport to any player to catch killers in the act.\
@@ -868,15 +895,15 @@ The Ghost can Teleport to any player to catch killers in the act.\
 | Ghost Can Teleport to people with 0s Kill Cooldown | -
 -----------------------
 
-## Sacraficer
+## Sacrificer
 ### **Team: Crewmates**
-The Sacraficer can select a player to protect.\
-When a killer tries to kill the selected player the Sacraficer dies instead of the selected player.\
+The Sacrificer can select a player to protect.\
+When a killer tries to kill the selected player the Sacrificer dies instead of the selected player.\
 
 ### Game Options
 | Name | Description |
 |----------|:-------------:|
-| Sacraficer Spawn Chance | -
+| Sacrificer Spawn Chance | -
 -----------------------
 
 ## Betrayer
