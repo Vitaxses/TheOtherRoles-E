@@ -7,8 +7,6 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
   To other mod devs: for usage of our code, please read and respect the <a href="#license">license</a></p>
 
 [![Discord](./Images/TOR_server.png)](https://discord.gg/77RkMJHWsM)
-![eisbison infographic](./Images/TOR_Roles.png)
-
 
 # The Other Roles - Enhanced
 
@@ -52,21 +50,21 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
   <summary>Click to show the Changelog</summary>
   
  ### **Version 1.0.0**
-  - Added Role: (Imposter) Swooper: go Invisible Temporarily.\
-  - Added Role: (Imposter) Teleporter: Teleport to a set location.\
-  - Added Role: (Imposter) Sniper: People lunch when killing, I don't
+  - Added Role: (Imposter) Swooper: go Invisible Temporarily.
+  - Added Role: (Imposter) Teleporter: Teleport to a set location.
+  - Added Role: (Imposter) Sniper: People lunch when killing, I don't.
 
-  - Added Role: (Neutral) Haunter: Haun't to kill.\
-  - Added Role: (Neutral) Befriender: Befriend Everyone to make Everyone win
+  - Added Role: (Neutral) Haunter: Haun't to kill.
+  - Added Role: (Neutral) Befriender: Befriend Everyone to make Everyone win.
 
-  - Added Role: (Crewmate) Sacraficer: Sacraficer Yourself to save another.\
-  - Added Role: (Crewmate) Ghost: Teleport and catch Killers in the Act.\
-  - Added Role: (Crewmate) Betrayer: Betrayer the Crew by doing Your Tasks
+  - Added Role: (Crewmate) Sacraficer: Sacraficer Yourself to save another.
+  - Added Role: (Crewmate) Ghost: Teleport and catch Killers in the Act.
+  - Added Role: (Crewmate) Betrayer: Betrayer the Crew by doing Your Tasks.
 
-  - Added Role: (Modifier) Flash: Travel at the Speed of Light.\
-  - Added Role: (Modifier) Giant: Giant at the Speed and Size of a Mountain.\
-  - Added Role: (Modifier) 1TimeKiller: 1 chance to get The Imposter.\
-  - Added Role: (Modifier) Recruiter: Recruit a Crew to Your Side
+  - Added Role: (Modifier) Flash: Travel at the Speed of Light.
+  - Added Role: (Modifier) Giant: Giant at the Speed and Size of a Mountain.
+  - Added Role: (Modifier) 1TimeKiller: 1 chance to get The Imposter.
+  - Added Role: (Modifier) Recruiter: Recruit a Crew to Your Side.
 
 </details>
 # Installation
@@ -312,8 +310,8 @@ The Sniper doesn't Lunch at people when killing Unlike the normal Impostor.
 
 ## Swooper
 ### **Team: Impostors**
-The Swooper can go Invisible Temporarily.\
-The Swooper can only Kill while Invisible.\
+The Swooper can go Invisible Temporarily.
+The Swooper can only Kill while Invisible.
 
 ### Game Options
 
