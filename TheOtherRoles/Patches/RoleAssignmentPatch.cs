@@ -113,14 +113,14 @@ namespace TheOtherRoles.Patches {
             //impSettings.Add((byte)RoleId.Tasker, CustomOptionHolder.taskerSpawnRate.getSelection());
             impSettings.Add((byte)RoleId.Sniper, CustomOptionHolder.sniperSpawnRate.getSelection());
             impSettings.Add((byte)RoleId.Teleporter, CustomOptionHolder.teleporterSpawnRate.getSelection());
-            //impSettings.Add((byte)RoleId.EvilTrapper, CustomOptionHolder.evilTrapperSpawnRate.getSelection());
+            impSettings.Add((byte)RoleId.EvilTrapper, CustomOptionHolder.evilTrapperSpawnRate.getSelection());
 
             neutralSettings.Add((byte)RoleId.Haunter, CustomOptionHolder.haunterSpawnRate.getSelection());
             neutralSettings.Add((byte)RoleId.Befriender, CustomOptionHolder.befrienderSpawnRate.getSelection());
 
             crewSettings.Add((byte)RoleId.Revealer, CustomOptionHolder.revealerSpawnRate.getSelection());
             crewSettings.Add((byte)RoleId.Ghost, CustomOptionHolder.ghostSpawnRate.getSelection());
-            crewSettings.Add((byte)RoleId.Sacraficer, CustomOptionHolder.sacraficerSpawnRate.getSelection());
+            crewSettings.Add((byte)RoleId.Sacraficer, CustomOptionHolder.sacrificerSpawnRate.getSelection());
             crewSettings.Add((byte)RoleId.Betrayer, CustomOptionHolder.betrayerSpawnRate.getSelection());
             //crewSettings.Add((byte)RoleId.Whisper, CustomOptionHolder.whisperSpawnRate.getSelection());
             

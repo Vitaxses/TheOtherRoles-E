@@ -50,9 +50,9 @@ namespace TheOtherRoles.Patches {
         }
 
         static void sacraficerSetTarget() {
-            if (Sacraficer.sacraficer == null || Sacraficer.sacraficer != CachedPlayer.LocalPlayer.PlayerControl) return;
-            Sacraficer.currentTarget = setTarget();
-            setPlayerOutline(Sacraficer.currentTarget, Sacraficer.color);
+            if (Sacrificer.sacrificer == null || Sacrificer.sacrificer != CachedPlayer.LocalPlayer.PlayerControl) return;
+            Sacrificer.currentTarget = setTarget();
+            setPlayerOutline(Sacrificer.currentTarget, Sacrificer.color);
         }
 
         static void onetimekillerSetTarget() {
@@ -74,12 +74,12 @@ namespace TheOtherRoles.Patches {
         }
 
         static void taskerSetCDTimer(PlayerControl __instance) {
-            Tasker.liveCooldown -= 0.5f * Time.deltaTime;
+            /*Tasker.liveCooldown -= 0.5f * Time.deltaTime;
             if (CachedPlayer.LocalPlayer.PlayerControl == Tasker.tasker) {
                 if (HudManager.Instance) {
                     HudManager.Instance.KillButton.SetCoolDown(Tasker.liveCooldown, Tasker.KillCooldown);
                 }
-            }
+            }*/
         }
 
         static void recruiterSetTarget() {

@@ -304,7 +304,7 @@ namespace TheOtherRoles
                         Betrayer.betrayer = player;
                         break;
                     case RoleId.Sacraficer:
-                        Sacraficer.sacraficer = player;
+                        Sacrificer.sacrificer = player;
                         break;
 
                     case RoleId.Jester:

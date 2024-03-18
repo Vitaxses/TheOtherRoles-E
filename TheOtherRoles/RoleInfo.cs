@@ -45,7 +45,7 @@ namespace TheOtherRoles
         //public static RoleInfo tasker = new RoleInfo("Tasker", Tasker.color, "Remove Sec's from your CD by doing your Tasks", "Do your Tasks to kill", RoleId.Tasker);
         public static RoleInfo swooper = new RoleInfo("Swooper", Swooper.color, "Swoop and Sabotage", "Go invisible to kill", RoleId.Swooper);
         public static RoleInfo haunter = new RoleInfo("Haun'ter", Haunter.color, "Haun't Crewmates and <color=#FF1919FF>Impostors</color> to win", "Haun't.. oouuuh spooky", RoleId.Haunter, true);
-        public static RoleInfo sniper = new RoleInfo("Sniper", Sniper.color, "Impostors Lunch when Killing, I don't", "Impostors Lunch when Killing, I don't!", RoleId.Sniper);
+        public static RoleInfo sniper = new RoleInfo("Sniper", Sniper.color, "Impostors Lunge when Killing, I don't", "Impostors Lunge when Killing, I don't!", RoleId.Sniper);
         public static RoleInfo teleporter = new RoleInfo("Teleporter", Teleporter.color, "Kill and Teleport", "Kill and Escape..", RoleId.Teleporter); //impasta
         public static RoleInfo evilTrapper = new RoleInfo("Evil-Trapper", EvilTrapper.color, "Select A Dead-Body to Trap", "Select a Deadbody to Trap", RoleId.EvilTrapper);
 
@@ -53,7 +53,7 @@ namespace TheOtherRoles
 
         public static RoleInfo whisper = new RoleInfo("Whisper", Whisper.color, "Get Information by Spying on People!", "Get Information by Spying on People", RoleId.Whisper);
         
-        public static RoleInfo sacraficer = new RoleInfo("Sacraficer", Sacraficer.color, "Sacrafice Yourself to save a Friend..", "Sacraficer yourself..", RoleId.Sacraficer); // CREWROLE
+        public static RoleInfo sacraficer = new RoleInfo("Sacrificer", Sacrificer.color, "Sacrifice Yourself to save a Friend..", "Sacrificer yourself..", RoleId.Sacraficer); // CREWROLE
         public static RoleInfo ghost = new RoleInfo("Ghost", Haunter.color, "Catch killers Red handed by Teleporting...", "Teleport to gain Information", RoleId.Ghost);
         public static RoleInfo betrayer = new RoleInfo("Betrayer", Betrayer.color, "Betray the crew", "Do your Tasks to Become imposter", RoleId.Betrayer);
         
@@ -250,7 +250,7 @@ namespace TheOtherRoles
 
             if (p == Betrayer.betrayer) infos.Add(betrayer); 
             if (p == Ghost.ghost) infos.Add(ghost); 
-            if (p == Sacraficer.sacraficer) infos.Add(sacraficer);
+            if (p == Sacrificer.sacrificer) infos.Add(sacraficer);
             if (p == Whisper.player) infos.Add(whisper);
 
             if (p == Jester.jester) infos.Add(jester);

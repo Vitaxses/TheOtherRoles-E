@@ -119,9 +119,9 @@ public class RolePatches {
 
             if (__instance.currentTarget != null) {
                 PlayerControl current = __instance.currentTarget;
-                if (Sacraficer.sacraficer != null && Sacraficer.target != null && current == Sacraficer.target) {
-                    PlayerControl target = Sacraficer.target;
-                    PlayerControl sacraficer = Sacraficer.sacraficer;
+                if (Sacrificer.sacrificer != null && Sacrificer.target != null && current == Sacrificer.target) {
+                    PlayerControl target = Sacrificer.target;
+                    PlayerControl sacraficer = Sacrificer.sacrificer;
                     __instance.SetDisabled();
                     target.ShowFailedMurder();
                     Helpers.showFlash(Color.red, 2f, "Sacraficer Saved You");

@@ -28,9 +28,10 @@ namespace TheOtherRoles
             
             Befriender.clearAndReload();
             Haunter.clearAndReload();
+            Revealer.clearAndReload();
 
             Betrayer.clearAndReload();
-            Sacraficer.clearAndReload();
+            Sacrificer.clearAndReload();
             Ghost.clearAndReload();
             //Whisper.clearAndReload();
 
@@ -110,6 +111,7 @@ namespace TheOtherRoles
             public static Color color = new Color32(60, 125, 230, byte.MaxValue);
 
             public static float cooldown = 42f;
+            public static bool showNeutral = true;
 
             public static Sprite revealSprite = null;
             public static Sprite getRevealSprite() {
@@ -121,6 +123,9 @@ namespace TheOtherRoles
             public static void clearAndReload() {
                 player = null;
                 cooldown = CustomOptionHolder.revealerCooldown.getFloat();
+                showNeutral = CustomOptionHolder.revealerShowNeutral.getBool();
+                allTargets = new();
+                target = null;
             }
 
         }
@@ -326,8 +331,8 @@ namespace TheOtherRoles
             }
         }
 
-        public static class Sacraficer {
-            public static PlayerControl sacraficer;
+        public static class Sacrificer {
+            public static PlayerControl sacrificer;
 
             public static Color color  = new Color32(52, 193, 209, byte.MaxValue);
 
@@ -343,7 +348,7 @@ namespace TheOtherRoles
             }
 
             public static void clearAndReload() {
-                sacraficer = null;
+                sacrificer = null;
                 currentTarget = null;
                 target = null;
             }

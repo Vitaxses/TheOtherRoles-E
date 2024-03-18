@@ -344,13 +344,17 @@ namespace TheOtherRoles
                             // is crewmate
                             targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
                         }
-                        if (role.isNeutral && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
-                            // is neutral
-                            targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
-                        }
-                        if (role.isNeutral && targets.Data.Role.IsImpostor) {
-                            // is imp
-                            targets.cosmetics.nameText.color = Palette.ImpostorRed;
+                        if (Revealer.showNeutral) {
+                            if (role.isNeutral && Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                // is neutral killer
+                                targets.cosmetics.nameText.color = Jester.color;
+                            } else if (role.isNeutral && !Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                            }
+                            if (!role.isNeutral && targets.Data.Role.IsImpostor) {
+                                // is imp
+                                targets.cosmetics.nameText.color = Palette.ImpostorRed;
+                            }
                         }
                     }
                     Revealer.target = null;
@@ -558,12 +562,12 @@ namespace TheOtherRoles
             );
 
             sacraficeButton = new CustomButton(() => {
-                    Sacraficer.target = Sacraficer.currentTarget;
+                    Sacrificer.target = Sacrificer.currentTarget;
             },
-            () => { return Sacraficer.sacraficer != null && Sacraficer.target == null && Sacraficer.sacraficer == CachedPlayer.LocalPlayer.PlayerControl;; },
-            () => { return Sacraficer.currentTarget != null && Sacraficer.target == null; },
-            () => { if (Sacraficer.target != null) sacraficeButton.setActive(false); },
-            Sacraficer.getSelectSprite(),
+            () => { return Sacrificer.sacrificer != null && Sacrificer.target == null && Sacrificer.sacrificer == CachedPlayer.LocalPlayer.PlayerControl;; },
+            () => { return Sacrificer.currentTarget != null && Sacrificer.target == null; },
+            () => { if (Sacrificer.target != null) sacraficeButton.setActive(false); },
+            Sacrificer.getSelectSprite(),
             new Vector3(0, 1f, 0),
             __instance,
             null,

@@ -73,6 +73,7 @@ namespace TheOtherRoles {
 
         public static CustomOption revealerSpawnRate;
         public static CustomOption revealerCooldown;
+        public static CustomOption revealerShowNeutral;
 
         //ADDED:
         public static CustomOption taskerSpawnRate;
@@ -93,7 +94,7 @@ namespace TheOtherRoles {
         public static CustomOption wrufDuration;
 
         //ADDED:
-        public static CustomOption sacraficerSpawnRate;
+        public static CustomOption sacrificerSpawnRate;
 
         //ADDED:
 
@@ -552,7 +553,7 @@ namespace TheOtherRoles {
             teleporterSpawnRate = CustomOption.Create(4024, Types.Impostor, cs(Palette.ImpostorRed, "Teleporter"), rates, null, true);
             teleporterCooldown = CustomOption.Create(4025, Types.Impostor, "Cooldown", 11.5f, 1f, 59.5f, 2.5f, teleporterSpawnRate);
 
-            sacraficerSpawnRate = CustomOption.Create(4029, Types.Crewmate, cs(Sacraficer.color, "Sacraficer"), rates, null, true);
+            sacrificerSpawnRate = CustomOption.Create(4029, Types.Crewmate, cs(Sacrificer.color, "Sacrificer"), rates, null, true);
 
             betrayerSpawnRate = CustomOption.Create(4030, Types.Crewmate, cs(Betrayer.color, "Betrayer"), rates, null, true);
 
@@ -579,7 +580,7 @@ namespace TheOtherRoles {
 
             revealerSpawnRate = CustomOption.Create(4045, Types.Crewmate, cs(Revealer.color, "Revealer"), rates, null, true);
             revealerCooldown = CustomOption.Create(4046, Types.Crewmate, "Revealer Cooldown", 31f, 2f, 69f, 2f, revealerSpawnRate);
-
+            revealerShowNeutral = CustomOption.Create(4047, Types.Crewmate, "Show Neutral", true, revealerSpawnRate);
 
             mafiaSpawnRate = CustomOption.Create(18, Types.Impostor, cs(Janitor.color, "Mafia"), rates, null, true);
             janitorCooldown = CustomOption.Create(19, Types.Impostor, "Janitor Cooldown", 30f, 10f, 60f, 2.5f, mafiaSpawnRate);
