@@ -7,8 +7,6 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
   To other mod devs: for usage of our code, please read and respect the <a href="#license">license</a></p>
 
 [![Discord](./Images/TOR_server.png)](https://discord.gg/77RkMJHWsM)
-![eisbison infographic](./Images/TOR_Roles.png)
-
 
 # The Other Roles - Enhanced
 
