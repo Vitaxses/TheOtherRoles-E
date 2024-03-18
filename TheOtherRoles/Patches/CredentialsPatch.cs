@@ -14,15 +14,14 @@ namespace TheOtherRoles.Patches {
     [HarmonyPatch]
     public static class CredentialsPatch {
         public static string fullCredentialsVersion = 
-$@"<size=130%><color=#ff351f>TheOtherRoles</color></size> v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays>0 ? "-BETA": "")}";
+$@"<size=130%><color=#ff351f>TheOtherRoles-E</color></size> v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays>0 ? "-BETA": "")}";
 public static string fullCredentials =
 $@"<size=60%>Modded by <color=#FCCE03FF>TheOtherRoles-Team</color>, 
-<color=#FCCE03FF>Vitaxses</color> & <color=#FCCE03FF>Shaz</color>
+<color=#FCCE03FF>Vitaxses</color>
 Design by <color=#FCCE03FF>Bavari</color></size>";
 
     public static string mainMenuCredentials = 
-$@"Modded by <color=#FCCE03FF>TheOtherRoles-Team</color>, <color=#FCCE03FF>Vitaxses</color> & <color=#FCCE03FF>Shaz</color>
-Design by <color=#FCCE03FF>Bavari</color>";
+$@"Modded by <color=#FCCE03FF>TheOtherRoles-Team</color>, <color=#FCCE03FF>Vitaxses</color> Design by <color=#FCCE03FF>Bavari</color>";
 
         public static string contributorsCredentials =
 $@"<size=60%> <color=#FCCE03FF> </color></size>";

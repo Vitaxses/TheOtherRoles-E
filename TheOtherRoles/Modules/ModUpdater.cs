@@ -18,8 +18,8 @@ using static StarGen;
 
 namespace TheOtherRoles.Modules {
     public class ModUpdater : MonoBehaviour {
-        public const string RepositoryOwner = "TheOtherRolesAU";
-        public const string RepositoryName = "TheOtherRoles";
+        public const string RepositoryOwner = "Vitaxses";
+        public const string RepositoryName = "TheOtherRoles-E";
         public static ModUpdater Instance { get; private set; }
 
         public ModUpdater(IntPtr ptr) : base(ptr) { }
@@ -85,7 +85,7 @@ namespace TheOtherRoles.Modules {
 
             var button = popup.transform.GetChild(2).gameObject;
             button.SetActive(false);
-            popup.TextAreaTMP.text = $"Updating TOR\nPlease wait...";
+            popup.TextAreaTMP.text = $"Updating TORE\nPlease wait...";
 
             var asset = release.Assets.Find(FilterPluginAsset);
             var www = new UnityWebRequest();
@@ -96,7 +96,7 @@ namespace TheOtherRoles.Modules {
 
             while (!operation.isDone) {
                 int stars = Mathf.CeilToInt(www.downloadProgress * 10);
-                string progress = $"Updating TOR\nPlease wait...\nDownloading...\n{new String((char)0x25A0, stars) + new String((char)0x25A1, 10 - stars)}";
+                string progress = $"Updating TORE\nPlease wait...\nDownloading...\n{new String((char)0x25A0, stars) + new String((char)0x25A1, 10 - stars)}";
                 popup.TextAreaTMP.text = progress;
                 yield return new WaitForEndOfFrame();
             }
@@ -105,7 +105,7 @@ namespace TheOtherRoles.Modules {
                 popup.TextAreaTMP.text = "Update wasn't successful\nTry again later,\nor update manually.";
                 yield break;
             }
-            popup.TextAreaTMP.text = $"Updating TOR\nPlease wait...\n\nDownload complete\ncopying file...";
+            popup.TextAreaTMP.text = $"Updating TORE\nPlease wait...\n\nDownload complete\ncopying file...";
 
             var filePath = Path.Combine(Paths.PluginPath, asset.Name);
 
@@ -127,7 +127,7 @@ namespace TheOtherRoles.Modules {
             www.Dispose();
 
             if (!hasError) {
-                popup.TextAreaTMP.text = $"TheOtherRoles\nupdated successfully\nPlease restart the game.";
+                popup.TextAreaTMP.text = $"TheOtherRoles-Enhanced\nupdated successfully\nPlease restart the game.";
             }
             button.SetActive(true);
             _busy = false;
@@ -140,7 +140,7 @@ namespace TheOtherRoles.Modules {
 
         [HideFromIl2Cpp]
         private static bool FilterPluginAsset(GithubAsset asset) {
-            return asset.Name == "TheOtherRoles.dll";
+            return asset.Name == "TheOtherRoles-E.dll";
         }
 
         [HideFromIl2Cpp]
@@ -177,9 +177,9 @@ namespace TheOtherRoles.Modules {
             StartCoroutine(Effects.Lerp(0.1f, (System.Action<float>)(p => text.SetText(t))));
             passiveButton.OnMouseOut.AddListener((Action)(() => text.color = Color.red));
             passiveButton.OnMouseOver.AddListener((Action)(() => text.color = Color.white));
-            var announcement = $"<size=150%>A new THE OTHER ROLES update to {latestRelease.Tag} is available</size>\n{latestRelease.Description}";
+            var announcement = $"<size=150%>A new THE OTHER ROLES-E update to {latestRelease.Tag} is available</size>\n{latestRelease.Description}";
             var mgr = FindObjectOfType<MainMenuManager>(true);
-            if (showPopUp) mgr.StartCoroutine(CoShowAnnouncement(announcement, shortTitle: "TOR Update", date : latestRelease.PublishedAt)) ;
+            if (showPopUp) mgr.StartCoroutine(CoShowAnnouncement(announcement, shortTitle: "TORE Update", date : latestRelease.PublishedAt)) ;
             showPopUp = false;
 
         }
@@ -200,7 +200,7 @@ namespace TheOtherRoles.Modules {
                 Id = "torAnnouncement",
                 Language = 0,
                 Number = 6969,
-                Title = title == "" ? "The Other Roles Announcement" : title,
+                Title = title == "" ? "The Other Roles-Enhanced Announcement" : title,
                 ShortTitle = shortTitle,
                 SubTitle = "",
                 PinState = false,

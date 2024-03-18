@@ -118,11 +118,11 @@ ugackMiner53 - Idea and core code for the Prop Hunt game mode</size>";
                 creditsString += "</align>";
 
                 Assets.InnerNet.Announcement creditsAnnouncement = new() {
-                    Id = "tor-E-Credits",
+                    Id = "TOR & TOR-E Credits",
                     Language = 0,
                     Number = 500,
                     Title = "The Other Roles Enhanced\nCredits & Resources",
-                    ShortTitle = "TOR-E Credits",
+                    ShortTitle = "TOR & TOR-E Credits",
                     SubTitle = "",
                     PinState = false,
                     Date = "01.07.2021",

@@ -2366,7 +2366,7 @@ namespace TheOtherRoles
 
         public static void update() {
             foreach (var chameleonPlayer in chameleon) {
-                if (chameleonPlayer == Ninja.ninja && Ninja.isInvisible) continue;  // Dont make Ninja visible...
+                if (chameleonPlayer == (Ninja.ninja && Ninja.isInvisible || Swooper.swooper && Swooper.isInvisible)) continue;  // Dont make Ninja visible...
                 // check movement by animation
                 PlayerPhysics playerPhysics = chameleonPlayer.MyPhysics;
                 var currentPhysicsAnim = playerPhysics.Animations.Animator.GetCurrentAnimation();
