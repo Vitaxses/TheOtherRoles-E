@@ -42,7 +42,7 @@ public class RolePatches {
     [HarmonyPatch(typeof(AchievementManager), nameof(AchievementManager.OnTaskComplete))]
     public class onTaskCompleted {
 
-        public static void Prefix(AchievementManager __instance) {
+        /*public static void Prefix(AchievementManager __instance) {
             PlayerControl me = CachedPlayer.LocalPlayer.PlayerControl;
             if (me == Tasker.tasker) {
                 if (HudManager.Instance) {
@@ -51,7 +51,7 @@ public class RolePatches {
                     HudManager.Instance.KillButton.SetCoolDown(Tasker.liveCooldown - i, Tasker.KillCooldown);
                 } 
             }
-        }
+        }*/
     }
 
     [HarmonyPatch(typeof(ReportButton), nameof(ReportButton.DoClick))]
