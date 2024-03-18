@@ -37,6 +37,7 @@ Updated Consistently.
 | | [Ghost](#ghost) | | |
 | | [Sacrificer](#sacrificer) | | |
 | | [Betrayer](#betrayer) | | |
+| | [Revealer](#revealer) | | |
 
 The [Role Assignment](#role-assignment) section explains how the roles are being distributed among the players.
 
