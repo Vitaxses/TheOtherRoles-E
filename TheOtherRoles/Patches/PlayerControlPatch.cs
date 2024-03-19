@@ -82,6 +82,12 @@ namespace TheOtherRoles.Patches {
             }*/
         }
 
+        static void sacrificeTargetUpdate() {
+            if (Sacrificer.sacrificer == null || Sacrificer.target == null || Sacrificer.sacrificer != CachedPlayer.LocalPlayer.PlayerControl) return;
+            setPlayerOutline(Sacrificer.target, Sacrificer.color);
+            Sacrificer.target.cosmetics.nameText.color = Sacrificer.color;
+            }
+
         static void recruiterSetTarget() {
             if (Recruiter.recruiter == null || !Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl)) return;
             Recruiter.currentTarget = setTarget();
@@ -1076,6 +1082,8 @@ namespace TheOtherRoles.Patches {
                 setPetVisibility();
 
                 SwooperUpdate();
+
+                sacrificeTargetUpdate();
 
                 recruiterSetTarget();
 

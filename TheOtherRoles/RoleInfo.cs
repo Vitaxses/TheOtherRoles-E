@@ -33,10 +33,7 @@ namespace TheOtherRoles
         // TODO: (Done) Modifier: Recruiter is a modidfier that can only be applied to imposters and if only 1 imposter that can select a player to recruit to the imposter team!
         // TODO: (Done) Role: Haunter is a (Imposter) role that doesn't show up on admin table and has no kill cooldown for 6 seconds when using Haunt button!
         // TODO: (Done) Role: Sacraficer is a (Crewmate) role that can select someone to sacrafice for and when someone try to kill who i sacraficed for i die and they get a notification that they just got saved!
-        // TODO: Role: Miner is a (impostor) role that can lay mines and when people walk on it they die!
-        // TODO: Role: Trapper is a (imposter) that selects a dead body to be a trap and when someone click report they die and gets added to the dead body trapped list!
-
-        // TODO: Role: Reavealer is the TOUR seer role
+        
         // TODO: Role: Grenadeer is the TOUR grenadeer role
         // TODO: Role: Phantom is the tour phantom
 

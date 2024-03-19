@@ -103,7 +103,7 @@ namespace TheOtherRoles
 
 
         public static class Revealer {
-
+            
             public static PlayerControl player;
             public static PlayerControl target;
             public static List<PlayerControl> allTargets = new();

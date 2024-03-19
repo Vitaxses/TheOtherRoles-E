@@ -336,7 +336,6 @@ namespace TheOtherRoles
 
             revealerRevealButton = new CustomButton(
                 () => {
-                    
                     Revealer.allTargets.Add(Revealer.target);
                     foreach (PlayerControl targets in Revealer.allTargets) {
                         RoleInfo role = RoleInfo.getRoleInfoForPlayer(targets, false).FirstOrDefault();
@@ -344,6 +343,7 @@ namespace TheOtherRoles
                             // is crewmate
                             targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
                         }
+                        // show neutrals!
                         if (Revealer.showNeutral) {
                             if (role.isNeutral && Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
                                 // is neutral killer
@@ -584,6 +584,7 @@ namespace TheOtherRoles
                     teleporterButton.Sprite = Teleporter.getTpSprite();
                     teleporterButton.actionButtonLabelText.text = "Teleport";
                     teleporterButton.actionButton.buttonLabelText.text = "Teleport";
+                    teleporterButton.actionButtonLabelText.text = "Teleport";
                     teleporterButton.Timer = 1f;
                     Teleporter.hasPlacedLocation = true;
                     /// SAT LOCATION!
@@ -592,6 +593,7 @@ namespace TheOtherRoles
                     teleporterButton.Sprite = Teleporter.getPlaceSprite();
                     teleporterButton.actionButtonLabelText.text = "setLocation";
                     teleporterButton.actionButton.buttonLabelText.text = "setLocation";
+                    teleporterButton.actionButtonLabelText.text = "setLocation";
                     teleporterButton.Timer = teleporterButton.MaxTimer;
                     Teleporter.hasPlacedLocation = false;
                     Teleporter.loc = new Vector3(0,0,0);
@@ -635,7 +637,7 @@ namespace TheOtherRoles
                     System.Random rnd = new System.Random();
                     PlayerControl playerToTpTo = players[rnd.Next(players.Count)];
 
-                    Ghost.ghost.gameObject.transform.position = playerToTpTo.gameObject.transform.position;
+                    Ghost.ghost.transform.position = playerToTpTo.transform.position;
                     Ghost.TeleportsLeft = Ghost.TeleportsLeft - 1f;
                     },
                 () => {return Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerControl; },
@@ -647,9 +649,9 @@ namespace TheOtherRoles
                 null,
                 true,
                 1f,
-                () => {ghostTpButton.actionButtonLabelText.text = "Teleport-" + Ghost.TeleportsLeft + "";},
+                () => { },
                 false,
-                "Teleport-"+ (int) Ghost.TeleportsLeft
+                "Teleport"
                     );
 
 

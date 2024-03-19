@@ -16,6 +16,7 @@ using TheOtherRoles.CustomGameModes;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using Assets.CoreScripts;
+using InnerNet;
 namespace TheOtherRoles
 {
     public enum RoleId {
@@ -118,6 +119,7 @@ namespace TheOtherRoles
         SetGameStarting,
         ShareGamemode,
         StopStart,
+        SetHost,
 
         // Role functionality
         BefrienderWin,
@@ -246,6 +248,16 @@ namespace TheOtherRoles
             if (AmongUsClient.Instance.AmHost && CustomOptionHolder.anyPlayerCanStopStart.getBool()) {
                 GameStartManager.Instance.ResetStartState();
                 PlayerControl.LocalPlayer.RpcSendChat($"{Helpers.playerById(playerId).Data.PlayerName} stopped the game start!");
+            }
+        }
+
+        public static void setHost(byte playerId) {
+            PlayerControl nHost = GameData.Instance.GetPlayerById(playerId).Object;
+            
+            if (nHost == CachedPlayer.LocalPlayer.PlayerControl) {
+                UnityTelemetry._instance.amHost = true;
+            } else {
+                UnityTelemetry.Instance.amHost = false;
             }
         }
 
@@ -1671,6 +1683,9 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.StopStart:
                     RPCProcedure.stopStart(reader.ReadByte());
+                    break;
+                case (byte)CustomRPC.SetHost:
+                    RPCProcedure.setHost(reader.ReadByte());
                     break;
 
                 // Game mode

@@ -61,7 +61,7 @@ public class RolePatches {
                 foreach (Collider2D collider2D in Physics2D.OverlapCircleAll(CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition(), CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance, Constants.PlayersOnlyMask)) {
                         if (collider2D.tag == "DeadBody") {
                             DeadBody component = collider2D.GetComponent<DeadBody>();
-                            if (component && !component.Reported) {
+                            if (component != null) {
                                 Vector2 truePosition = CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition();
                                 Vector2 truePosition2 = component.TruePosition;
                                 if (Vector2.Distance(truePosition2, truePosition) <= CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance && CachedPlayer.LocalPlayer.PlayerControl.CanMove && !PhysicsHelpers.AnythingBetween(truePosition, truePosition2, Constants.ShipAndObjectsMask, false)) {
@@ -126,10 +126,10 @@ public class RolePatches {
                     target.ShowFailedMurder();
                     Helpers.showFlash(Color.red, 2f, "Sacraficer Saved You");
                     if (sacraficer != CachedPlayer.LocalPlayer.PlayerControl) {
-                    sacraficer.MurderPlayer(me);
+                        sacraficer.MurderPlayer(me);
                     }
-                    sacraficer.MurderPlayer(sacraficer, MurderResultFlags.Succeeded);
-                    
+                    Helpers.checkMurderAttemptAndKill(sacraficer, me, false, false, true, true);
+                    Helpers.checkMurderAttemptAndKill(sacraficer, sacraficer, false, false, true, true);
                 }
             }
         }

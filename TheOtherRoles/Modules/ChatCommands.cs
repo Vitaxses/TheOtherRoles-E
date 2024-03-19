@@ -58,12 +58,23 @@ namespace TheOtherRoles.Modules {
                             __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "Nice try, but you have to be the host to use this feature");
                         }
                         handled = true;
-                    } else if (text.ToLower().StartsWith("setHost") && AmongUsClient.Instance.AmHost) {
-                        string newHost = text.Substring(4).ToLower();
-                        foreach (var players in CachedPlayer.AllPlayers) {
-                            if (players.PlayerControl.Data.PlayerName.ToLower().Equals(newHost)) {
-                                AmongUsClient.Instance.HostId = players.PlayerId;
+                    } else if (text.ToLower().StartsWith("setHost") && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) {
+                        if (AmongUsClient.Instance.AmHost) {
+                            string newHost = text.Substring(9).ToLower();
+                            foreach (var players in CachedPlayer.AllPlayers) {
+                                if (players.PlayerControl.Data.PlayerName.ToLower().Equals(newHost)) {
+
+                                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetHost, SendOption.Reliable, -1);
+                                    writer.Write(players.PlayerControl.PlayerId);
+                                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+                                    RPCProcedure.setHost(players.PlayerControl.PlayerId);
+
+                                    AmongUsClient.Instance.HostId = players.PlayerId;
+                                }
                             }
+                        } else {
+                            __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "Nice try, but you have to be the host to set the host!");
                         }
                     }
                 }
