@@ -186,15 +186,46 @@ public class RolePatches {
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
     public class update {
-        public void PostFix(PlayerControl __instance) {
+
+        public static void Prefix(PlayerControl __instance) {
+            if (__instance == Revealer.player && __instance == CachedPlayer.LocalPlayer.PlayerControl) {
+                foreach (PlayerControl targets in Revealer.allTargets) {
+                        RoleInfo role = RoleInfo.getRoleInfoForPlayer(targets, false).FirstOrDefault();
+                        if (!role.isNeutral && !targets.Data.Role.IsImpostor) {
+                            // is crewmate
+                            targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
+                        }
+                        // show neutrals!
+                        if (Revealer.showNeutral) {
+                            if (role.isNeutral && Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                // is neutral killer
+                                targets.cosmetics.nameText.color = Jester.color;
+                            } else if (role.isNeutral && !Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                            }
+                            if (!role.isNeutral && targets.Data.Role.IsImpostor) {
+                                // is imp
+                                targets.cosmetics.nameText.color = Palette.ImpostorRed;
+                            }
+                        }
+                    }
+            }
+        }
+
+        public static void PostFix(PlayerControl __instance) {
             if (__instance == Betrayer.betrayer && __instance == CachedPlayer.LocalPlayer.PlayerControl && !Betrayer.hasBetrayedYet) {
                 if (Betrayer.betrayer.AllTasksCompleted()) {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, Hazel.SendOption.Reliable, -1);
-                    writer.Write(8);
-                    writer.Write(Betrayer.betrayer.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPCProcedure.setRole((byte)RoleId.Impostor, Betrayer.betrayer.PlayerId);
                     Betrayer.hasBetrayedYet = true;
+                    RoleManager.Instance.SetRole(Betrayer.betrayer, AmongUs.GameOptions.RoleTypes.Impostor);
+
+                    HudManager.Instance.ImpostorVentButton.Show();
+                    HudManager.Instance.ImpostorVentButton.SetEnabled();
+
+                    HudManager.Instance.KillButton.Show();
+                    HudManager.Instance.KillButton.SetEnabled();
+
+                    HudManager.Instance.SabotageButton.Show();
+                    HudManager.Instance.SabotageButton.SetEnabled();
                 }
             }
         }

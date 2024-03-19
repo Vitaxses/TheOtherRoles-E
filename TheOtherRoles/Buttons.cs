@@ -699,11 +699,14 @@ namespace TheOtherRoles
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, Hazel.SendOption.Reliable, -1);
                     writer.Write(Recruiter.currentTarget.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Recruiter.currentTarget.ClearTasks();
+                    Recruiter.currentTarget.clearCustomRole();
                     Recruiter.FutureRecruited = Recruiter.currentTarget;
-                    RPCProcedure.setRole((byte)RoleId.Impostor ,Recruiter.currentTarget.PlayerId);
+                    Recruiter.FutureRecruited.Data.Role.TeamType = RoleTeamTypes.Impostor;
+                    RPCProcedure.setRole((byte)RoleId.Impostor, Recruiter.currentTarget.PlayerId);
                     SoundEffectsManager.play("shifterShift");
                     Recruiter.FutureRecruited.cosmetics.nameText.color = Palette.ImpostorRed;
-                    Recruiter.FutureRecruited.SetRole(AmongUs.GameOptions.RoleTypes.Impostor);
+                    RoleManager.Instance.SetRole(Recruiter.FutureRecruited, AmongUs.GameOptions.RoleTypes.Impostor);
                 },
                 () => { return Recruiter.recruiter != null && Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl) && Recruiter.FutureRecruited == null && !CachedPlayer.LocalPlayer.Data.IsDead; },
                 () => { return Recruiter.currentTarget && Recruiter.FutureRecruited == null && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },

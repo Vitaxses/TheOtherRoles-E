@@ -50,7 +50,7 @@ namespace TheOtherRoles
 
         public static RoleInfo whisper = new RoleInfo("Whisper", Whisper.color, "Get Information by Spying on People!", "Get Information by Spying on People", RoleId.Whisper);
         
-        public static RoleInfo sacraficer = new RoleInfo("Sacrificer", Sacrificer.color, "Sacrifice Yourself to save a Friend..", "Sacrificer yourself..", RoleId.Sacraficer); // CREWROLE
+        public static RoleInfo sacrificer = new RoleInfo("Sacrificer", Sacrificer.color, "Sacrifice Yourself to save a Friend..", "Sacrificer yourself..", RoleId.Sacraficer); // CREWROLE
         public static RoleInfo ghost = new RoleInfo("Ghost", Haunter.color, "Catch killers Red handed by Teleporting...", "Teleport to gain Information", RoleId.Ghost);
         public static RoleInfo betrayer = new RoleInfo("Betrayer", Betrayer.color, "Betray the crew", "Do your Tasks to Become imposter", RoleId.Betrayer);
         
@@ -92,7 +92,7 @@ namespace TheOtherRoles
         public static RoleInfo securityGuard = new RoleInfo("Security Guard", SecurityGuard.color, "Seal vents and place cameras", "Seal vents and place cameras", RoleId.SecurityGuard);
         public static RoleInfo arsonist = new RoleInfo("Arsonist", Arsonist.color, "Let them burn", "Let them burn", RoleId.Arsonist, true);
         public static RoleInfo goodGuesser = new RoleInfo("Nice Guesser", Guesser.color, "Guess and shoot", "Guess and shoot", RoleId.NiceGuesser);
-        public static RoleInfo badGuesser = new RoleInfo("Evil Guesser", Palette.ImpostorRed, "Guess and shoot", "Guess and shoot", RoleId.EvilGuesser);
+        public static RoleInfo evilGuesser = new RoleInfo("Evil Guesser", Palette.ImpostorRed, "Guess and shoot", "Guess and shoot", RoleId.EvilGuesser);
         public static RoleInfo vulture = new RoleInfo("Vulture", Vulture.color, "Eat corpses to win", "Eat dead bodies", RoleId.Vulture, true);
         public static RoleInfo medium = new RoleInfo("Medium", Medium.color, "Question the souls of the dead to gain information", "Question the souls", RoleId.Medium);
         public static RoleInfo trapper = new RoleInfo("Trapper", Trapper.color, "Place traps to find the Impostors", "Place traps", RoleId.Trapper);
@@ -153,7 +153,7 @@ namespace TheOtherRoles
             ninja,
             bomber,
             goodGuesser,
-            badGuesser,
+            evilGuesser,
             lover,
             jester,
             arsonist,
@@ -166,7 +166,7 @@ namespace TheOtherRoles
             prosecutor,
             crewmate,
             ghost,
-            sacraficer,
+            sacrificer,
             betrayer,
             mayor,
             portalmaker,
@@ -247,7 +247,7 @@ namespace TheOtherRoles
 
             if (p == Betrayer.betrayer) infos.Add(betrayer); 
             if (p == Ghost.ghost) infos.Add(ghost); 
-            if (p == Sacrificer.sacrificer) infos.Add(sacraficer);
+            if (p == Sacrificer.sacrificer) infos.Add(sacrificer);
             if (p == Whisper.player) infos.Add(whisper);
 
             if (p == Jester.jester) infos.Add(jester);
@@ -284,7 +284,7 @@ namespace TheOtherRoles
             if (p == SecurityGuard.securityGuard) infos.Add(securityGuard);
             if (p == Arsonist.arsonist) infos.Add(arsonist);
             if (p == Guesser.niceGuesser) infos.Add(goodGuesser);
-            if (p == Guesser.evilGuesser) infos.Add(badGuesser);
+            if (p == Guesser.evilGuesser) infos.Add(evilGuesser);
             if (p == BountyHunter.bountyHunter) infos.Add(bountyHunter);
             if (p == Vulture.vulture) infos.Add(vulture);
             if (p == Medium.medium) infos.Add(medium);
@@ -418,4 +418,130 @@ namespace TheOtherRoles
 
         }
     }
+        public static class RoleInfoExtensions {
+            
+
+            public static RoleInfo Role(this PlayerControl p) { 
+                if (p == Revealer.player) return RoleInfo.revealer;
+                if (p == Swooper.swooper) return RoleInfo.swooper;
+                if (p == Haunter.haunter) return RoleInfo.haunter;
+                if (p == Sniper.sniper) return RoleInfo.sniper;
+                if (p == Teleporter.teleporter) return RoleInfo.teleporter;
+                if (p == EvilTrapper.player) return RoleInfo.evilTrapper;
+
+                if (p == Befriender.befriender) return RoleInfo.befriender;
+
+                if (p == Betrayer.betrayer) return RoleInfo.betrayer;
+                if (p == Ghost.ghost) return RoleInfo.ghost;
+                if (p == Sacrificer.sacrificer) return RoleInfo.sacrificer;
+                if (p == Whisper.player) return RoleInfo.whisper;
+
+                if (p == Jester.jester) return RoleInfo.jester;
+                if (p == Mayor.mayor) return RoleInfo.mayor;
+                if (p == Portalmaker.portalmaker) return RoleInfo.portalmaker;
+                if (p == Engineer.engineer) return RoleInfo.engineer;
+                if (p == Sheriff.sheriff || p == Sheriff.formerSheriff) return RoleInfo.sheriff;
+                if (p == Deputy.deputy) return RoleInfo.deputy;
+                if (p == Lighter.lighter) return RoleInfo.lighter;
+                if (p == Godfather.godfather) return RoleInfo.godfather;
+                if (p == Mafioso.mafioso) return RoleInfo.mafioso;
+                if (p == Janitor.janitor) return RoleInfo.janitor;
+                if (p == Morphling.morphling) return RoleInfo.morphling;
+                if (p == Camouflager.camouflager) return RoleInfo.camouflager;
+                if (p == Vampire.vampire) return RoleInfo.vampire;
+                if (p == Eraser.eraser) return RoleInfo.eraser;
+                if (p == Trickster.trickster) return RoleInfo.trickster;
+                if (p == Cleaner.cleaner) return RoleInfo.cleaner;
+                if (p == Warlock.warlock) return RoleInfo.warlock;
+                if (p == Witch.witch) return RoleInfo.witch;
+                if (p == Ninja.ninja) return RoleInfo.ninja;
+                if (p == Bomber.bomber) return RoleInfo.bomber;
+                if (p == Detective.detective) return RoleInfo.detective;
+                if (p == TimeMaster.timeMaster) return RoleInfo.timeMaster;
+                if (p == Medic.medic) return RoleInfo.medic;
+                if (p == Swapper.swapper) return RoleInfo.swapper;
+                if (p == Seer.seer) return RoleInfo.seer;
+                if (p == Hacker.hacker) return RoleInfo.hacker;
+                if (p == Tracker.tracker) return RoleInfo.tracker;
+                if (p == Snitch.snitch) return RoleInfo.snitch;
+                if (p == Jackal.jackal || (Jackal.formerJackals != null && Jackal.formerJackals.Any(x => x.PlayerId == p.PlayerId))) return RoleInfo.jackal;
+                if (p == Sidekick.sidekick) return RoleInfo.sidekick;
+                if (p == Spy.spy) return RoleInfo.spy;
+                if (p == SecurityGuard.securityGuard) return RoleInfo.securityGuard;
+                if (p == Arsonist.arsonist) return RoleInfo.arsonist;
+                if (p == Guesser.niceGuesser) return RoleInfo.goodGuesser;
+                if (p == Guesser.evilGuesser) return RoleInfo.evilGuesser;
+                if (p == BountyHunter.bountyHunter) return RoleInfo.bountyHunter;
+                if (p == Vulture.vulture) return RoleInfo.vulture;
+                if (p == Medium.medium) return RoleInfo.medium;
+                if (p == Lawyer.lawyer && !Lawyer.isProsecutor) return RoleInfo.lawyer;
+                if (p == Lawyer.lawyer && Lawyer.isProsecutor) return RoleInfo.prosecutor;
+                if (p == Trapper.trapper) return RoleInfo.trapper;
+                if (p == Pursuer.pursuer) return RoleInfo.pursuer;
+                if (p == Thief.thief) return RoleInfo.thief;
+
+            return null;
+        }
+            public static void clearCustomRole(this PlayerControl p, RoleInfo role = null) {
+                if (role == null) {
+                    if (p == Revealer.player) Revealer.clearAndReload();
+                    if (p == Swooper.swooper) Swooper.clearAndReload();
+                    if (p == Haunter.haunter) Haunter.clearAndReload();
+                    if (p == Sniper.sniper) Sniper.clearAndReload();
+                    if (p == Teleporter.teleporter) Teleporter.clearAndReload();
+                    if (p == EvilTrapper.player) EvilTrapper.clearAndReload();
+                    if (p == Befriender.befriender) Befriender.clearAndReload();
+                    if (p == Betrayer.betrayer) Betrayer.clearAndReload();
+                    if (p == Ghost.ghost) Ghost.clearAndReload();
+                    if (p == Sacrificer.sacrificer) Sacrificer.clearAndReload();
+                    if (p == Whisper.player) Whisper.clearAndReload();
+                    if (p == Jester.jester) Jester.clearAndReload();
+                    if (p == Mayor.mayor) Mayor.clearAndReload();
+                    if (p == Portalmaker.portalmaker) Portalmaker.clearAndReload();
+                    if (p == Engineer.engineer) Engineer.clearAndReload();
+                    if (p == Sheriff.sheriff || p == Sheriff.formerSheriff) Sheriff.clearAndReload();
+                    if (p == Deputy.deputy) Deputy.clearAndReload();
+                    if (p == Lighter.lighter) Lighter.clearAndReload();
+                    if (p == Godfather.godfather) Godfather.clearAndReload();
+                    if (p == Mafioso.mafioso) Mafioso.clearAndReload();
+                    if (p == Janitor.janitor) Janitor.clearAndReload();
+                    if (p == Morphling.morphling) Morphling.clearAndReload();
+                    if (p == Camouflager.camouflager) Camouflager.clearAndReload();
+                    if (p == Vampire.vampire) Vampire.clearAndReload();
+                    if (p == Eraser.eraser) Eraser.clearAndReload();
+                    if (p == Trickster.trickster) Trickster.clearAndReload();
+                    if (p == Cleaner.cleaner) Cleaner.clearAndReload();
+                    if (p == Warlock.warlock) Warlock.clearAndReload();
+                    if (p == Witch.witch) Witch.clearAndReload();
+                    if (p == Ninja.ninja) Ninja.clearAndReload();
+                    if (p == Bomber.bomber) Bomber.clearAndReload();
+                    if (p == Detective.detective) Detective.clearAndReload();
+                    if (p == TimeMaster.timeMaster) TimeMaster.clearAndReload();
+                    if (p == Medic.medic) Medic.clearAndReload();
+                    if (p == Swapper.swapper) Swapper.clearAndReload();
+                    if (p == Seer.seer) Seer.clearAndReload();
+                    if (p == Hacker.hacker) Hacker.clearAndReload();
+                    if (p == Tracker.tracker) Tracker.clearAndReload();
+                    if (p == Snitch.snitch) Snitch.clearAndReload();
+                    if (p == Jackal.jackal || (Jackal.formerJackals != null && Jackal.formerJackals.Any(x => x.PlayerId == p.PlayerId))) Jackal.clearAndReload();
+                    if (p == Sidekick.sidekick) Sidekick.clearAndReload();
+                    if (p == Spy.spy) Spy.clearAndReload();
+                    if (p == SecurityGuard.securityGuard) SecurityGuard.clearAndReload();
+                    if (p == Arsonist.arsonist) Arsonist.clearAndReload();
+                    if (p == Guesser.niceGuesser) Guesser.clearAndReload();
+                    if (p == Guesser.evilGuesser) Guesser.clearAndReload();
+                    if (p == BountyHunter.bountyHunter) BountyHunter.clearAndReload();
+                    if (p == Vulture.vulture) Vulture.clearAndReload();
+                    if (p == Medium.medium) Medium.clearAndReload();
+                    if (p == Lawyer.lawyer && !Lawyer.isProsecutor) Lawyer.clearAndReload();
+                    if (p == Lawyer.lawyer && Lawyer.isProsecutor) Lawyer.clearAndReload();
+                    if (p == Trapper.trapper) Trapper.clearAndReload();
+                    if (p == Pursuer.pursuer) Pursuer.clearAndReload();
+                    if (p == Thief.thief) Thief.clearAndReload();
+                } else {
+                    //do somethin (TODO)!
+                }
+            }
+        }
+
 }

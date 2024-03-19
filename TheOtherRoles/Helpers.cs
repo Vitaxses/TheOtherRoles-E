@@ -445,6 +445,17 @@ namespace TheOtherRoles {
             // Handle first kill attempt
             if (TORMapOptions.shieldFirstKill && TORMapOptions.firstKillPlayer == target) return MurderAttemptResult.SuppressKill;
 
+
+            // Handle Sacrificer kill attempt
+            if (target == Sacrificer.target) {
+                MurderPlayer(Sacrificer.sacrificer, killer, false);
+                MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer);
+                target.ShowFailedMurder();
+                return MurderAttemptResult.SuppressKill;
+            }
+
+
+
             // Handle blank shot
             if (!ignoreBlank && Pursuer.blankedList.Any(x => x.PlayerId == killer.PlayerId)) {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetBlanked, Hazel.SendOption.Reliable, -1);
