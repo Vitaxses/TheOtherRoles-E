@@ -51,6 +51,13 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
   <summary>Click to show the Changelog</summary>
   
  ### **Version 1.0.0**
+
+
+  - Added Chat Command: setHost: the host can set the host to another host.
+
+
+  #### Roles/Modifiers
+
   - Added Role: (Impostor) Swooper: go Invisible Temporarily.
   - Added Role: (Impostor) Teleporter: Teleport to a set location.
   - Added Role: (Impostor) Sniper: People lunch when killing, I don't.
