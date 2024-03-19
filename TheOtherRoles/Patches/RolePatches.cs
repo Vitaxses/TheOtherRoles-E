@@ -213,6 +213,14 @@ public class RolePatches {
         }
 
         public static void PostFix(PlayerControl __instance) {
+            if (Betrayer.betrayer != null && Betrayer.hasBetrayedYet) {
+                if (__instance.Data.Role.IsImpostor && __instance == CachedPlayer.LocalPlayer.PlayerControl) {
+                    Betrayer.betrayer.cosmetics.nameText.color = Palette.ImpostorRed;
+                    Betrayer.betrayer.cosmetics.nameText.text = Betrayer.betrayer.cosmetics.nameText.text + Helpers.cs(Betrayer.color, " (B)");
+                }
+            }
+
+
             if (__instance == Betrayer.betrayer && __instance == CachedPlayer.LocalPlayer.PlayerControl && !Betrayer.hasBetrayedYet) {
                 if (Betrayer.betrayer.AllTasksCompleted()) {
                     Betrayer.hasBetrayedYet = true;
