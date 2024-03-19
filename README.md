@@ -37,6 +37,7 @@ Updated Consistently.
 | | [Ghost](#ghost) | | |
 | | [Sacrificer](#sacrificer) | | |
 | | [Betrayer](#betrayer) | | |
+| | [Revealer](#revealer) | | |
 
 The [Role Assignment](#role-assignment) section explains how the roles are being distributed among the players.
 
@@ -144,7 +145,7 @@ TheOtherRoles - For The Coding Framework
 
 The Other Roles Enhanced Credits:
 
-[The-Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R) - For the Swooper role & The Revealer role
+[Town-Of-Us]((https://github.com/slushiegoose/Town-Of-Us)) - For the Swooper role & The Revealer role
 
 The Other Roles Credits: 
 
