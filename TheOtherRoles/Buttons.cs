@@ -369,11 +369,16 @@ namespace TheOtherRoles
                             // is crewmate
                             targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
                         }
-                        if (role.isNeutral && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
-                            // is neutral
-                            targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                        if (Revealer.showNeutral) {
+                            if (role.isNeutral && Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                // is neutral killer
+                                targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                            } else if (role.isNeutral && !Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                // is like a jester
+                                targets.cosmetics.nameText.color = Jester.color;
+                            }
                         }
-                        if (role.isNeutral && targets.Data.Role.IsImpostor) {
+                        if (!role.isNeutral && targets.Data.Role.IsImpostor) {
                             // is imp
                             targets.cosmetics.nameText.color = Palette.ImpostorRed;
                         }
@@ -523,7 +528,7 @@ namespace TheOtherRoles
                                 if (Vector2.Distance(truePosition2, truePosition) <= CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance && CachedPlayer.LocalPlayer.PlayerControl.CanMove && !PhysicsHelpers.AnythingBetween(truePosition, truePosition2, Constants.ShipAndObjectsMask, false))
                                 {
                                     EvilTrapper.currentSelectedBody = component;
-                                    EvilTrapper.trappedBodys.Add(EvilTrapper.currentSelectedBody);
+                                    if (!EvilTrapper.trappedBodys.Contains(EvilTrapper.currentSelectedBody)) EvilTrapper.trappedBodys.Add(EvilTrapper.currentSelectedBody);
                                     EvilTrapper.hasSelectedBody = true;
                                     break;
                                 }
@@ -561,19 +566,20 @@ namespace TheOtherRoles
                 KeyCode.Q
             );
 
-            sacraficeButton = new CustomButton(() => {
+            sacraficeButton = new CustomButton(
+                () => {
                     Sacrificer.target = Sacrificer.currentTarget;
             },
             () => { return Sacrificer.sacrificer != null && Sacrificer.target == null && Sacrificer.sacrificer == CachedPlayer.LocalPlayer.PlayerControl;; },
             () => { return Sacrificer.currentTarget != null && Sacrificer.target == null; },
-            () => { if (Sacrificer.target != null) sacraficeButton.setActive(false); },
+            () => { if (Sacrificer.target != null) sacraficeButton.actionButton.Hide(); },
             Sacrificer.getSelectSprite(),
             new Vector3(0, 1f, 0),
             __instance,
             null,
             true,
             1f,
-            () => { sacraficeButton.setActive(false); },
+            () => { sacraficeButton.actionButton.Hide(); },
             false,
             "Sacrafice"
             );
@@ -625,10 +631,19 @@ namespace TheOtherRoles
                 () => {
                     List<PlayerControl> players = PlayerControl.AllPlayerControls.ToArray().ToList();
                     players.RemoveAll(x => x.Data.Disconnected);
+                    players.Remove(Ghost.ghost);
                     players.RemoveAll(x => x.Data.IsDead);
                     players.RemoveAll(x => x.inMovingPlat);
                     if (!Ghost.canTeleportToPeopleInVents) { players.RemoveAll(x => x.inVent); }
-                    if (!Ghost.canTeleportToPeopleWithCooldownFor0Sec) { players.RemoveAll(x => !(x.killTimer > 0f)); }
+                    if (!Ghost.canTeleportToPeopleWithCooldownFor0Sec) {
+                        players.RemoveAll(x => !(x.killTimer > 0f));  
+                            if (Haunter.haunter != null && players.Contains(Haunter.haunter)) {
+                                if (haunterHauntButton.Timer > 0) {players.Remove(Haunter.haunter);}
+                            }
+                            if (OneTimeKiller.player != null && players.Contains(OneTimeKiller.player)) {
+                                if (modifier1TimeKiller.Timer > 0) {players.Remove(OneTimeKiller.player);}
+                            }
+                        }
 
 
 
@@ -636,9 +651,9 @@ namespace TheOtherRoles
                     PlayerControl playerToTpTo = players[rnd.Next(players.Count)];
 
                     Ghost.ghost.transform.position = playerToTpTo.transform.position;
-                    Ghost.TeleportsLeft = Ghost.TeleportsLeft - 1f;
+                    Ghost.TeleportsLeft--;
                     },
-                () => {return Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerControl; },
+                () => {return Ghost.ghost != null && Ghost.ghost == CachedPlayer.LocalPlayer.PlayerControl && Ghost.TeleportsLeft > 0; },
                 () => { return Ghost.ghost != null && Ghost.TeleportsLeft > 0; },
                 () => {},
                 Ghost.getTeleportSprite(),
@@ -704,7 +719,15 @@ namespace TheOtherRoles
                     SoundEffectsManager.play("shifterShift");
                     Recruiter.FutureRecruited.cosmetics.nameText.color = Palette.ImpostorRed;
                     RoleManager.Instance.SetRole(Recruiter.FutureRecruited, AmongUs.GameOptions.RoleTypes.Impostor);
-                    Recruiter.FutureRecruited.Data.Role.TeamType = RoleTeamTypes.Impostor;
+                    
+                    MessageWriter writer1 = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRoleTeam, SendOption.Reliable, -1);
+                    
+                    writer1.Write((byte)AmongUs.GameOptions.RoleTypes.Impostor);
+                    writer1.Write(Recruiter.FutureRecruited.PlayerId);
+
+                    AmongUsClient.Instance.FinishRpcImmediately(writer1);
+                    
+                    RPCProcedure.setRoleTeam((byte)AmongUs.GameOptions.RoleTypes.Impostor, Recruiter.FutureRecruited.PlayerId);
                 },
                 () => { return Recruiter.recruiter != null && Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl) && Recruiter.FutureRecruited == null && !CachedPlayer.LocalPlayer.Data.IsDead; },
                 () => { return Recruiter.currentTarget && Recruiter.FutureRecruited == null && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },

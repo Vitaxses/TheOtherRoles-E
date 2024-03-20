@@ -64,7 +64,6 @@ namespace TheOtherRoles {
         public static CustomOption haunterKillCooldown;
         public static CustomOption haunterHauntDuration;
         public static CustomOption haunterHauntCooldown;
-        public static CustomOption adminSeeHaunter;
         public static CustomOption haunterImposterVision;
 
         //ADDED:
@@ -99,7 +98,6 @@ namespace TheOtherRoles {
         //ADDED:
 
         public static CustomOption modifierRecruiterSpawnRate;
-        public static CustomOption modifierRecruiterQuantity;
         
         // ADDED:
         public static CustomOption ghostTeleportTo0CD;
@@ -538,49 +536,47 @@ namespace TheOtherRoles {
             haunterKillCooldown = CustomOption.Create(4012, Types.Neutral, "Haunter's kill Cooldown", 1.5f, 0f, 50f, 1f, haunterSpawnRate);
             haunterHauntDuration = CustomOption.Create(4013, Types.Neutral, "Haunt Duration", 8f, 3f, 40f, 2.5f, haunterSpawnRate);
             haunterHauntCooldown = CustomOption.Create(4014, Types.Neutral, "Haunt Cooldown", 25f, 3f, 60f, 2.5f, haunterSpawnRate);
-            adminSeeHaunter = CustomOption.Create(4015, Types.Neutral, "Haunter is visible on Admin", true, haunterSpawnRate);
-            haunterImposterVision = CustomOption.Create(4016, Types.Neutral, "Imposter Vision", true, haunterSpawnRate);
+            haunterImposterVision = CustomOption.Create(4015, Types.Neutral, "Imposter Vision", true, haunterSpawnRate);
 
-            ghostSpawnRate = CustomOption.Create(4017, Types.Crewmate, cs(Ghost.color, "Ghost"), rates, null, true);
-            ghostTeleports = CustomOption.Create(4018, Types.Crewmate, "Teleports", 3, 1, 60,  2.5f, ghostSpawnRate);
-            ghostCanTeleportToVents = CustomOption.Create(4019, Types.Crewmate, "Can Teleport to People in Vents", true, ghostSpawnRate);
-            ghostTeleportTo0CD = CustomOption.Create(4020, Types.Crewmate, "Can Teleport to People With 0-Sec Cooldown", false, ghostSpawnRate);
-            ghostImposterVision = CustomOption.Create(4021, Types.Crewmate, "Imposter Vision", true, ghostSpawnRate);
+            ghostSpawnRate = CustomOption.Create(4016, Types.Crewmate, cs(Ghost.color, "Ghost"), rates, null, true);
+            ghostTeleports = CustomOption.Create(4017, Types.Crewmate, "Teleports", 3, 1, 60,  2.5f, ghostSpawnRate);
+            ghostCanTeleportToVents = CustomOption.Create(4018, Types.Crewmate, "Can Teleport to People in Vents", true, ghostSpawnRate);
+            ghostTeleportTo0CD = CustomOption.Create(4019, Types.Crewmate, "Can Teleport to People With 0-Sec Cooldown", false, ghostSpawnRate);
+            ghostImposterVision = CustomOption.Create(4020, Types.Crewmate, "Imposter Vision", true, ghostSpawnRate);
 
-            sniperSpawnRate = CustomOption.Create(4022, Types.Impostor, cs(Palette.ImpostorRed , "Sniper"), rates, null, true);
-            sniperSnipeCD = CustomOption.Create(4023, Types.Impostor, "Snipe Cooldown", 28f, 0f, 60f, 2f, sniperSpawnRate);
+            sniperSpawnRate = CustomOption.Create(4021, Types.Impostor, cs(Palette.ImpostorRed , "Sniper"), rates, null, true);
+            sniperSnipeCD = CustomOption.Create(4022, Types.Impostor, "Snipe Cooldown", 28f, 0f, 60f, 2f, sniperSpawnRate);
 
-            teleporterSpawnRate = CustomOption.Create(4024, Types.Impostor, cs(Palette.ImpostorRed, "Teleporter"), rates, null, true);
-            teleporterCooldown = CustomOption.Create(4025, Types.Impostor, "Cooldown", 11.5f, 1f, 59.5f, 2.5f, teleporterSpawnRate);
+            teleporterSpawnRate = CustomOption.Create(4023, Types.Impostor, cs(Palette.ImpostorRed, "Teleporter"), rates, null, true);
+            teleporterCooldown = CustomOption.Create(4024, Types.Impostor, "Cooldown", 11.5f, 1f, 59.5f, 2.5f, teleporterSpawnRate);
 
-            sacrificerSpawnRate = CustomOption.Create(4029, Types.Crewmate, cs(Sacrificer.color, "Sacrificer"), rates, null, true);
+            sacrificerSpawnRate = CustomOption.Create(4025, Types.Crewmate, cs(Sacrificer.color, "Sacrificer"), rates, null, true);
 
-            betrayerSpawnRate = CustomOption.Create(4030, Types.Crewmate, cs(Betrayer.color, "Betrayer"), rates, null, true);
+            betrayerSpawnRate = CustomOption.Create(4026, Types.Crewmate, cs(Betrayer.color, "Betrayer"), rates, null, true);
 
-            modifierFlashSpawnRate = CustomOption.Create(4031, Types.Modifier, cs(Color.yellow, "Flash"), rates, null, true);
-            modifierFlashQuantity = CustomOption.Create(4032, Types.Modifier, "Quantity", ratesModifier, modifierFlashSpawnRate);
-            modifierFlashSpeed = CustomOption.Create(4033, Types.Modifier, "Speed", 2.5f, 0.5f, 10.0f, 0.1f, modifierFlashSpawnRate);
+            modifierFlashSpawnRate = CustomOption.Create(4027, Types.Modifier, cs(Color.yellow, "Flash"), rates, null, true);
+            modifierFlashQuantity = CustomOption.Create(4028, Types.Modifier, "Quantity", ratesModifier, modifierFlashSpawnRate);
+            modifierFlashSpeed = CustomOption.Create(4029, Types.Modifier, "Speed", 2.5f, 0.5f, 10.0f, 0.1f, modifierFlashSpawnRate);
 
-            modifierGiantSpawnRate = CustomOption.Create(4034, Types.Modifier, cs(Color.yellow, "Giant"), rates, null, true);
-            modifierGiantQuantity = CustomOption.Create(4035, Types.Modifier, "Quantity", ratesModifier, modifierGiantSpawnRate);
-            modifierGiantSpeed = CustomOption.Create(4036, Types.Modifier, "Speed", 0.2f, 0.2f, 10f, 0.1f, modifierGiantSpawnRate);
-            modifierGiantSize = CustomOption.Create(4037, Types.Modifier, "Size", 1.0f, 0.8f, 1.8f, 0.1f, modifierGiantSpawnRate);
+            modifierGiantSpawnRate = CustomOption.Create(4030, Types.Modifier, cs(Color.yellow, "Giant"), rates, null, true);
+            modifierGiantQuantity = CustomOption.Create(4031, Types.Modifier, "Quantity", ratesModifier, modifierGiantSpawnRate);
+            modifierGiantSpeed = CustomOption.Create(4032, Types.Modifier, "Speed", 0.2f, 0.2f, 10f, 0.1f, modifierGiantSpawnRate);
+            modifierGiantSize = CustomOption.Create(4033, Types.Modifier, "Size", 1.0f, 0.8f, 1.8f, 0.1f, modifierGiantSpawnRate);
             
-            modifierRecruiterSpawnRate = CustomOption.Create(4038, Types.Modifier, cs(Recruiter.color, "Recruiter"), rates, null, true);
-            modifierRecruiterQuantity = CustomOption.Create(4039, Types.Modifier, "Quantity", 1f, 0f, 1f, 1f, modifierRecruiterSpawnRate);
+            modifierRecruiterSpawnRate = CustomOption.Create(4034, Types.Modifier, cs(Recruiter.color, "Recruiter"), rates, null, true);
+           
+            modifierOneTimeKillerSpawnRate = CustomOption.Create(4035, Types.Modifier, cs(Sheriff.color, "1-TimeKiller"), rates, null, true);
 
-            modifierOneTimeKillerSpawnRate = CustomOption.Create(4040, Types.Modifier, cs(Sheriff.color, "1-TimeKiller"), rates, null, true);
+            evilTrapperSpawnRate = CustomOption.Create(4036, Types.Impostor, cs(Palette.ImpostorRed, "Evil-Trapper"), rates, null, true);
+            evilTrapperMaxCountOfDeadBodys = CustomOption.Create(4037, Types.Impostor, "Max body's trapped", 4, 1, 12, 1f, evilTrapperSpawnRate);
 
-            evilTrapperSpawnRate = CustomOption.Create(4041, Types.Impostor, cs(Palette.ImpostorRed, "Evil-Trapper"), rates, null, true);
-            evilTrapperMaxCountOfDeadBodys = CustomOption.Create(4042, Types.Impostor, "Max body's trapped", 4, 1, 12, 1f, evilTrapperSpawnRate);
+            befrienderSpawnRate = CustomOption.Create(4038, Types.Neutral, cs(Befriender.color, "Befriender"), rates, null, true);
+            befrienderCooldown = CustomOption.Create(4039, Types.Neutral, "Cooldown", 10.5f, 0.5f, 30f, 1.5f, befrienderSpawnRate);
+            befrienderDuration = CustomOption.Create(4040, Types.Neutral, "Befriend Duration", 1f, 0f, 15f, 1f, befrienderSpawnRate);
 
-            befrienderSpawnRate = CustomOption.Create(4042, Types.Neutral, cs(Befriender.color, "Befriender"), rates, null, true);
-            befrienderCooldown = CustomOption.Create(4043, Types.Neutral, "Cooldown", 10.5f, 0.5f, 30f, 1.5f, befrienderSpawnRate);
-            befrienderDuration = CustomOption.Create(4044, Types.Neutral, "Befriend Duration", 1f, 0f, 15f, 1f, befrienderSpawnRate);
-
-            revealerSpawnRate = CustomOption.Create(4045, Types.Crewmate, cs(Revealer.color, "Revealer"), rates, null, true);
-            revealerCooldown = CustomOption.Create(4046, Types.Crewmate, "Revealer Cooldown", 31f, 2f, 69f, 2f, revealerSpawnRate);
-            revealerShowNeutral = CustomOption.Create(4047, Types.Crewmate, "Show Neutral", true, revealerSpawnRate);
+            revealerSpawnRate = CustomOption.Create(4041, Types.Crewmate, cs(Revealer.color, "Revealer"), rates, null, true);
+            revealerCooldown = CustomOption.Create(4042, Types.Crewmate, "Revealer Cooldown", 31f, 2f, 69f, 2f, revealerSpawnRate);
+            revealerShowNeutral = CustomOption.Create(4043, Types.Crewmate, "Show Neutral", true, revealerSpawnRate);
 
             mafiaSpawnRate = CustomOption.Create(18, Types.Impostor, cs(Janitor.color, "Mafia"), rates, null, true);
             janitorCooldown = CustomOption.Create(19, Types.Impostor, "Janitor Cooldown", 30f, 10f, 60f, 2.5f, mafiaSpawnRate);

@@ -440,7 +440,7 @@ namespace TheOtherRoles
                 hauntDuration = CustomOptionHolder.haunterHauntDuration.getFloat();
                 hauntCooldown = CustomOptionHolder.haunterHauntCooldown.getFloat();
                 killCD = CustomOptionHolder.haunterKillCooldown.getFloat();
-                peopleCanSeeHaunterOnAdmin = CustomOptionHolder.adminSeeHaunter.getBool();
+                peopleCanSeeHaunterOnAdmin = true;
             }
 
         }

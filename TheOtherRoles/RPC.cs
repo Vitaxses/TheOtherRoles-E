@@ -120,6 +120,7 @@ namespace TheOtherRoles
         ShareGamemode,
         StopStart,
         SetHost,
+        SetRoleTeam,
 
         // Role functionality
         BefrienderWin,
@@ -258,6 +259,38 @@ namespace TheOtherRoles
                 UnityTelemetry._instance.amHost = true;
             } else {
                 UnityTelemetry.Instance.amHost = false;
+            }
+        }
+
+        public static void setRoleTeam(byte roleTeam, byte playerId) {
+            PlayerControl p = GameData.Instance.GetPlayerById(playerId).Object;
+            if (p != null) {
+                switch (roleTeam) {
+                    case (byte)RoleTypes.Impostor:
+                        p.Data.RoleType = RoleTypes.Impostor;
+                        break;
+                    case (byte)RoleTypes.Crewmate:
+                        p.Data.RoleType = RoleTypes.Crewmate;
+                        break;
+                    case (byte)RoleTypes.Engineer:
+                        p.Data.RoleType = RoleTypes.Engineer;
+                        break;
+                    case (byte)RoleTypes.Scientist:
+                        p.Data.RoleType = RoleTypes.Scientist;
+                        break;
+                    case (byte)RoleTypes.CrewmateGhost:
+                        p.Data.RoleType = RoleTypes.CrewmateGhost;
+                        break;
+                    case (byte)RoleTypes.Shapeshifter:
+                        p.Data.RoleType = RoleTypes.Shapeshifter;
+                        break;
+                    case (byte)RoleTypes.ImpostorGhost:
+                        p.Data.RoleType = RoleTypes.ImpostorGhost;
+                        break;
+                    case (byte)RoleTypes.GuardianAngel:
+                        p.Data.RoleType = RoleTypes.GuardianAngel;
+                        break;
+                }
             }
         }
 
@@ -1686,6 +1719,11 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.SetHost:
                     RPCProcedure.setHost(reader.ReadByte());
+                    break;
+                case (byte)CustomRPC.SetRoleTeam:
+                    byte roleteam = reader.ReadByte();
+                    byte PI = reader.ReadByte();
+                    RPCProcedure.setRoleTeam(roleteam, PI);
                     break;
 
                 // Game mode
