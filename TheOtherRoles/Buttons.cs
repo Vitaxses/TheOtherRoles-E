@@ -357,6 +357,7 @@ namespace TheOtherRoles
                             }
                         }
                     }
+                    revealerRevealButton.Timer = revealerRevealButton.MaxTimer;
                     Revealer.target = null;
                 },
                 () => { return Revealer.player != null && Revealer.player == CachedPlayer.LocalPlayer.PlayerControl; },

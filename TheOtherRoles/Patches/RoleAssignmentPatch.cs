@@ -579,6 +579,7 @@ namespace TheOtherRoles.Patches {
 
             List<PlayerControl> crewPlayer = new List<PlayerControl>(playerList);
             List<PlayerControl> impPlayer = new List<PlayerControl>(playerList);
+            impPlayer.RemoveAll(x => !x.Data.Role.IsImpostor || RoleInfo.getRoleInfoForPlayer(x).Any(r => r.isNeutral));
             crewPlayer.RemoveAll(x => x.Data.Role.IsImpostor || RoleInfo.getRoleInfoForPlayer(x).Any(r => r.isNeutral));
             if (modifiers.Contains(RoleId.Shifter)) {
                 var crewPlayerShifter = new List<PlayerControl>(crewPlayer);
