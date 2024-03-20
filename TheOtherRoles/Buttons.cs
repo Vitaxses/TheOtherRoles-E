@@ -602,12 +602,10 @@ namespace TheOtherRoles
             () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl; },
             () => { return Teleporter.teleporter != null; },
             () => { Teleporter.loc = new Vector3(0, 0, 0); },
-            Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f,() => {},false,"setLocation");
+            Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "setLocation");
 
             sniperSnipeButton = new CustomButton(() => {
-            //if (Helpers.checkMurderAttemptAndKill(Sniper.sniper, Sniper.currentTarget) == MurderAttemptResult.SuppressKill) return;
-
-                Helpers.MurderPlayer(Sniper.sniper, Sniper.currentTarget, false);
+                if (Helpers.checkMurderAttemptAndKill(Sniper.sniper, Sniper.currentTarget) == MurderAttemptResult.SuppressKill) return;
 
                 sniperSnipeButton.Timer = sniperSnipeButton.MaxTimer; 
                 Sniper.currentTarget = null;
@@ -702,11 +700,11 @@ namespace TheOtherRoles
                     Recruiter.currentTarget.ClearTasks();
                     Recruiter.currentTarget.clearCustomRole();
                     Recruiter.FutureRecruited = Recruiter.currentTarget;
-                    Recruiter.FutureRecruited.Data.Role.TeamType = RoleTeamTypes.Impostor;
                     RPCProcedure.setRole((byte)RoleId.Impostor, Recruiter.currentTarget.PlayerId);
                     SoundEffectsManager.play("shifterShift");
                     Recruiter.FutureRecruited.cosmetics.nameText.color = Palette.ImpostorRed;
                     RoleManager.Instance.SetRole(Recruiter.FutureRecruited, AmongUs.GameOptions.RoleTypes.Impostor);
+                    Recruiter.FutureRecruited.Data.Role.TeamType = RoleTeamTypes.Impostor;
                 },
                 () => { return Recruiter.recruiter != null && Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl) && Recruiter.FutureRecruited == null && !CachedPlayer.LocalPlayer.Data.IsDead; },
                 () => { return Recruiter.currentTarget && Recruiter.FutureRecruited == null && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },

@@ -5,6 +5,7 @@ using HarmonyLib;
 using Hazel;
 using TheOtherRoles.Players;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 using static TheOtherRoles.TheOtherRoles;
 
 namespace TheOtherRoles.Patches;
@@ -120,16 +121,13 @@ public class RolePatches {
             if (__instance.currentTarget != null) {
                 PlayerControl current = __instance.currentTarget;
                 if (Sacrificer.sacrificer != null && Sacrificer.target != null && current == Sacrificer.target) {
-                    PlayerControl target = Sacrificer.target;
-                    PlayerControl sacraficer = Sacrificer.sacrificer;
+                    PlayerControl sacrificer = Sacrificer.sacrificer;
                     __instance.SetDisabled();
-                    target.ShowFailedMurder();
-                    Helpers.showFlash(Color.red, 2f, "Sacraficer Saved You");
-                    if (sacraficer != CachedPlayer.LocalPlayer.PlayerControl) {
-                        sacraficer.MurderPlayer(me);
+                    if (sacrificer != CachedPlayer.LocalPlayer.PlayerControl) {
+                        Helpers.MurderPlayer(sacrificer, me);
                     }
-                    Helpers.checkMurderAttemptAndKill(sacraficer, me, false, false, true, true);
-                    Helpers.checkMurderAttemptAndKill(sacraficer, sacraficer, false, false, true, true);
+                    Helpers.checkMurderAttemptAndKill(sacrificer, me, false, false, true, true);
+                    Helpers.checkMurderAttemptAndKill(sacrificer, sacrificer, false, false, true, true);
                 }
             }
         }
@@ -214,6 +212,9 @@ public class RolePatches {
 
         public static void PostFix(PlayerControl __instance) {
             if (Betrayer.betrayer != null && Betrayer.hasBetrayedYet) {
+                if (Betrayer.betrayer != __instance) {
+                if (!Betrayer.betrayer.Data.Role.IsImpostor) RoleManager.Instance.SetRole(Betrayer.betrayer, AmongUs.GameOptions.RoleTypes.Impostor);
+                }
                 if (__instance.Data.Role.IsImpostor && __instance == CachedPlayer.LocalPlayer.PlayerControl) {
                     Betrayer.betrayer.cosmetics.nameText.color = Palette.ImpostorRed;
                     Betrayer.betrayer.cosmetics.nameText.text = Betrayer.betrayer.cosmetics.nameText.text + Helpers.cs(Betrayer.color, " (B)");
@@ -221,19 +222,21 @@ public class RolePatches {
             }
 
 
-            if (__instance == Betrayer.betrayer && __instance == CachedPlayer.LocalPlayer.PlayerControl && !Betrayer.hasBetrayedYet) {
+            if (Betrayer.betrayer != null && !Betrayer.hasBetrayedYet) {
                 if (Betrayer.betrayer.AllTasksCompleted()) {
                     Betrayer.hasBetrayedYet = true;
                     RoleManager.Instance.SetRole(Betrayer.betrayer, AmongUs.GameOptions.RoleTypes.Impostor);
+                    if ( __instance == CachedPlayer.LocalPlayer.PlayerControl && __instance == Betrayer.betrayer ) {
+                        Betrayer.betrayer.ClearTasks();
+                        HudManager.Instance.ImpostorVentButton.Show();
+                        HudManager.Instance.ImpostorVentButton.SetEnabled();
 
-                    HudManager.Instance.ImpostorVentButton.Show();
-                    HudManager.Instance.ImpostorVentButton.SetEnabled();
+                        HudManager.Instance.KillButton.Show();
+                        HudManager.Instance.KillButton.SetEnabled();
 
-                    HudManager.Instance.KillButton.Show();
-                    HudManager.Instance.KillButton.SetEnabled();
-
-                    HudManager.Instance.SabotageButton.Show();
-                    HudManager.Instance.SabotageButton.SetEnabled();
+                        HudManager.Instance.SabotageButton.Show();
+                        HudManager.Instance.SabotageButton.SetEnabled();
+                    }
                 }
             }
         }

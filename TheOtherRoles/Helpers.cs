@@ -435,6 +435,7 @@ namespace TheOtherRoles {
 
         public static MurderAttemptResult checkMuderAttempt(PlayerControl killer, PlayerControl target, bool blockRewind = false, bool ignoreBlank = false, bool ignoreIfKillerIsDead = false) {
             var targetRole = RoleInfo.getRoleInfoForPlayer(target, false).FirstOrDefault();
+            var killerRole = RoleInfo.getRoleInfoForPlayer(killer, false).FirstOrDefault();
 
             // Modified vanilla checks
             if (AmongUsClient.Instance.IsGameOver) return MurderAttemptResult.SuppressKill;
@@ -449,12 +450,9 @@ namespace TheOtherRoles {
             // Handle Sacrificer kill attempt
             if (target == Sacrificer.target) {
                 MurderPlayer(Sacrificer.sacrificer, killer, false);
-                MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer);
-                target.ShowFailedMurder();
+                MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer, true);
                 return MurderAttemptResult.SuppressKill;
             }
-
-
 
             // Handle blank shot
             if (!ignoreBlank && Pursuer.blankedList.Any(x => x.PlayerId == killer.PlayerId)) {

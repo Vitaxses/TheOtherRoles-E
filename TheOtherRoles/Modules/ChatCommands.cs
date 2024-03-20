@@ -75,8 +75,6 @@ namespace TheOtherRoles.Modules {
                                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                                     RPCProcedure.setHost(players.PlayerControl.PlayerId);
-
-                                    AmongUsClient.Instance.HostId = players.PlayerId;
                                 }
                             }
                         } else {
