@@ -637,14 +637,16 @@ namespace TheOtherRoles
                     players.RemoveAll(x => x.inMovingPlat);
                     if (!Ghost.canTeleportToPeopleInVents) { players.RemoveAll(x => x.inVent); }
                     if (!Ghost.canTeleportToPeopleWithCooldownFor0Sec) {
-                        players.RemoveAll(x => !(x.killTimer > 0f));  
-                            if (Haunter.haunter != null && players.Contains(Haunter.haunter)) {
-                                if (haunterHauntButton.Timer > 0) {players.Remove(Haunter.haunter);}
-                            }
-                            if (OneTimeKiller.player != null && players.Contains(OneTimeKiller.player)) {
-                                if (modifier1TimeKiller.Timer > 0) {players.Remove(OneTimeKiller.player);}
-                            }
+                        foreach (PlayerControl p in players) {
+                            if (Helpers.isKiller(p)) {players.RemoveAll(x => x.killTimer > 0);}
                         }
+                        if (Haunter.haunter != null && players.Contains(Haunter.haunter)) {
+                            if (haunterHauntButton.Timer > 0) {players.Remove(Haunter.haunter);}
+                        }
+                        if (OneTimeKiller.player != null && players.Contains(OneTimeKiller.player)) {
+                            if (modifier1TimeKiller.Timer > 0) {players.Remove(OneTimeKiller.player);}
+                        }
+                    }
 
 
 

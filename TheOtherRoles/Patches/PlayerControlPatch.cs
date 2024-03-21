@@ -679,7 +679,7 @@ namespace TheOtherRoles.Patches {
         static void snitchUpdate() {
             if (Snitch.snitch == null) return;
             if (!Snitch.needsUpdate) return;
-
+            
             bool snitchIsDead = Snitch.snitch.Data.IsDead;
             var (playerCompleted, playerTotal) = TasksHandler.taskInfo(Snitch.snitch.Data);
 
@@ -707,6 +707,71 @@ namespace TheOtherRoles.Patches {
                 return;
             }
             if (numberOfTasks <= Snitch.taskCountForReveal) Snitch.isRevealed = true;
+        }
+
+        static void snitchArrowUpdate() {
+            if (Snitch.snitch == null) return;
+
+            int impCount = Snitch.setAmountOfImps();
+            if (Snitch.isRevealed) {
+                if (Snitch.snitch == null || Snitch.snitch != CachedPlayer.LocalPlayer.PlayerControl || Snitch.mode != Snitch.Mode.Arrow) {return;}
+                if (!CachedPlayer.LocalPlayer.Data.IsDead) {
+                    Arrow impArrow1 = Snitch.impArrow1;
+                    Arrow impArrow2 = Snitch.impArrow2;
+                    Arrow impArrow3 = Snitch.impArrow3;
+                    if (impCount == 3) {
+                        PlayerControl imp3 = Snitch.getImp(3);
+                        if (imp3 == null) return;
+                        impArrow3.Update(imp3.transform.position, Palette.ImpostorRed);
+                    } 
+                    if (impCount == 2) {
+                        if (impArrow3?.arrow != null) UnityEngine.Object.Destroy(impArrow3.arrow);
+                        if (impArrow3.arrow != null) impArrow3.arrow.SetActive(false);
+
+                        PlayerControl imp2 = Snitch.getImp(2);
+                        if (imp2 == null) return;
+                        impArrow2.Update(imp2.transform.position, Palette.ImpostorRed);
+
+                    } 
+                    if (impCount == 1) {
+                        if (impArrow2?.arrow != null) UnityEngine.Object.Destroy(impArrow2.arrow);
+                        if (impArrow2.arrow != null) impArrow2.arrow.SetActive(false);
+                        if (impArrow3?.arrow != null) UnityEngine.Object.Destroy(impArrow3.arrow);
+                        if (impArrow3.arrow != null) impArrow3.arrow.SetActive(false);
+
+                        PlayerControl imp1 = Snitch.getImp(1);
+                        if (imp1 == null) return;
+                        impArrow1.Update(imp1.transform.position, Palette.ImpostorRed);
+                    }
+                } else {
+                    foreach (Arrow arrow in Snitch.allArrows) {
+                        arrow.arrow.SetActive(false);
+                        break;
+                    }
+
+                    var (playerCompleted, playerTotal) = TasksHandler.taskInfo(Snitch.snitch.Data);
+
+                    if (playerTotal == 0) return;
+                    PlayerControl local = CachedPlayer.LocalPlayer.PlayerControl;
+
+                    int numberOfTasks = playerTotal - playerCompleted;
+
+                    var taskinfos = Snitch.snitch.Data.Tasks.ToArray();
+
+                    var tasksLeft = taskinfos.Count(x => !x.Complete);
+
+                    if (Snitch.ImpostorsGetNotifiedWhen1TaskLeft) {
+                        if (numberOfTasks + 1 == Snitch.taskCountForReveal) {
+                            // is 1 task left!
+                            if (Snitch.snitch != CachedPlayer.LocalPlayer.PlayerControl && (CachedPlayer.LocalPlayer.PlayerControl.Data.IsDead || CachedPlayer.LocalPlayer.PlayerControl.Data.Role.IsImpostor)) {
+                                Snitch.arrowPointingToSnitch.arrow.SetActive(true);
+                                Snitch.arrowPointingToSnitch.Update(Snitch.snitch.transform.position, Snitch.color);
+                                Snitch.snitch.cosmetics.nameText.text = Helpers.cs(Snitch.color, "Snitch") + "\n" + Helpers.cs(new Color32(80, 65, 60, byte.MaxValue), Snitch.snitch.Data.PlayerName);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         static void bountyHunterUpdate() {
@@ -1145,6 +1210,7 @@ namespace TheOtherRoles.Patches {
                 arsonistSetTarget();
                 // Snitch
                 snitchUpdate();
+                snitchArrowUpdate();
                 // BountyHunter
                 bountyHunterUpdate();
                 // Vulture

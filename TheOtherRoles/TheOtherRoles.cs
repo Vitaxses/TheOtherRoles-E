@@ -10,6 +10,9 @@ using TheOtherRoles.CustomGameModes;
 using static TheOtherRoles.TheOtherRoles;
 using AmongUs.Data;
 using Hazel;
+using Reactor.Utilities.Extensions;
+using TheOtherRoles;
+using Sentry.Unity.NativeUtils;
 
 namespace TheOtherRoles
 {
@@ -1294,10 +1297,18 @@ namespace TheOtherRoles
     public static class Snitch {
         public static PlayerControl snitch;
         public static Color color = new Color32(184, 251, 79, byte.MaxValue);
+
+        public static Arrow impArrow1 = new Arrow(Palette.ImpostorRed);
+        public static Arrow impArrow2 = new Arrow(Palette.ImpostorRed);
+        public static Arrow impArrow3 = new Arrow(Palette.ImpostorRed);
+        public static List<Arrow> allArrows = new();
+        public static int amountOfImps = 1;
+
         public enum Mode {
             Chat = 0,
             Map = 1,
-            ChatAndMap = 2
+            ChatAndMap = 2,
+            Arrow = 3
         }
         public enum Targets {
             EvilPlayers = 0,
@@ -1312,18 +1323,128 @@ namespace TheOtherRoles
         public static Dictionary<byte, byte> playerRoomMap = new Dictionary<byte, byte>();
         public static TMPro.TextMeshPro text = null;
         public static bool needsUpdate = true;
+        public static bool ImpostorsGetNotifiedWhen1TaskLeft = true;
+        public static Arrow arrowPointingToSnitch = new Arrow(Color.yellow);
 
         public static void clearAndReload() {
+            ImpostorsGetNotifiedWhen1TaskLeft = CustomOptionHolder.snitchImpostorGetsNotified.getBool();
+            amountOfImps = GameOptionsManager.Instance.CurrentGameOptions.NumImpostors;
             taskCountForReveal = Mathf.RoundToInt(CustomOptionHolder.snitchLeftTasksForReveal.getFloat());
             snitch = null;
             isRevealed = false;
+            imp1 = null;
+            imp2 = null;
+            imp3 = null;
             playerRoomMap = new Dictionary<byte, byte>();
             if (text != null) UnityEngine.Object.Destroy(text);
             text = null;
             needsUpdate = true;
             mode = (Mode) CustomOptionHolder.snitchMode.getSelection();
             targets = (Targets) CustomOptionHolder.snitchTargets.getSelection();
+
+            if (arrowPointingToSnitch?.arrow != null) UnityEngine.Object.Destroy(arrowPointingToSnitch.arrow);
+            if (arrowPointingToSnitch.arrow != null) arrowPointingToSnitch.arrow.SetActive(false);
+
+            if (impArrow1?.arrow != null) UnityEngine.Object.Destroy(impArrow1.arrow);
+            if (impArrow1.arrow != null) impArrow1.arrow.SetActive(false);
+
+            if (impArrow2?.arrow != null) UnityEngine.Object.Destroy(impArrow2.arrow);
+            if (impArrow2.arrow != null) impArrow2.arrow.SetActive(false);
+
+            if (impArrow3?.arrow != null) UnityEngine.Object.Destroy(impArrow3.arrow);
+            if (impArrow3.arrow != null) impArrow3.arrow.SetActive(false);
+            allArrows = [impArrow1, impArrow2, impArrow3];
         }
+
+        public static int setAmountOfImps() {
+            amountOfImps = GameOptionsManager.Instance.CurrentGameOptions.NumImpostors;
+            return amountOfImps;
+        }
+
+
+        public static PlayerControl imp1 = null;
+        public static PlayerControl imp2 = null;
+        public static PlayerControl imp3 = null;
+
+        public static PlayerControl getImp(int imp) {
+            PlayerControl imp1 = null;
+            byte playerId1 = new byte();
+            bool playerId1hasBeenAssigned = false;
+
+            PlayerControl imp2 = null;
+            byte playerId2 = new byte();
+            bool playerId2hasBeenAssigned = false;
+
+            PlayerControl imp3 = null;
+            byte playerId3 = new byte();
+            bool playerId3hasBeenAssigned = false;
+
+            if (imp == 1 && setAmountOfImps() == 1) {
+
+                if (Snitch.imp1 != null) {
+                    return Snitch.imp1;
+                }
+
+                foreach (PlayerControl all in PlayerControl.AllPlayerControls) {
+                    if (!all.Data.IsDead && all.Data.Role.IsImpostor) {
+                        if (!playerId1hasBeenAssigned) {
+                            playerId1 = all.PlayerId;
+                            playerId1hasBeenAssigned = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (playerId1hasBeenAssigned) {
+                    Snitch.imp1 = imp1;
+                    return GameData.Instance.GetPlayerById(playerId1).Object;
+                }
+            }
+            if (imp == 2 && setAmountOfImps() == 2) {
+                
+                if (Snitch.imp2 != null) {
+                    return Snitch.imp2;
+                }
+
+                foreach (PlayerControl all in PlayerControl.AllPlayerControls) {
+                    if (!all.Data.IsDead && all.Data.Role.IsImpostor) {
+                        if (!playerId2hasBeenAssigned) {
+                            playerId2 = all.PlayerId;
+                            playerId2hasBeenAssigned = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (playerId2hasBeenAssigned) {
+                    Snitch.imp2 = imp2;
+                    return GameData.Instance.GetPlayerById(playerId2).Object;
+                }
+            }
+            if (imp == 3 && setAmountOfImps() == 3) {
+                
+                if (Snitch.imp3 != null) {
+                    return Snitch.imp3;
+                }
+
+                foreach (PlayerControl all in PlayerControl.AllPlayerControls) {
+                    if (!all.Data.IsDead && all.Data.Role.IsImpostor) {
+                        if (!playerId3hasBeenAssigned) {
+                            playerId3 = all.PlayerId;
+                            playerId3hasBeenAssigned = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (playerId3hasBeenAssigned) {
+                    Snitch.imp3 = imp3;
+                    return GameData.Instance.GetPlayerById(playerId3).Object;
+                }
+            }
+            return null;
+        }
+
     }
 
     public static class Jackal {

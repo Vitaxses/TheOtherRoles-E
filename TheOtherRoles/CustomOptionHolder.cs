@@ -270,6 +270,7 @@ namespace TheOtherRoles {
         public static CustomOption snitchLeftTasksForReveal;
         public static CustomOption snitchMode;
         public static CustomOption snitchTargets;
+        public static CustomOption snitchImpostorGetsNotified;
 
         public static CustomOption spySpawnRate;
         public static CustomOption spyCanDieToSheriff;
@@ -761,8 +762,9 @@ namespace TheOtherRoles {
                            
             snitchSpawnRate = CustomOption.Create(210, Types.Crewmate, cs(Snitch.color, "Snitch"), rates, null, true);
             snitchLeftTasksForReveal = CustomOption.Create(219, Types.Crewmate, "Task Count Where The Snitch Will Be Revealed", 5f, 0f, 25f, 1f, snitchSpawnRate);
-            snitchMode = CustomOption.Create(211, Types.Crewmate, "Information Mode", new string[] { "Chat", "Map", "Chat & Map" }, snitchSpawnRate);
+            snitchMode = CustomOption.Create(211, Types.Crewmate, "Information Mode", new string[] { "Chat", "Map", "Chat & Map", "Arrow"}, snitchSpawnRate);
             snitchTargets = CustomOption.Create(212, Types.Crewmate, "Targets", new string[] { "All Evil Players", "Killing Players" }, snitchSpawnRate);
+            snitchImpostorGetsNotified = CustomOption.Create(213, Types.Crewmate, "Impostors get notified when snitch has 1 task left", true, snitchSpawnRate);
 
             spySpawnRate = CustomOption.Create(240, Types.Crewmate, cs(Spy.color, "Spy"), rates, null, true);
             spyCanDieToSheriff = CustomOption.Create(241, Types.Crewmate, "Spy Can Die To Sheriff", false, spySpawnRate);
