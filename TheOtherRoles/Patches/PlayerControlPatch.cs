@@ -1304,7 +1304,7 @@ namespace TheOtherRoles.Patches {
             if (Sacrificer.target != null && Sacrificer.target == target) {
                 Helpers.MurderPlayer(Sacrificer.sacrificer, __instance, false);
                 resetToDead = true;
-                Helpers.MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer, true);
+                Sacrificer.sacrificer.MurderPlayer(Sacrificer.sacrificer, MurderResultFlags.Succeeded);
             }
         }
 

@@ -26,8 +26,7 @@ namespace TheOtherRoles
             //Tasker.clearAndReload();
             Teleporter.clearAndReload();
             Sniper.clearAndReload();
-            //EvilTrapper.clearAndReload();
-            Traitor.clearAndReload();
+            EvilTrapper.clearAndReload();
             
             Befriender.clearAndReload();
             Haunter.clearAndReload();
@@ -119,7 +118,7 @@ namespace TheOtherRoles
             public static Sprite revealSprite = null;
             public static Sprite getRevealSprite() {
                 if (revealSprite) return revealSprite;
-                revealSprite = Helpers.loadSpriteFromResources("TheOtherRoles.BetaButton.png", 115);
+                revealSprite = Helpers.loadSpriteFromResources("TheOtherRoles.RevealerReveals.png", 115);
                 return revealSprite;
             }
 
@@ -132,8 +131,6 @@ namespace TheOtherRoles
             }
 
         }
-
-
         public static class Whisper {
             public static PlayerControl player;
             public static Color color = new Color32(115, 180, 160, byte.MaxValue);
@@ -161,7 +158,6 @@ namespace TheOtherRoles
                 duration = CustomOptionHolder.whisperDuration.getFloat();
             }
         }
-
         public static class Befriender {
             // has a button like the arsonist but when "doused" everyone and press befriend everyone wins (I MEAN EVERYONE!)
             public static PlayerControl befriender;
@@ -178,14 +174,14 @@ namespace TheOtherRoles
             private static Sprite douseSprite;
             public static Sprite getDouseSprite() {
                 if (douseSprite) return douseSprite;
-                douseSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.DouseButton.png", 115f);
+                douseSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.befriend.png", 115f);
                 return douseSprite;
             }
 
             private static Sprite igniteSprite;
             public static Sprite getIgniteSprite() {
                 if (igniteSprite) return igniteSprite;
-                igniteSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.IgniteButton.png", 115f);
+                igniteSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BefriendEveryone.png", 115f);
                 return igniteSprite;
             }
 
@@ -215,6 +211,12 @@ namespace TheOtherRoles
             public static List<DeadBody> trappedBodys = new();
             public static DeadBody currentSelectedBody;
             public static bool hasSelectedBody = false;
+            public static Sprite trapSprite = null;
+            public static Sprite getTrapSprite() {
+                if (trapSprite) return trapSprite;
+                trapSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.EvilTrap.png", 115);
+                return trapSprite;
+            }
 
             public static float maxCountOfTrappedBodys = 4f;
 
@@ -285,15 +287,6 @@ namespace TheOtherRoles
                 hasKilled = false;
             }
         }
-        public static class Traitor {
-            public static PlayerControl traitor;
-
-            public static void clearAndReload() {
-                traitor = null;
-            }
-
-        }
-
         public static class Teleporter {
             public static PlayerControl teleporter;
 
@@ -317,13 +310,13 @@ namespace TheOtherRoles
             
             public static Sprite getTpSprite() {
                 if (tpSprite) return tpSprite;
-                tpSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
+                tpSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Teleport.png", 115);
                 return tpSprite;
             }
         
             public static Sprite getPlaceSprite() {
                 if (placeSprite) return placeSprite;
-                placeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
+                placeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.MarkTpLoc.png", 115);
                 return placeSprite;
             }
 
@@ -333,7 +326,6 @@ namespace TheOtherRoles
                 Cooldown = CustomOptionHolder.teleporterCooldown.getFloat();
             }
         }
-
         public static class Sacrificer {
             public static PlayerControl sacrificer;
 
@@ -346,7 +338,7 @@ namespace TheOtherRoles
 
             public static Sprite getSelectSprite() {
                 if (selectSprite) return selectSprite;
-                selectSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
+                selectSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Protect.png", 115);
                 return selectSprite;
             }
 
@@ -356,7 +348,6 @@ namespace TheOtherRoles
                 target = null;
             }
         }
-
         public static class Sniper {
             public static PlayerControl sniper;
 
@@ -368,7 +359,7 @@ namespace TheOtherRoles
 
             public static Sprite getSnipeSprite() {
                 if (SnipeSprite) return SnipeSprite;
-                SnipeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
+                SnipeSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Snipe.png", 115);
                 return SnipeSprite;
             }
 
@@ -380,7 +371,6 @@ namespace TheOtherRoles
                 SnipeCD = CustomOptionHolder.sniperSnipeCD.getFloat();
             }
         }
-
         public static class Ghost {
             public static PlayerControl ghost;
 
@@ -396,7 +386,7 @@ namespace TheOtherRoles
 
             public static Sprite getTeleportSprite() {
                 if (TeleportSprite) return TeleportSprite;
-                TeleportSprite =  Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 115);
+                TeleportSprite =  Helpers.loadSpriteFromResources("TheOtherRoles.Resources.GhostTp.png", 115);
                 return TeleportSprite;
             }
 
@@ -409,7 +399,6 @@ namespace TheOtherRoles
             }
 
         }
-
         public static class Haunter {
 
             public static PlayerControl haunter;
@@ -431,7 +420,7 @@ namespace TheOtherRoles
 
             public static Sprite getHauntSprite() {
                 if (hauntSprite) return hauntSprite;
-                hauntSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 100);
+                hauntSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Haunt.png", 115);
                 return hauntSprite;
             }
 
@@ -447,7 +436,6 @@ namespace TheOtherRoles
             }
 
         }
-
         public static class Recruiter {
             public static List<PlayerControl> recruiter = new List<PlayerControl>();
 
@@ -460,7 +448,7 @@ namespace TheOtherRoles
 
             public static Sprite getRecruitSprite() {
                 if (recruitSprite) return recruitSprite;
-                recruitSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.TargetIcon.png", 100);
+                recruitSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Recruit.png", 100);
                 return recruitSprite;
             }
 
@@ -502,7 +490,6 @@ namespace TheOtherRoles
             }
 
         }*/
-
         public static class Swooper {
 
             public static PlayerControl swooper;
@@ -521,7 +508,7 @@ namespace TheOtherRoles
 
             public static Sprite getSwoopSprite() {
                 if (swoopSprite) return swoopSprite;
-                swoopSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BetaButton.png", 80);
+                swoopSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Swoop.png", 80);
                 return swoopSprite;
             }
 

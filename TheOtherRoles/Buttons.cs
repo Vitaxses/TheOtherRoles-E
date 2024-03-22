@@ -539,7 +539,7 @@ namespace TheOtherRoles
                     () => { return EvilTrapper.player && EvilTrapper.player == CachedPlayer.LocalPlayer.PlayerControl && !EvilTrapper.hasSelectedBody; },
                     () => { return __instance.ReportButton.graphic.color == Palette.EnabledColor && !EvilTrapper.hasSelectedBody && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
                     () => {EvilTrapper.trappedBodys.Clear(); EvilTrapper.hasSelectedBody = false; EvilTrapper.currentSelectedBody = null; },
-                    __instance.ReportButton.graphic.sprite,
+                    EvilTrapper.getTrapSprite(),
                     CustomButton.ButtonPositions.upperRowLeft,
                     __instance,
                     null,
