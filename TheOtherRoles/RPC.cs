@@ -508,7 +508,7 @@ namespace TheOtherRoles
             PlayerControl player = Helpers.playerById(playerId); 
             switch ((RoleId)modifierId) {
                 case RoleId.Recruiter:
-                    Recruiter.recruiter.Add(player);
+                    Recruiter.recruiter = player;
                     break;
                 case RoleId.Giant:
                     Giant.giant.Add(player);

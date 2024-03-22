@@ -437,7 +437,7 @@ namespace TheOtherRoles
 
         }
         public static class Recruiter {
-            public static List<PlayerControl> recruiter = new List<PlayerControl>();
+            public static PlayerControl recruiter = null;
 
             public static Color color = new Color32(150, 0, 0, byte.MaxValue);
 
@@ -455,7 +455,7 @@ namespace TheOtherRoles
             public static void clearAndReload() {
                 currentTarget = null;
                 FutureRecruited = null;
-                recruiter = new List<PlayerControl>();
+                recruiter = null;
                 recruitSprite = null;
             }
 

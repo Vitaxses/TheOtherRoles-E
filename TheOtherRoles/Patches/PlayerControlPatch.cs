@@ -108,7 +108,7 @@ namespace TheOtherRoles.Patches {
             }
 
         static void recruiterSetTarget() {
-            if (Recruiter.recruiter == null || !Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl)) return;
+            if (Recruiter.recruiter == null || Recruiter.recruiter != CachedPlayer.LocalPlayer.PlayerControl) return;
             Recruiter.currentTarget = setTarget();
             if (Recruiter.FutureRecruited == null) setPlayerOutline(Recruiter.currentTarget, Recruiter.color);
         }
