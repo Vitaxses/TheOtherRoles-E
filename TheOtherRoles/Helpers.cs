@@ -433,7 +433,7 @@ namespace TheOtherRoles {
             return roleCouldUse;
         }
 
-        public static MurderAttemptResult checkMuderAttempt(PlayerControl killer, PlayerControl target, bool blockRewind = false, bool ignoreBlank = false, bool ignoreIfKillerIsDead = false) {
+        public static MurderAttemptResult checkMurderAttempt(PlayerControl killer, PlayerControl target, bool blockRewind = false, bool ignoreBlank = false, bool ignoreIfKillerIsDead = false) {
             var targetRole = RoleInfo.getRoleInfoForPlayer(target, false).FirstOrDefault();
             var killerRole = RoleInfo.getRoleInfoForPlayer(killer, false).FirstOrDefault();
 
@@ -448,9 +448,9 @@ namespace TheOtherRoles {
 
 
             // Handle Sacrificer kill attempt
-            if (target == Sacrificer.target) {
-                MurderPlayer(Sacrificer.sacrificer, killer, false);
-                MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer, true);
+            if (Sacrificer.target != null && target == Sacrificer.target) {
+                checkMurderAttemptAndKill(Sacrificer.sacrificer, killer, false);
+                checkMurderAttemptAndKill(Sacrificer.sacrificer, Sacrificer.sacrificer, true);
                 return MurderAttemptResult.SuppressKill;
             }
 
@@ -523,7 +523,7 @@ namespace TheOtherRoles {
         public static MurderAttemptResult checkMurderAttemptAndKill(PlayerControl killer, PlayerControl target, bool isMeetingStart = false, bool showAnimation = true, bool ignoreBlank = false, bool ignoreIfKillerIsDead = false)  {
             // The local player checks for the validity of the kill and performs it afterwards (different to vanilla, where the host performs all the checks)
             // The kill attempt will be shared using a custom RPC, hence combining modded and unmodded versions is impossible
-            MurderAttemptResult murder = checkMuderAttempt(killer, target, isMeetingStart, ignoreBlank, ignoreIfKillerIsDead);
+            MurderAttemptResult murder = checkMurderAttempt(killer, target, isMeetingStart, ignoreBlank, ignoreIfKillerIsDead);
 
             if (murder == MurderAttemptResult.PerformKill) {
                 MurderPlayer(killer, target, showAnimation);

@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using AmongUs.GameOptions;
 using Cpp2IL.Core.Utils;
 using HarmonyLib;
 using Hazel;
@@ -76,7 +78,6 @@ public class RolePatches {
                 PlayerControl me = CachedPlayer.LocalPlayer.PlayerControl;
                 if (EvilTrapper.player != null && EvilTrapper.player != me) {
                     Helpers.MurderPlayer(EvilTrapper.player, me, false);
-                    __instance.SetCoolDown(0.69f, 1);
 
                     if (EvilTrapper.trappedBodys.Count < EvilTrapper.maxCountOfTrappedBodys) {
 
@@ -209,23 +210,42 @@ public class RolePatches {
                     }
             }
         }
+    }
 
-        public static void PostFix(PlayerControl __instance) {
-            if (Betrayer.betrayer != null && Betrayer.hasBetrayedYet) {
-                if (Betrayer.betrayer != __instance) {
-                if (!Betrayer.betrayer.Data.Role.IsImpostor) RoleManager.Instance.SetRole(Betrayer.betrayer, AmongUs.GameOptions.RoleTypes.Impostor);
-                }
-                if (__instance.Data.Role.IsImpostor && __instance == CachedPlayer.LocalPlayer.PlayerControl) {
-                    Betrayer.betrayer.cosmetics.nameText.color = Palette.ImpostorRed;
-                    Betrayer.betrayer.cosmetics.nameText.text = Betrayer.betrayer.cosmetics.nameText.text + Helpers.cs(Betrayer.color, " (B)");
-                }
-            }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
+    public class completetaskpatch {
+
+        public static void Postfix(PlayerControl __instance) {
+            if (__instance != Betrayer.betrayer) return;
+            
+
+            var taskInfo = __instance.Data.Tasks.ToArray();
+            var tasks = taskInfo.Count(x => !x.Complete);
+
+            if (tasks == 0 && !Betrayer.hasBetrayedYet) {
+                if (!Betrayer.betrayer.Data.Role.IsImpostor) {
+
+                    MessageWriter boolWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.setBetrayerHasBetrayed, SendOption.Reliable, -1);
+                    boolWriter.Write(byte.MaxValue);
+                    AmongUsClient.Instance.FinishRpcImmediately(boolWriter);
+                    RPCProcedure.setBetrayerHasBetrayed(byte.MaxValue);
+
+                    
+                    RoleManager.Instance.SetRole(Betrayer.betrayer, RoleTypes.Impostor);
+
+                    MessageWriter writer1 = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, SendOption.Reliable, -1);
+                    writer1.Write((byte)RoleId.Impostor);
+                    writer1.Write(Betrayer.betrayer.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer1);
+                    RPCProcedure.setRole((byte)RoleId.Impostor, Betrayer.betrayer.PlayerId);
+
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRoleTeam, SendOption.Reliable, -1);
+                    writer.Write((byte)RoleTypes.Impostor);
+                    writer.Write(Betrayer.betrayer.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPCProcedure.setRoleTeam((byte)RoleTypes.Impostor, Betrayer.betrayer.PlayerId);
 
 
-            if (Betrayer.betrayer != null && !Betrayer.hasBetrayedYet) {
-                if (Betrayer.betrayer.AllTasksCompleted()) {
-                    Betrayer.hasBetrayedYet = true;
-                    RoleManager.Instance.SetRole(Betrayer.betrayer, AmongUs.GameOptions.RoleTypes.Impostor);
                     if ( __instance == CachedPlayer.LocalPlayer.PlayerControl && __instance == Betrayer.betrayer ) {
                         Betrayer.betrayer.ClearTasks();
                         HudManager.Instance.ImpostorVentButton.Show();
@@ -237,9 +257,14 @@ public class RolePatches {
                         HudManager.Instance.SabotageButton.Show();
                         HudManager.Instance.SabotageButton.SetEnabled();
                     }
+
+
+                } else {
+                    return;
                 }
             }
         }
+
     }
 
 }

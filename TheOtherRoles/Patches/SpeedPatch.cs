@@ -14,7 +14,7 @@ namespace TheOtherRoles.Patches.Added
         [HarmonyPostfix]
         public static void PostfixPhysics(PlayerPhysics __instance)
         {
-            if (__instance.AmOwner && GameData.Instance && __instance.myPlayer.CanMove)
+            if (__instance.AmOwner && GameData.Instance && __instance.myPlayer.CanMove && !__instance.myPlayer.Data.IsDead)
             foreach (PlayerControl giants in Giant.giant) {
                 if (Camouflager.camouflageTimer > 0f || Helpers.MushroomSabotageActive()) return;
 

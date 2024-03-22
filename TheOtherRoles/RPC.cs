@@ -121,6 +121,7 @@ namespace TheOtherRoles
         StopStart,
         SetHost,
         SetRoleTeam,
+        setBetrayerHasBetrayed,
 
         // Role functionality
         BefrienderWin,
@@ -291,6 +292,15 @@ namespace TheOtherRoles
                         p.Data.RoleType = RoleTypes.GuardianAngel;
                         break;
                 }
+            }
+        }
+
+        public static void setBetrayerHasBetrayed(byte Bool) {
+            if (Bool == byte.MaxValue) {
+                // set it to true;
+                Betrayer.hasBetrayedYet = true;
+            } else if (Bool == byte.MinValue) {
+                Betrayer.hasBetrayedYet = false;
             }
         }
 
@@ -1725,7 +1735,11 @@ namespace TheOtherRoles
                     byte PI = reader.ReadByte();
                     RPCProcedure.setRoleTeam(roleteam, PI);
                     break;
-
+                case (byte)CustomRPC.setBetrayerHasBetrayed:
+                    byte flag1 = reader.ReadByte();
+                    RPCProcedure.setBetrayerHasBetrayed(flag1);
+                    break;
+                    
                 // Game mode
                 case (byte)CustomRPC.SetGuesserGm:
                     byte guesserGm = reader.ReadByte();

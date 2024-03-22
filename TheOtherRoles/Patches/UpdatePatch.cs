@@ -204,6 +204,10 @@ namespace TheOtherRoles.Patches {
                             player.cosmetics.nameText.text = player.Data.PlayerName + " (M)";
                     else if (Janitor.janitor != null && Janitor.janitor == player)
                             player.cosmetics.nameText.text = player.Data.PlayerName + " (J)";
+                    else if (Betrayer.betrayer != null && Betrayer.betrayer == player && Betrayer.hasBetrayedYet) {
+                        Betrayer.betrayer.cosmetics.nameText.color = Palette.ImpostorRed;
+                        Betrayer.betrayer.cosmetics.nameText.text = Betrayer.betrayer.cosmetics.nameText.text + Helpers.cs(Betrayer.color, " (B)");
+                    }
                 if (MeetingHud.Instance != null)
                     foreach (PlayerVoteArea player in MeetingHud.Instance.playerStates)
                         if (Godfather.godfather != null && Godfather.godfather.PlayerId == player.TargetPlayerId)
@@ -212,6 +216,29 @@ namespace TheOtherRoles.Patches {
                             player.NameText.text = Mafioso.mafioso.Data.PlayerName + " (M)";
                         else if (Janitor.janitor != null && Janitor.janitor.PlayerId == player.TargetPlayerId)
                             player.NameText.text = Janitor.janitor.Data.PlayerName + " (J)";
+                        else if (Revealer.player != null && Revealer.player == CachedPlayer.LocalPlayer.PlayerControl) {
+                            foreach (PlayerControl targets in Revealer.allTargets) {
+                        RoleInfo role = RoleInfo.getRoleInfoForPlayer(targets, false).FirstOrDefault();
+                        if (!role.isNeutral && !targets.Data.Role.IsImpostor) {
+                            targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
+                        }
+                        if (Revealer.showNeutral) {
+                            if (role.isNeutral && Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                            } else if (role.isNeutral && !Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                targets.cosmetics.nameText.color = Jester.color;
+                            }
+                            if (!role.isNeutral && targets.Data.Role.IsImpostor) {
+                                // is imp
+                                targets.cosmetics.nameText.color = Palette.ImpostorRed;
+                            }
+                        }
+                    }
+                }
+                        else if (Betrayer.betrayer != null && Betrayer.betrayer == player && Betrayer.hasBetrayedYet) {
+                        Betrayer.betrayer.cosmetics.nameText.color = Palette.ImpostorRed;
+                        Betrayer.betrayer.cosmetics.nameText.text = Betrayer.betrayer.cosmetics.nameText.text + Helpers.cs(Betrayer.color, " (B)");
+                    }
             }
 
             if (CachedPlayer.LocalPlayer != null && CachedPlayer.LocalPlayer.Data.Role.IsImpostor) {
@@ -285,6 +312,14 @@ namespace TheOtherRoles.Patches {
 
             if (Medic.shielded.Data.IsDead || Medic.medic == null || Medic.medic.Data.IsDead) {
                 Medic.shielded = null;
+            }
+        }
+
+        static void updateSacrificed() {
+            if (Sacrificer.target == null) return;
+
+            if (Sacrificer.target.Data.IsDead || Sacrificer.sacrificer == null || Sacrificer.sacrificer.Data.IsDead) {
+                Sacrificer.target = null;
             }
         }
 
@@ -382,6 +417,7 @@ namespace TheOtherRoles.Patches {
             resetNameTagsAndColors();
             setNameColors();
             updateShielded();
+            updateSacrificed();
             setNameTags();
 
             // Impostors

@@ -344,12 +344,11 @@ namespace TheOtherRoles
                             targets.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
                         }
                         // show neutrals!
-                        if (Revealer.showNeutral) {
+                       if (Revealer.showNeutral) {
                             if (role.isNeutral && Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
-                                // is neutral killer
-                                targets.cosmetics.nameText.color = Jester.color;
-                            } else if (role.isNeutral && !Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
                                 targets.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                            } else if (role.isNeutral && !Helpers.isKiller(targets) && !targets.Data.Role.IsSimpleRole && !targets.Data.Role.IsImpostor) {
+                                targets.cosmetics.nameText.color = Jester.color;
                             }
                             if (!role.isNeutral && targets.Data.Role.IsImpostor) {
                                 // is imp
@@ -676,7 +675,7 @@ namespace TheOtherRoles
                 () => {
                     if (Helpers.checkMurderAttemptAndKill(Haunter.haunter, Haunter.currentTarget) == MurderAttemptResult.SuppressKill) return;
 
-                    haunterKillButton.Timer = jackalKillButton.MaxTimer; 
+                    haunterKillButton.Timer = haunterKillButton.MaxTimer; 
                     Haunter.currentTarget = null;
                 },
                 () => { return Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead; },
@@ -868,7 +867,7 @@ namespace TheOtherRoles
             // Sheriff Kill
             sheriffKillButton = new CustomButton(
                 () => {
-                    MurderAttemptResult murderAttemptResult = Helpers.checkMuderAttempt(Sheriff.sheriff, Sheriff.currentTarget);
+                    MurderAttemptResult murderAttemptResult = Helpers.checkMurderAttempt(Sheriff.sheriff, Sheriff.currentTarget);
                     if (murderAttemptResult == MurderAttemptResult.SuppressKill) return;
 
                     if (murderAttemptResult == MurderAttemptResult.PerformKill) {
@@ -1256,7 +1255,7 @@ namespace TheOtherRoles
     
             vampireKillButton = new CustomButton(
                 () => {
-                    MurderAttemptResult murder = Helpers.checkMuderAttempt(Vampire.vampire, Vampire.currentTarget);
+                    MurderAttemptResult murder = Helpers.checkMurderAttempt(Vampire.vampire, Vampire.currentTarget);
                     if (murder == MurderAttemptResult.PerformKill) {
                         if (Vampire.targetNearGarlic) {
                             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.UncheckedMurderPlayer, Hazel.SendOption.Reliable, -1);
@@ -2075,7 +2074,7 @@ namespace TheOtherRoles
                 Witch.spellCastingDuration,
                 () => {
                     if (Witch.spellCastingTarget == null) return;
-                    MurderAttemptResult attempt = Helpers.checkMuderAttempt(Witch.witch, Witch.spellCastingTarget);
+                    MurderAttemptResult attempt = Helpers.checkMurderAttempt(Witch.witch, Witch.spellCastingTarget);
                     if (attempt == MurderAttemptResult.PerformKill) {
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetFutureSpelled, Hazel.SendOption.Reliable, -1);
                         writer.Write(Witch.currentTarget.PlayerId);
@@ -2104,7 +2103,7 @@ namespace TheOtherRoles
                     MessageWriter writer;
                     if (Ninja.ninjaMarked != null) {
                         // Murder attempt with teleport
-                        MurderAttemptResult attempt = Helpers.checkMuderAttempt(Ninja.ninja, Ninja.ninjaMarked);
+                        MurderAttemptResult attempt = Helpers.checkMurderAttempt(Ninja.ninja, Ninja.ninjaMarked);
                         if (attempt == MurderAttemptResult.PerformKill) {
                             // Create first trace before killing
                             var pos = CachedPlayer.LocalPlayer.transform.position;
@@ -2251,7 +2250,7 @@ namespace TheOtherRoles
             // Bomber button
             bomberButton = new CustomButton(
                 () => {
-                    if (Helpers.checkMuderAttempt(Bomber.bomber, Bomber.bomber) != MurderAttemptResult.BlankKill) {
+                    if (Helpers.checkMurderAttempt(Bomber.bomber, Bomber.bomber) != MurderAttemptResult.BlankKill) {
                         var pos = CachedPlayer.LocalPlayer.transform.position;
                         byte[] buff = new byte[sizeof(float) * 2];
                         Buffer.BlockCopy(BitConverter.GetBytes(pos.x), 0, buff, 0 * sizeof(float), sizeof(float));
@@ -2326,7 +2325,7 @@ namespace TheOtherRoles
                 () => {
                     PlayerControl thief = Thief.thief;
                     PlayerControl target = Thief.currentTarget;
-                    var result = Helpers.checkMuderAttempt(thief, target);
+                    var result = Helpers.checkMurderAttempt(thief, target);
                     if (result == MurderAttemptResult.BlankKill) {
                         thiefKillButton.Timer = thiefKillButton.MaxTimer;
                         return;

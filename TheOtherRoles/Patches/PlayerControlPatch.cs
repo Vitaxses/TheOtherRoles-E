@@ -82,6 +82,25 @@ namespace TheOtherRoles.Patches {
             }*/
         }
 
+        public static void befrienderSetTarget() {
+            if (Befriender.befriender == null || Befriender.befriender != CachedPlayer.LocalPlayer.PlayerControl) return;
+            List<PlayerControl> untargetables;
+            if (Befriender.befrienderTarget != null)
+            {
+                untargetables = new();
+                foreach (CachedPlayer cachedPlayer in CachedPlayer.AllPlayers)
+                {
+                    if (cachedPlayer.PlayerId != Befriender.befrienderTarget.PlayerId)
+                    {
+                        untargetables.Add(cachedPlayer);
+                    }
+                }
+            }
+            else untargetables = Befriender.befriendedPlayers;
+            Befriender.currentTarget = setTarget(untargetablePlayers: untargetables);
+            if (Befriender.currentTarget != null) setPlayerOutline(Befriender.currentTarget, Befriender.color);
+        }
+
         static void sacrificeTargetUpdate() {
             if (Sacrificer.sacrificer == null || Sacrificer.target == null || Sacrificer.sacrificer != CachedPlayer.LocalPlayer.PlayerControl) return;
             setPlayerOutline(Sacrificer.target, Sacrificer.color);
@@ -1085,6 +1104,8 @@ namespace TheOtherRoles.Patches {
 
                 sacrificeTargetUpdate();
 
+                befrienderSetTarget();
+
                 recruiterSetTarget();
 
                 haunterSetTarget();
@@ -1278,6 +1299,13 @@ namespace TheOtherRoles.Patches {
             resetToDead = __instance.Data.IsDead;
             __instance.Data.Role.TeamType = RoleTeamTypes.Impostor;
             __instance.Data.IsDead = false;
+
+
+            if (Sacrificer.target != null && Sacrificer.target == target) {
+                Helpers.MurderPlayer(Sacrificer.sacrificer, __instance, false);
+                resetToDead = true;
+                Helpers.MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer, true);
+            }
         }
 
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]PlayerControl target)
