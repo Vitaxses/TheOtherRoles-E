@@ -68,7 +68,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 
   - Added Role: (Crewmate) Sacrificer: Sacrifice Yourself to save another.
   - Added Role: (Crewmate) Ghost: Teleport and catch Killers in the Act.
-  - Added Role: (Crewmate) Betrayer: Betrayer the Crew by doing Your Tasks.
+  - Added Role: (Crewmate) Betrayer: Betray the Crew by doing Your Tasks.
   - Added Role: (Crewmate) Revealer: Reveal the impostors.
 
   - Added Role: (Modifier) Flash: Travel at the Speed of Light.
