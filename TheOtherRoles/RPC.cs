@@ -349,9 +349,6 @@ namespace TheOtherRoles
                         Befriender.befriender = player;
                         break;
                     
-                    case RoleId.Whisper:
-                        Whisper.player = player;
-                        break;
                     case RoleId.Ghost:
                         Ghost.ghost = player;
                         break;
@@ -842,7 +839,6 @@ namespace TheOtherRoles
             if (player == Ghost.ghost) Ghost.clearAndReload();
             if (player == Haunter.haunter) Haunter.clearAndReload();
             if (player == Betrayer.betrayer) Betrayer.clearAndReload();
-            if (player == Whisper.player) Whisper.clearAndReload();
 
             if (player == Mayor.mayor) Mayor.clearAndReload();
             if (player == Portalmaker.portalmaker) Portalmaker.clearAndReload();
@@ -952,10 +948,9 @@ namespace TheOtherRoles
         public static void setRecruited(byte playerId) {
             PlayerControl recruited = Helpers.playerById(playerId);
 
+            if (recruited == null) return;
+
             Recruiter.FutureRecruited = recruited;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, Hazel.SendOption.Reliable, -1);
-            writer.Write(Recruiter.currentTarget.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
             recruited.ClearTasks();
             recruited.clearCustomRole();
             RPCProcedure.setRole((byte)RoleId.Impostor, Recruiter.FutureRecruited.PlayerId);

@@ -69,14 +69,7 @@ namespace TheOtherRoles {
         public static CustomOption revealerSpawnRate;
         public static CustomOption revealerCooldown;
         public static CustomOption revealerShowNeutral;
-
-        public static CustomOption taskerSpawnRate;
-        public static CustomOption taskerTasks;
-        public static CustomOption taskerCountMinSeconds;
-        public static CustomOption taskerCountMaxSeconds;
-        public static CustomOption taskerSlower;
-        public static CustomOption taskerKillCooldown;
-        public static CustomOption taskerCanDoVisual;
+        public static CustomOption revealerRevealRole;
 
         public static CustomOption teleporterSpawnRate;
         public static CustomOption teleporterCooldown;
@@ -560,6 +553,7 @@ namespace TheOtherRoles {
             revealerSpawnRate = CustomOption.Create(4041, Types.Crewmate, cs(Revealer.color, "Revealer"), rates, null, true);
             revealerCooldown = CustomOption.Create(4042, Types.Crewmate, "Revealer Cooldown", 31f, 2f, 69f, 2f, revealerSpawnRate);
             revealerShowNeutral = CustomOption.Create(4043, Types.Crewmate, "Show Neutral", true, revealerSpawnRate);
+            revealerRevealRole = CustomOption.Create(4044, Types.Crewmate, "Show Role", false, revealerSpawnRate);
 
             mafiaSpawnRate = CustomOption.Create(18, Types.Impostor, cs(Janitor.color, "Mafia"), rates, null, true);
             janitorCooldown = CustomOption.Create(19, Types.Impostor, "Janitor Cooldown", 30f, 10f, 60f, 2.5f, mafiaSpawnRate);

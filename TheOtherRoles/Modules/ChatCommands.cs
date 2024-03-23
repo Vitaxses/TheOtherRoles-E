@@ -58,28 +58,6 @@ namespace TheOtherRoles.Modules {
                             __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "Nice try, but you have to be the host to use this feature");
                         }
                         handled = true;
-                    } else if (text.ToLower().StartsWith("/setHost") || text.ToLower().StartsWith("/sh") || text.ToLower().StartsWith("/h" ) && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) {
-                        if (AmongUsClient.Instance.AmHost) {
-                            string newHost = text.Substring(4).ToLower();
-                            if (text.StartsWith("sh") || text.StartsWith("h")) {
-                                newHost = text.Substring(4).ToLower();
-                            }
-                            if (text.ToLower().StartsWith("setHost")) {
-                                newHost = text.Substring(9).ToLower();
-                            } 
-                            foreach (var players in CachedPlayer.AllPlayers) {
-                                if (players.PlayerControl.Data.PlayerName.ToLower().Equals(newHost)) {
-
-                                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetHost, SendOption.Reliable, -1);
-                                    writer.Write(players.PlayerControl.PlayerId);
-                                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-                                    RPCProcedure.setHost(players.PlayerControl.PlayerId);
-                                }
-                            }
-                        } else {
-                            __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "Nice try, but you have to be the host to set the host!");
-                        }
                     }
                 }
                 

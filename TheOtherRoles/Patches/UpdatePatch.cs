@@ -65,22 +65,29 @@ namespace TheOtherRoles.Patches {
             if (CachedPlayer.LocalPlayer.PlayerControl != null && CachedPlayer.LocalPlayer.PlayerControl == Revealer.player) {
                 foreach (PlayerControl p in Revealer.allTargets) {
                     RoleInfo role = RoleInfo.getRoleInfoForPlayer(p, false).FirstOrDefault();
-                        if (!role.isNeutral && !p.Data.Role.IsImpostor) {
-                            // is crewmate
-                            p.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
+                    if (!role.isNeutral && !p.Data.Role.IsImpostor) {
+                        // is crewmate
+                        p.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
+                    }
+
+                    if (Revealer.showNeutral) {
+                        if (role.isNeutral && Helpers.isKiller(p) && !p.Data.Role.IsSimpleRole && !p.Data.Role.IsImpostor) {
+                            // is neutral killer
+                            p.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
+                        } else if (role.isNeutral && !Helpers.isKiller(p) && !p.Data.Role.IsSimpleRole && !p.Data.Role.IsImpostor) {
+                            // is like a jester
+                            p.cosmetics.nameText.color = Jester.color;
                         }
-                        if (Revealer.showNeutral) {
-                            if (role.isNeutral && Helpers.isKiller(p) && !p.Data.Role.IsSimpleRole && !p.Data.Role.IsImpostor) {
-                                // is neutral killer
-                                p.cosmetics.nameText.color = new Color32(148, 148, 148, byte.MaxValue);
-                            } else if (role.isNeutral && !Helpers.isKiller(p) && !p.Data.Role.IsSimpleRole && !p.Data.Role.IsImpostor) {
-                                // is like a jester
-                                p.cosmetics.nameText.color = Jester.color;
-                            }
-                        }
-                        if (!role.isNeutral && p.Data.Role.IsImpostor) {
-                            // is imp
-                            p.cosmetics.nameText.color = Palette.ImpostorRed;
+                    } else {
+                        p.cosmetics.nameText.color = new Color32(0, 255, 69, byte.MaxValue);
+                    }
+                    if (!role.isNeutral && p.Data.Role.IsImpostor) {
+                        // is imp
+                        p.cosmetics.nameText.color = Palette.ImpostorRed;
+                    }
+
+                    if (Revealer.revealRole) {
+                            p.cosmetics.nameText.text = p.cosmetics.nameText.text + "\n" + role.name;
                         }
                 }
             }

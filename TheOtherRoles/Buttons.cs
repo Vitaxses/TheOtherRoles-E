@@ -17,8 +17,6 @@ namespace TheOtherRoles
     static class HudManagerStartPatch
     {
         private static bool initialized = false;
-
-        public static CustomButton whisperButton;
         public static CustomButton swooperSweepsButton;
 
         public static CustomButton recruiterRecruitsButton;
@@ -124,8 +122,6 @@ namespace TheOtherRoles
 
             haunterHauntButton.MaxTimer = Haunter.hauntCooldown;
             haunterKillButton.MaxTimer = Haunter.killCD;
-
-            whisperButton.MaxTimer = Whisper.cooldown;
 
             teleporterButton.MaxTimer = Teleporter.Cooldown;
             
@@ -392,68 +388,7 @@ namespace TheOtherRoles
                 "Reveal"
                 );
 
-            whisperButton = new CustomButton(
-                () => {
-                    if (Whisper.hasToSetMap && !Whisper.canTeleport) {
-                        Whisper.canTeleport = true;
-                        Whisper.hasToSetMap = false;
-                        Whisper.oldLoc = Whisper.player.transform.localPosition;
-                        Whisper.location = Whisper.player.transform.localPosition;
-                        whisperButton.Sprite = Whisper.getPartOfMapSprite();
-                        whisperButton.Timer = whisperButton.MaxTimer;
-                        Whisper.player.Collider.isTrigger = false;
-                    } else if (!Whisper.hasToSetMap && Whisper.canTeleport && Whisper.location != new Vector3(0,0,0)) {
-                        Whisper.canTeleport = false;
-                        Whisper.hasToSetMap = true;
-
-                        MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
-                        invisibleWriter.Write(Whisper.player.PlayerId);
-                        invisibleWriter.Write(byte.MinValue);
-                        AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
-
-                        RPCProcedure.setInvisible(Whisper.player.PlayerId, byte.MinValue);
-
-                        Whisper.player.transform.position = Whisper.location;
-                        Whisper.location = new Vector3(0,0,0);
-                        whisperButton.Sprite = __instance.ReportButton.graphic.sprite;
-                        whisperButton.Timer = whisperButton.MaxTimer;
-                        Whisper.player.Collider.isTrigger = true;
-                    }
-                },
-                () => { return Whisper.player && Whisper.player == CachedPlayer.LocalPlayer.PlayerControl; },
-                () => { return Whisper.player != null; },
-                () => {
-                    whisperButton.Timer = 13f; 
-                    Whisper.location = new Vector3(0,0,0); 
-                    Whisper.canTeleport = false;
-                    Whisper.hasToSetMap = true;
-                    whisperButton.Sprite = Whisper.getPartOfMapSprite();
-                },
-                Whisper.getPartOfMapSprite(),
-                CustomButton.ButtonPositions.lowerRowLeft,
-                __instance,
-                null,
-                true,
-                Whisper.duration,
-                () => {
-                    Whisper.player.Collider.isTrigger = false;
-                    Whisper.hasToSetMap = true;
-                    Whisper.canTeleport = false;
-                    whisperButton.Timer = whisperButton.MaxTimer;
-                    whisperButton.Sprite = Whisper.getPartOfMapSprite();
-
-                    MessageWriter invisibleWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetInvisible, Hazel.SendOption.Reliable, -1);
-                    invisibleWriter.Write(Whisper.player.PlayerId);
-                    invisibleWriter.Write(byte.MaxValue);
-                    AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
-
-                    RPCProcedure.setInvisible(Whisper.player.PlayerId, byte.MaxValue);
-
-                    Whisper.player.transform.localPosition = Whisper.oldLoc;
-                },
-                false,
-                "Whisper"
-            );
+                TheOtherRolesPlugin.Logger.LogMessage("Reveale done!");
 
             befrienderButton = new CustomButton(
                 () => {
@@ -515,6 +450,8 @@ namespace TheOtherRoles
                 }
             );
 
+            TheOtherRolesPlugin.Logger.LogMessage("Befriender done!");
+
             evilTrapperSelectButton = new CustomButton(
                 () => {
                 foreach (Collider2D collider2D in Physics2D.OverlapCircleAll(CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition(), CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance, Constants.PlayersOnlyMask)) {
@@ -547,6 +484,8 @@ namespace TheOtherRoles
                     "Trap"
                     );
 
+                    TheOtherRolesPlugin.Logger.LogMessage("EvilTrapper done!");
+
             modifier1TimeKiller = new CustomButton(
                 () => {
                     PlayerControl killer = OneTimeKiller.player;
@@ -562,6 +501,8 @@ namespace TheOtherRoles
                 __instance,
                 KeyCode.Q
             );
+
+            TheOtherRolesPlugin.Logger.LogMessage("1TimeKiller done!");
 
             sacraficeButton = new CustomButton(
                 () => {
@@ -580,6 +521,8 @@ namespace TheOtherRoles
             false,
             "Sacrafice"
             );
+
+            TheOtherRolesPlugin.Logger.LogMessage("Sacrificer done!");
 
             teleporterButton = new CustomButton(
                 () => {
@@ -608,6 +551,8 @@ namespace TheOtherRoles
             () => { Teleporter.loc = new Vector3(0, 0, 0); },
             Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "setLocation");
 
+            TheOtherRolesPlugin.Logger.LogMessage("Teleporter done!");
+
             sniperSnipeButton = new CustomButton(
                 () => {
                 if (Helpers.checkMurderAttemptAndKill(Sniper.sniper, Sniper.currentTarget) == MurderAttemptResult.SuppressKill) return;
@@ -626,6 +571,8 @@ namespace TheOtherRoles
                 "Snipe"
                 );
 
+                TheOtherRolesPlugin.Logger.LogMessage("Sniper done!");
+
             ghostTpButton = new CustomButton(
                 () => {
                     List<PlayerControl> players = PlayerControl.AllPlayerControls.ToArray().ToList();
@@ -640,8 +587,6 @@ namespace TheOtherRoles
                             if (modifier1TimeKiller.Timer > 0) {players.Remove(OneTimeKiller.player);}
                         }
                     }
-
-
 
                     System.Random rnd = new System.Random();
                     PlayerControl playerToTpTo = players[rnd.Next(players.Count)];
@@ -663,6 +608,10 @@ namespace TheOtherRoles
                 "Teleport"
                     );
 
+
+                TheOtherRolesPlugin.Logger.LogMessage("Ghost done!");
+
+
             haunterKillButton = new CustomButton(
                 () => {
                     if (Helpers.checkMurderAttemptAndKill(Haunter.haunter, Haunter.currentTarget) == MurderAttemptResult.SuppressKill) return;
@@ -678,6 +627,8 @@ namespace TheOtherRoles
                 __instance,
                 KeyCode.Q
             );
+
+            TheOtherRolesPlugin.Logger.LogMessage("HaunterKill done!");
 
             haunterHauntButton = new CustomButton(
                 () => {
@@ -699,25 +650,33 @@ namespace TheOtherRoles
                 "Haun't"
             );
 
+            TheOtherRolesPlugin.Logger.LogMessage("HaunterHaunt done!");
+
             recruiterRecruitsButton = new CustomButton(
                 () => {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, Hazel.SendOption.Reliable, -1);
-                    writer.Write(Recruiter.currentTarget.PlayerId);
+                    if (Recruiter.currentTarget == null) return;
+                    Recruiter.FutureRecruited = Recruiter.currentTarget;
+
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.setRecruited, Hazel.SendOption.Reliable, -1);
+                    
+                    writer.Write(Recruiter.FutureRecruited.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+                    RPCProcedure.setRecruited(Recruiter.FutureRecruited.PlayerId);
                 },
                 () => { return Recruiter.recruiter != null && Recruiter.recruiter == CachedPlayer.LocalPlayer.PlayerControl && Recruiter.FutureRecruited == null && !CachedPlayer.LocalPlayer.Data.IsDead; },
                 () => { return Recruiter.currentTarget && Recruiter.FutureRecruited == null && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
                 () => {},
                 Recruiter.getRecruitSprite(),
-                shifterShiftButton.actionButton.position,
+                CustomButton.ButtonPositions.upperRowFarLeft,
                 __instance,
                 null,
                 false,
                 "Recruit"
             );  
 
+            TheOtherRolesPlugin.Logger.LogMessage("Recruit done!");
 
-            //ADDED
             swooperSweepsButton = new CustomButton(
                 () => {
                     Helpers.showFlash(Palette.Black); 
@@ -750,6 +709,7 @@ namespace TheOtherRoles
                 "Swoop"
             );
 
+            TheOtherRolesPlugin.Logger.LogMessage("Swooper done!");
 
             // Engineer Repair
             engineerRepairButton = new CustomButton(

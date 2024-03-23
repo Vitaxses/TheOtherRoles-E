@@ -114,11 +114,12 @@ namespace TheOtherRoles
 
             public static float cooldown = 42f;
             public static bool showNeutral = true;
+            public static bool revealRole = true;
 
             public static Sprite revealSprite = null;
             public static Sprite getRevealSprite() {
                 if (revealSprite) return revealSprite;
-                revealSprite = Helpers.loadSpriteFromResources("TheOtherRoles.RevealerReveals.png", 115);
+                revealSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.RevealerReveals.png", 115);
                 return revealSprite;
             }
 
@@ -126,40 +127,13 @@ namespace TheOtherRoles
                 player = null;
                 cooldown = CustomOptionHolder.revealerCooldown.getFloat();
                 showNeutral = CustomOptionHolder.revealerShowNeutral.getBool();
+                revealRole = CustomOptionHolder.revealerRevealRole.getBool();
                 allTargets = new();
                 target = null;
             }
 
         }
-        public static class Whisper {
-            public static PlayerControl player;
-            public static Color color = new Color32(115, 180, 160, byte.MaxValue);
-            public static float cooldown = 31f;
-            public static float duration = 15f;
-            public static Sprite setPartOfMapSprite = null;
-            public static Sprite getPartOfMapSprite() {
-                if (setPartOfMapSprite) return setPartOfMapSprite;
-                setPartOfMapSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.WhisperMap.png", 115f);
-                return setPartOfMapSprite;
-            }
-
-            public static bool hasToSetMap = true;
-            public static bool canTeleport = true;
-            public static Vector3 location = new Vector3(0,0,0);
-            public static Vector3 oldLoc = new Vector3(0,0,0);
-
-            public static void clearAndReload() {
-                player = null;
-                hasToSetMap = false;
-                location = new Vector3(0,0,0);
-                oldLoc = new Vector3(0,0,0);
-                canTeleport = false;
-                cooldown = CustomOptionHolder.whisperCooldown.getFloat();
-                duration = CustomOptionHolder.whisperDuration.getFloat();
-            }
-        }
         public static class Befriender {
-            // has a button like the arsonist but when "doused" everyone and press befriend everyone wins (I MEAN EVERYONE!)
             public static PlayerControl befriender;
             public static Color color = new Color32(0, 220, 55, byte.MaxValue);
 

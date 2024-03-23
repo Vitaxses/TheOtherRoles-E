@@ -48,8 +48,6 @@ namespace TheOtherRoles
 
         public static RoleInfo befriender = new RoleInfo("Befriender", Befriender.color, "Befriend Everyone", "Befriend everyone to Win!", RoleId.Befriender, true);
 
-        public static RoleInfo whisper = new RoleInfo("Whisper", Whisper.color, "Get Information by Spying on People!", "Get Information by Spying on People", RoleId.Whisper);
-        
         public static RoleInfo sacrificer = new RoleInfo("Sacrificer", Sacrificer.color, "Sacrifice Yourself to save a Friend..", "Sacrificer yourself..", RoleId.Sacraficer); // CREWROLE
         public static RoleInfo ghost = new RoleInfo("Ghost", Haunter.color, "Catch killers Red handed by Teleporting...", "Teleport to gain Information", RoleId.Ghost);
         public static RoleInfo betrayer = new RoleInfo("Betrayer", Betrayer.color, "Betray the crew", "Do your Tasks to Become imposter", RoleId.Betrayer);
@@ -137,7 +135,6 @@ namespace TheOtherRoles
             teleporter,
             befriender, 
             evilTrapper,
-            whisper,
             godfather,
             mafioso,
             janitor,
@@ -248,7 +245,6 @@ namespace TheOtherRoles
             if (p == Betrayer.betrayer) infos.Add(betrayer); 
             if (p == Ghost.ghost) infos.Add(ghost); 
             if (p == Sacrificer.sacrificer) infos.Add(sacrificer);
-            if (p == Whisper.player) infos.Add(whisper);
 
             if (p == Jester.jester) infos.Add(jester);
             if (p == Mayor.mayor) infos.Add(mayor);
@@ -434,7 +430,6 @@ namespace TheOtherRoles
                 if (p == Betrayer.betrayer) return RoleInfo.betrayer;
                 if (p == Ghost.ghost) return RoleInfo.ghost;
                 if (p == Sacrificer.sacrificer) return RoleInfo.sacrificer;
-                if (p == Whisper.player) return RoleInfo.whisper;
 
                 if (p == Jester.jester) return RoleInfo.jester;
                 if (p == Mayor.mayor) return RoleInfo.mayor;
@@ -494,7 +489,6 @@ namespace TheOtherRoles
                     if (p == Betrayer.betrayer) Betrayer.clearAndReload();
                     if (p == Ghost.ghost) Ghost.clearAndReload();
                     if (p == Sacrificer.sacrificer) Sacrificer.clearAndReload();
-                    if (p == Whisper.player) Whisper.clearAndReload();
                     if (p == Jester.jester) Jester.clearAndReload();
                     if (p == Mayor.mayor) Mayor.clearAndReload();
                     if (p == Portalmaker.portalmaker) Portalmaker.clearAndReload();

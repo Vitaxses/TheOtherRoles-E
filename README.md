@@ -52,10 +52,6 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
   
  ### **Version 1.0.0**
 
-
-  - Added Chat Command: setHost: the host can set the host to another host.
-
-
   #### Roles/Modifiers
 
   - Added Role: (Impostor) Swooper: go Invisible Temporarily.
@@ -152,7 +148,7 @@ TheOtherRoles - For The Coding Framework
 
 The Other Roles Enhanced Credits:
 
-[Town-Of-Us]((https://github.com/slushiegoose/Town-Of-Us)) - For the Swooper role & The Revealer role
+[Town-Of-Us]((https://github.com/slushiegoose/Town-Of-Us)) - For the Swooper role, The Revealer role & The Teleporter role
 
 The Other Roles Credits: 
 
@@ -872,6 +868,7 @@ The Revealer can reveal someone's role by clicking the reveal button.
 |----------|:-------------:|
 | Revealer Spawn Chance | -
 | Show Neutral | -
+| Show Role | -
 -----------------------
 
 
