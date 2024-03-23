@@ -50,23 +50,19 @@ namespace TheOtherRoles {
         public static CustomOption modifierGiantSpeed;
         public static CustomOption modifierGiantSize;
 
-        //ADDED:
         public static CustomOption ghostSpawnRate;
         public static CustomOption ghostTeleports;
         public static CustomOption ghostImposterVision;
 
-        //ADDED:
         public static CustomOption sniperSpawnRate;
         public static CustomOption sniperSnipeCD;
+        public static CustomOption sniperSnipeKD;
 
-        //ADDED:
         public static CustomOption haunterSpawnRate;
         public static CustomOption haunterKillCooldown;
         public static CustomOption haunterHauntDuration;
         public static CustomOption haunterHauntCooldown;
         public static CustomOption haunterImposterVision;
-
-        //ADDED:
 
         public static CustomOption betrayerSpawnRate;
 
@@ -74,7 +70,6 @@ namespace TheOtherRoles {
         public static CustomOption revealerCooldown;
         public static CustomOption revealerShowNeutral;
 
-        //ADDED:
         public static CustomOption taskerSpawnRate;
         public static CustomOption taskerTasks;
         public static CustomOption taskerCountMinSeconds;
@@ -83,34 +78,21 @@ namespace TheOtherRoles {
         public static CustomOption taskerKillCooldown;
         public static CustomOption taskerCanDoVisual;
 
-        //ADDED:
         public static CustomOption teleporterSpawnRate;
         public static CustomOption teleporterCooldown;
 
-        //ADDED:
-        public static CustomOption wrufSpawnRate;
-        public static CustomOption wrufCooldown;
-        public static CustomOption wrufDuration;
-
-        //ADDED:
         public static CustomOption sacrificerSpawnRate;
-
-        //ADDED:
 
         public static CustomOption modifierRecruiterSpawnRate;
         
-        // ADDED:
         public static CustomOption ghostTeleportTo0CD;
         public static CustomOption ghostCanTeleportToVents;
 
-        // ADDED:
         public static CustomOption modifierOneTimeKillerSpawnRate;
 
-        // ADDED:
         public static CustomOption evilTrapperSpawnRate;
         public static CustomOption evilTrapperMaxCountOfDeadBodys;
 
-        // ADDED:
         public static CustomOption befrienderSpawnRate;
         public static CustomOption befrienderDuration;
         public static CustomOption befrienderCooldown;
@@ -546,6 +528,7 @@ namespace TheOtherRoles {
 
             sniperSpawnRate = CustomOption.Create(4021, Types.Impostor, cs(Palette.ImpostorRed , "Sniper"), rates, null, true);
             sniperSnipeCD = CustomOption.Create(4022, Types.Impostor, "Snipe Cooldown", 28f, 0f, 60f, 2f, sniperSpawnRate);
+            sniperSnipeKD = CustomOption.Create(4023, Types.Impostor, "More kill distance", 2f, 0.5f, 8f, 0.5f, sniperSpawnRate);
 
             teleporterSpawnRate = CustomOption.Create(4023, Types.Impostor, cs(Palette.ImpostorRed, "Teleporter"), rates, null, true);
             teleporterCooldown = CustomOption.Create(4024, Types.Impostor, "Cooldown", 11.5f, 1f, 59.5f, 2.5f, teleporterSpawnRate);

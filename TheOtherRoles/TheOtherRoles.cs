@@ -364,10 +364,12 @@ namespace TheOtherRoles
             }
 
             public static float SnipeCD = 28f;
+            public static float killDistance = 2;
 
             public static void clearAndReload() {
                 sniper = null;
                 currentTarget = null;
+                killDistance = CustomOptionHolder.sniperSnipeKD.getFloat();
                 SnipeCD = CustomOptionHolder.sniperSnipeCD.getFloat();
             }
         }
@@ -508,7 +510,7 @@ namespace TheOtherRoles
 
             public static Sprite getSwoopSprite() {
                 if (swoopSprite) return swoopSprite;
-                swoopSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Swoop.png", 80);
+                swoopSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Swoop.png", 115);
                 return swoopSprite;
             }
 
@@ -2432,6 +2434,25 @@ namespace TheOtherRoles
         }
 
         public static void shiftRole (PlayerControl player1, PlayerControl player2, bool repeat = true) {
+
+            if (Ghost.ghost != null && Ghost.ghost == player2) {
+                if (repeat) shiftRole(player2, player1, false);
+                Ghost.ghost = player1;
+            }
+            if (Sacrificer.sacrificer != null && Sacrificer.sacrificer == player2) {
+                if (repeat) shiftRole(player2, player1, false);
+                Ghost.ghost = player1;
+            }
+            if (Revealer.player != null && Revealer.player == player2) {
+                if (repeat) shiftRole(player2, player1, false);
+                Revealer.player = player1;
+            }
+            if (Betrayer.betrayer != null && Betrayer.betrayer == player2) {
+                if (repeat) shiftRole(player2, player1, false);
+                Betrayer.betrayer = player1;
+            }
+
+
             if (Mayor.mayor != null && Mayor.mayor == player2) {
                 if (repeat) shiftRole(player2, player1, false);
                 Mayor.mayor = player1;

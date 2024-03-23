@@ -45,7 +45,7 @@ namespace TheOtherRoles.Patches {
 
         static void sniperSetTarget() {
             if (Sniper.sniper == null || Sniper.sniper != CachedPlayer.LocalPlayer.PlayerControl) return;
-            Sniper.currentTarget = setTarget(false, true, null, Sniper.sniper, 2);
+            Sniper.currentTarget = setTarget(false, true, null, Sniper.sniper, Sniper.killDistance);
             setPlayerOutline(Sniper.currentTarget, Palette.Black);
         }
 
@@ -114,7 +114,7 @@ namespace TheOtherRoles.Patches {
         }
 
 
-        static PlayerControl setTarget(bool onlyCrewmates = false, bool targetPlayersInVents = false, List<PlayerControl> untargetablePlayers = null, PlayerControl targetingPlayer = null, int moreKillDistance = 0) {
+        static PlayerControl setTarget(bool onlyCrewmates = false, bool targetPlayersInVents = false, List<PlayerControl> untargetablePlayers = null, PlayerControl targetingPlayer = null, float moreKillDistance = 0) {
             PlayerControl result = null;
             float num = AmongUs.GameOptions.GameOptionsData.KillDistances[Mathf.Clamp(GameOptionsManager.Instance.currentNormalGameOptions.KillDistance, 0, 2)];
             num += moreKillDistance;

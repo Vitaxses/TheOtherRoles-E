@@ -461,7 +461,7 @@ namespace TheOtherRoles
                     if (BefriendedEveryoneAlive) {
                         MessageWriter winWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.BefrienderWin, Hazel.SendOption.Reliable, -1);
                         AmongUsClient.Instance.FinishRpcImmediately(winWriter);
-                        RPCProcedure.BefrienderWin();
+                        RPCProcedure.befrienderWin();
                         befrienderButton.HasEffect = false;
                     } else if (Arsonist.currentTarget != null) {
                         Befriender.befrienderTarget = Befriender.currentTarget;
@@ -547,9 +547,6 @@ namespace TheOtherRoles
                     "Trap"
                     );
 
-
-
-
             modifier1TimeKiller = new CustomButton(
                 () => {
                     PlayerControl killer = OneTimeKiller.player;
@@ -584,7 +581,8 @@ namespace TheOtherRoles
             "Sacrafice"
             );
 
-            teleporterButton = new CustomButton(() => {
+            teleporterButton = new CustomButton(
+                () => {
                 if (!Teleporter.hasPlacedLoc()) {
                     Teleporter.loc = Teleporter.teleporter.transform.position;
                     teleporterButton.Sprite = Teleporter.getTpSprite();
@@ -610,7 +608,8 @@ namespace TheOtherRoles
             () => { Teleporter.loc = new Vector3(0, 0, 0); },
             Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "setLocation");
 
-            sniperSnipeButton = new CustomButton(() => {
+            sniperSnipeButton = new CustomButton(
+                () => {
                 if (Helpers.checkMurderAttemptAndKill(Sniper.sniper, Sniper.currentTarget) == MurderAttemptResult.SuppressKill) return;
 
                 sniperSnipeButton.Timer = sniperSnipeButton.MaxTimer; 
@@ -636,12 +635,7 @@ namespace TheOtherRoles
                     players.RemoveAll(x => x.inMovingPlat);
                     if (!Ghost.canTeleportToPeopleInVents) { players.RemoveAll(x => x.inVent); }
                     if (!Ghost.canTeleportToPeopleWithCooldownFor0Sec) {
-                        foreach (PlayerControl p in players) {
-                            if (Helpers.isKiller(p)) {players.RemoveAll(x => x.killTimer > 0);}
-                        }
-                        if (Haunter.haunter != null && players.Contains(Haunter.haunter)) {
-                            if (haunterHauntButton.Timer > 0) {players.Remove(Haunter.haunter);}
-                        }
+                        players.RemoveAll(x => x.killTimer > 0 && (x.Data.Role.IsImpostor || (x.Role().isNeutral && Helpers.isKiller(x)) ));
                         if (OneTimeKiller.player != null && players.Contains(OneTimeKiller.player)) {
                             if (modifier1TimeKiller.Timer > 0) {players.Remove(OneTimeKiller.player);}
                         }
@@ -669,8 +663,6 @@ namespace TheOtherRoles
                 "Teleport"
                     );
 
-
-            //ADDED:
             haunterKillButton = new CustomButton(
                 () => {
                     if (Helpers.checkMurderAttemptAndKill(Haunter.haunter, Haunter.currentTarget) == MurderAttemptResult.SuppressKill) return;
@@ -687,7 +679,6 @@ namespace TheOtherRoles
                 KeyCode.Q
             );
 
-            // ADDED:
             haunterHauntButton = new CustomButton(
                 () => {
                     Haunter.isHaunting = true;
@@ -708,37 +699,21 @@ namespace TheOtherRoles
                 "Haun't"
             );
 
-            //ADDED:
             recruiterRecruitsButton = new CustomButton(
                 () => {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, Hazel.SendOption.Reliable, -1);
                     writer.Write(Recruiter.currentTarget.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    Recruiter.currentTarget.ClearTasks();
-                    Recruiter.currentTarget.clearCustomRole();
-                    Recruiter.FutureRecruited = Recruiter.currentTarget;
-                    RPCProcedure.setRole((byte)RoleId.Impostor, Recruiter.currentTarget.PlayerId);
-                    SoundEffectsManager.play("shifterShift");
-                    Recruiter.FutureRecruited.cosmetics.nameText.color = Palette.ImpostorRed;
-                    RoleManager.Instance.SetRole(Recruiter.FutureRecruited, AmongUs.GameOptions.RoleTypes.Impostor);
-                    
-                    MessageWriter writer1 = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRoleTeam, SendOption.Reliable, -1);
-                    
-                    writer1.Write((byte)AmongUs.GameOptions.RoleTypes.Impostor);
-                    writer1.Write(Recruiter.FutureRecruited.PlayerId);
-
-                    AmongUsClient.Instance.FinishRpcImmediately(writer1);
-                    
-                    RPCProcedure.setRoleTeam((byte)AmongUs.GameOptions.RoleTypes.Impostor, Recruiter.FutureRecruited.PlayerId);
                 },
-                () => { return Recruiter.recruiter != null && Recruiter.recruiter.Any(x => x == CachedPlayer.LocalPlayer.PlayerControl) && Recruiter.FutureRecruited == null && !CachedPlayer.LocalPlayer.Data.IsDead; },
+                () => { return Recruiter.recruiter != null && Recruiter.recruiter == CachedPlayer.LocalPlayer.PlayerControl && Recruiter.FutureRecruited == null && !CachedPlayer.LocalPlayer.Data.IsDead; },
                 () => { return Recruiter.currentTarget && Recruiter.FutureRecruited == null && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
                 () => {},
-                Shifter.getButtonSprite(),
-                new Vector3(0, 1f, 0),
+                Recruiter.getRecruitSprite(),
+                shifterShiftButton.actionButton.position,
                 __instance,
                 null,
-                true
+                false,
+                "Recruit"
             );  
 
 

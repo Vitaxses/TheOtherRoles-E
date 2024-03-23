@@ -225,7 +225,7 @@ namespace TheOtherRoles
                 if (p == Shifter.shifter) infos.Add(shifter);
 
 
-                if (Recruiter.recruiter.Any(x => x.PlayerId == p.PlayerId)) infos.Add(recruiter);
+                if (p == Recruiter.recruiter) infos.Add(recruiter);
                 if (p == Flash.flash.Any(x => x.PlayerId == p.PlayerId)) infos.Add(flash);
                 if (p == Giant.giant.Any(x => x.PlayerId == p.PlayerId)) infos.Add(giant);
                 if (p == OneTimeKiller.player) infos.Add(onetimekiller); 

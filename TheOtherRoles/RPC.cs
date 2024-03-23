@@ -125,7 +125,7 @@ namespace TheOtherRoles
 
         // Role functionality
         BefrienderWin,
-
+        setRecruited,
         EngineerFixLights = 101,
         EngineerFixSubmergedOxygen,
         EngineerUsedRepair,
@@ -949,6 +949,28 @@ namespace TheOtherRoles
                 Ninja.ninjaMarked = null;
         }
 
+        public static void setRecruited(byte playerId) {
+            PlayerControl recruited = Helpers.playerById(playerId);
+
+            Recruiter.FutureRecruited = recruited;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, Hazel.SendOption.Reliable, -1);
+            writer.Write(Recruiter.currentTarget.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            recruited.ClearTasks();
+            recruited.clearCustomRole();
+            RPCProcedure.setRole((byte)RoleId.Impostor, Recruiter.FutureRecruited.PlayerId);
+            SoundEffectsManager.play("shifterShift");
+            bool isImpostor = CachedPlayer.LocalPlayer.PlayerControl.Data.Role.IsImpostor;
+            if (isImpostor) {
+                Recruiter.FutureRecruited.cosmetics.nameText.color = Palette.ImpostorRed;
+            } else {
+                Recruiter.FutureRecruited.cosmetics.nameText.color = Palette.White;
+            }
+            RoleManager.Instance.SetRole(Recruiter.FutureRecruited, AmongUs.GameOptions.RoleTypes.Impostor);
+                    
+            RPCProcedure.setRoleTeam((byte)AmongUs.GameOptions.RoleTypes.Impostor, Recruiter.FutureRecruited.PlayerId);
+        }
+
         public static void setInvisible(byte playerId, byte flag)
         {
             // if flag is max value i become visible & if flag is min value i become invisible!
@@ -1105,12 +1127,12 @@ namespace TheOtherRoles
             TORMapOptions.ventsToSeal.Add(vent);
         }
 
-        public static void BefrienderWin() {
+        public static void befrienderWin() {
             Befriender.triggerBefrienderWin = true;
             foreach (PlayerControl p in CachedPlayer.AllPlayers) {
                 if (p != Befriender.befriender) {
                     p.Exiled();
-                    overrideDeathReasonAndKiller(p, DeadPlayer.CustomDeathReason.Arson, Befriender.befriender);
+                    overrideDeathReasonAndKiller(p, DeadPlayer.CustomDeathReason.Kill, p);
                 }
             }
         }
@@ -1663,6 +1685,12 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.ArsonistWin:
                     RPCProcedure.arsonistWin();
+                    break;
+                case (byte)CustomRPC.BefrienderWin:
+                    RPCProcedure.befrienderWin();
+                    break;
+                case (byte)CustomRPC.setRecruited:
+                    RPCProcedure.setRecruited(reader.ReadByte());
                     break;
                 case (byte)CustomRPC.GuesserShoot:
                     byte killerId = reader.ReadByte();
