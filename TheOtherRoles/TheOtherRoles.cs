@@ -181,8 +181,8 @@ namespace TheOtherRoles
 
             public static Color color = Palette.ImpostorRed;
 
-            public static List<DeadBody> trappedBodys = new();
-            public static DeadBody currentSelectedBody;
+            public static List<GameData.PlayerInfo> trappedBodys = new();
+            public static GameData.PlayerInfo currentSelectedBody;
             public static bool hasSelectedBody = false;
             public static Sprite trapSprite = null;
             public static Sprite getTrapSprite() {
@@ -197,7 +197,7 @@ namespace TheOtherRoles
                 player = null;
                 currentSelectedBody = null;
                 hasSelectedBody = false;
-                trappedBodys = new List<DeadBody>();
+                trappedBodys = new List<GameData.PlayerInfo>();
                 maxCountOfTrappedBodys = CustomOptionHolder.evilTrapperMaxCountOfDeadBodys.getFloat();
             }
         }

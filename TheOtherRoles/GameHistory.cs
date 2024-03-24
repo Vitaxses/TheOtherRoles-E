@@ -33,6 +33,10 @@ namespace TheOtherRoles {
             this.wasCleaned = false;
         }
 
+        public static explicit operator DeadBody(DeadPlayer v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     static class GameHistory {

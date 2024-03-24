@@ -409,9 +409,6 @@ namespace TheOtherRoles
                     bool dousedEveryoneAlive = Befriender.befriendedEveryoneAlive();
                     if (dousedEveryoneAlive) {
                         befrienderButton.actionButton.graphic.sprite = Befriender.getIgniteSprite(); 
-                        befrienderButton.actionButton.OverrideText("Befriend all");    
-                    } else {
-                        teleporterButton.actionButton.OverrideText("Befriend");
                     }
                     
                     if (befrienderButton.isEffectActive && Befriender.befrienderTarget != Befriender.currentTarget) {
@@ -452,9 +449,7 @@ namespace TheOtherRoles
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                     Befriender.befrienderTarget = null;
-                },
-                false,
-                "Befriend"
+                }
             );
 
             TheOtherRolesPlugin.Logger.LogMessage("Befriender done!");
@@ -464,11 +459,11 @@ namespace TheOtherRoles
                 foreach (Collider2D collider2D in Physics2D.OverlapCircleAll(CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition(), CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance, Constants.PlayersOnlyMask)) {
                         if (collider2D.tag == "DeadBody")
                         {
-                            DeadBody component = collider2D.GetComponent<DeadBody>();
-                            if (component && !component.Reported)
+                            GameData.PlayerInfo component = collider2D.GetComponent<GameData.PlayerInfo>();
+                            if (component != null && component.IsDead)
                             {
                                 Vector2 truePosition = CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition();
-                                Vector2 truePosition2 = component.TruePosition;
+                                Vector2 truePosition2 = component.Object.GetTruePosition();
                                 if (Vector2.Distance(truePosition2, truePosition) <= CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance && CachedPlayer.LocalPlayer.PlayerControl.CanMove && !PhysicsHelpers.AnythingBetween(truePosition, truePosition2, Constants.ShipAndObjectsMask, false))
                                 {
                                     EvilTrapper.currentSelectedBody = component;
@@ -479,10 +474,11 @@ namespace TheOtherRoles
                             }
                         }
                     }
+                    evilTrapperSelectButton.Timer = evilTrapperSelectButton.MaxTimer;
                     },
                     () => { return EvilTrapper.player && EvilTrapper.player == CachedPlayer.LocalPlayer.PlayerControl && !EvilTrapper.hasSelectedBody; },
                     () => { return __instance.ReportButton.graphic.color == Palette.EnabledColor && !EvilTrapper.hasSelectedBody && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
-                    () => {EvilTrapper.trappedBodys.Clear(); EvilTrapper.hasSelectedBody = false; EvilTrapper.currentSelectedBody = null; },
+                    () => {EvilTrapper.trappedBodys = new(); EvilTrapper.hasSelectedBody = false; EvilTrapper.currentSelectedBody = null; },
                     EvilTrapper.getTrapSprite(),
                     CustomButton.ButtonPositions.upperRowLeft,
                     __instance,
@@ -536,14 +532,13 @@ namespace TheOtherRoles
                 if (!Teleporter.hasPlacedLoc()) {
                     Teleporter.loc = Teleporter.teleporter.transform.position;
                     teleporterButton.Sprite = Teleporter.getTpSprite();
-                    teleporterButton.actionButton.OverrideText("Teleport");
-                    teleporterButton.Timer = 1f;
+                    teleporterButton.Timer = 1.99f;
                     Teleporter.hasPlacedLocation = true;
                     /// SAT LOCATION!
                 } else {
                     Teleporter.teleporter.transform.position = Teleporter.loc;
                     teleporterButton.Sprite = Teleporter.getPlaceSprite();
-                    teleporterButton.actionButton.OverrideText("Set Location");
+
                     teleporterButton.Timer = teleporterButton.MaxTimer;
                     Teleporter.hasPlacedLocation = false;
                     Teleporter.loc = new Vector3(0,0,0);
@@ -552,13 +547,21 @@ namespace TheOtherRoles
             () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl; },
             () => { return Teleporter.teleporter != null; },
             () => { Teleporter.loc = new Vector3(0, 0, 0); },
-            Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "setLocation");
+            Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {});
 
             TheOtherRolesPlugin.Logger.LogMessage("Teleporter done!");
 
             sniperSnipeButton = new CustomButton(
                 () => {
-                if (Helpers.checkMurderAttemptAndKill(Sniper.sniper, Sniper.currentTarget) == MurderAttemptResult.SuppressKill) return;
+                if (Helpers.checkMurderAttempt(Sniper.sniper, Sniper.currentTarget) == MurderAttemptResult.SuppressKill) return;
+                
+                if (Sacrificer.target && Sniper.currentTarget == Sacrificer.target) {
+                    Helpers.MurderPlayer(Sacrificer.sacrificer, Sniper.sniper, false);
+                    Helpers.MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer, true);
+                    return;
+                } else if (Sniper.currentTarget != Sacrificer.target) {
+                    Helpers.MurderPlayer(Sniper.sniper, Sniper.currentTarget, false);
+                }
 
                 sniperSnipeButton.Timer = sniperSnipeButton.MaxTimer; 
                 Sniper.currentTarget = null;
@@ -606,7 +609,7 @@ namespace TheOtherRoles
                 null,
                 true,
                 1f,
-                () => { },
+                () => {ghostTpButton.Timer = ghostTpButton.MaxTimer;},
                 false,
                 "Teleport"
                     );
@@ -707,7 +710,9 @@ namespace TheOtherRoles
                 invisibleWriter.Write(Swooper.swooper.PlayerId);
                 invisibleWriter.Write(byte.MaxValue);
                 AmongUsClient.Instance.FinishRpcImmediately(invisibleWriter);
-                RPCProcedure.setInvisible(Swooper.swooper.PlayerId, byte.MaxValue); SoundEffectsManager.play("morplhingsample"); },
+                RPCProcedure.setInvisible(Swooper.swooper.PlayerId, byte.MaxValue); SoundEffectsManager.play("morplhingsample"); 
+                swooperSweepsButton.Timer = swooperSweepsButton.MaxTimer;
+                },
                 false, 
                 "Swoop"
             );

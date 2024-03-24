@@ -550,6 +550,10 @@ namespace TheOtherRoles.Patches {
             if (HideNSeek.isHideNSeekGM || PropHunt.isPropHuntGM) 
                 if ((0 != statistics.TotalAlive - statistics.TeamImpostorsAlive)) return false;
 
+                /*if (statistics.TeamImpostorsAlive == 0 && CustomOptionHolder.traitor.getBool()) {
+                    assigntratirolol()
+                }*/
+
             if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive && statistics.TeamJackalAlive == 0 && statistics.TeamHaunterAlive == 0 && !(statistics.TeamImpostorHasAliveLover && statistics.TeamLoversAlive == 2)) {
                 //__instance.enabled = false;
                 GameOverReason endReason;
