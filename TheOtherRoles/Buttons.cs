@@ -407,12 +407,17 @@ namespace TheOtherRoles
                 () => { return Befriender.befriender != null && Befriender.befriender == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead; },
                 () => {
                     bool dousedEveryoneAlive = Befriender.befriendedEveryoneAlive();
-                    if (dousedEveryoneAlive) befrienderButton.actionButton.graphic.sprite = Befriender.getIgniteSprite();
+                    if (dousedEveryoneAlive) {
+                        befrienderButton.actionButton.graphic.sprite = Befriender.getIgniteSprite(); 
+                        befrienderButton.actionButton.OverrideText("Befriend all");    
+                    } else {
+                        teleporterButton.actionButton.OverrideText("Befriend");
+                    }
                     
                     if (befrienderButton.isEffectActive && Befriender.befrienderTarget != Befriender.currentTarget) {
                         Befriender.befrienderTarget = null;
-                        arsonistButton.Timer = 0f;
-                        arsonistButton.isEffectActive = false;
+                        befrienderButton.Timer = 0f;
+                        befrienderButton.isEffectActive = false;
                     }
 
                     return CachedPlayer.LocalPlayer.PlayerControl.CanMove && (dousedEveryoneAlive || Befriender.currentTarget != null);
@@ -447,7 +452,9 @@ namespace TheOtherRoles
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                     Befriender.befrienderTarget = null;
-                }
+                },
+                false,
+                "Befriend"
             );
 
             TheOtherRolesPlugin.Logger.LogMessage("Befriender done!");
@@ -529,18 +536,14 @@ namespace TheOtherRoles
                 if (!Teleporter.hasPlacedLoc()) {
                     Teleporter.loc = Teleporter.teleporter.transform.position;
                     teleporterButton.Sprite = Teleporter.getTpSprite();
-                    teleporterButton.actionButtonLabelText.text = "Teleport";
-                    teleporterButton.actionButton.buttonLabelText.text = "Teleport";
-                    teleporterButton.actionButtonLabelText.text = "Teleport";
+                    teleporterButton.actionButton.OverrideText("Teleport");
                     teleporterButton.Timer = 1f;
                     Teleporter.hasPlacedLocation = true;
                     /// SAT LOCATION!
                 } else {
                     Teleporter.teleporter.transform.position = Teleporter.loc;
                     teleporterButton.Sprite = Teleporter.getPlaceSprite();
-                    teleporterButton.actionButtonLabelText.text = "setLocation";
-                    teleporterButton.actionButton.buttonLabelText.text = "setLocation";
-                    teleporterButton.actionButtonLabelText.text = "setLocation";
+                    teleporterButton.actionButton.OverrideText("Set Location");
                     teleporterButton.Timer = teleporterButton.MaxTimer;
                     Teleporter.hasPlacedLocation = false;
                     Teleporter.loc = new Vector3(0,0,0);

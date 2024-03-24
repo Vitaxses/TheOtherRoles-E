@@ -224,41 +224,11 @@ public class RolePatches {
 
             if (tasks == 0 && !Betrayer.hasBetrayedYet) {
                 if (!Betrayer.betrayer.Data.Role.IsImpostor) {
-
-                    MessageWriter boolWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.setBetrayerHasBetrayed, SendOption.Reliable, -1);
-                    boolWriter.Write(byte.MaxValue);
-                    AmongUsClient.Instance.FinishRpcImmediately(boolWriter);
-                    RPCProcedure.setBetrayerHasBetrayed(byte.MaxValue);
-
-                    
-                    RoleManager.Instance.SetRole(Betrayer.betrayer, RoleTypes.Impostor);
-
-                    MessageWriter writer1 = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRole, SendOption.Reliable, -1);
-                    writer1.Write((byte)RoleId.Impostor);
-                    writer1.Write(Betrayer.betrayer.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer1);
-                    RPCProcedure.setRole((byte)RoleId.Impostor, Betrayer.betrayer.PlayerId);
-
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetRoleTeam, SendOption.Reliable, -1);
-                    writer.Write((byte)RoleTypes.Impostor);
-                    writer.Write(Betrayer.betrayer.PlayerId);
+                    Betrayer.betrayer.clearAllTasks();
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.setImpostor, SendOption.Reliable, -1);
+                    writer.Write(byte.MaxValue);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPCProcedure.setRoleTeam((byte)RoleTypes.Impostor, Betrayer.betrayer.PlayerId);
-
-
-                    if ( __instance == CachedPlayer.LocalPlayer.PlayerControl && __instance == Betrayer.betrayer ) {
-                        Betrayer.betrayer.ClearTasks();
-                        HudManager.Instance.ImpostorVentButton.Show();
-                        HudManager.Instance.ImpostorVentButton.SetEnabled();
-
-                        HudManager.Instance.KillButton.Show();
-                        HudManager.Instance.KillButton.SetEnabled();
-
-                        HudManager.Instance.SabotageButton.Show();
-                        HudManager.Instance.SabotageButton.SetEnabled();
-                    }
-
-
+                    RPCProcedure.setImpostor(Betrayer.betrayer.PlayerId);
                 } else {
                     return;
                 }

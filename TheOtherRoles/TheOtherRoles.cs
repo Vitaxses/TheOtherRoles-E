@@ -103,7 +103,6 @@ namespace TheOtherRoles
             PropHunt.clearAndReload();
         }
 
-
         public static class Revealer {
             
             public static PlayerControl player;
@@ -221,9 +220,6 @@ namespace TheOtherRoles
             public static Color color = Color.yellow;
 
             public static float speed;
-
-            public static float colliderOffset = 05f;
-            public static float colliderRadius = 1.7f; 
             public static float scale = 1.5f;
 
             public static Vector3 Scale = new Vector3(1.5f, 1.5f, 1.5f);

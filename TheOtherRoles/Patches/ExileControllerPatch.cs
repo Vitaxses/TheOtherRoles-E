@@ -226,6 +226,21 @@ namespace TheOtherRoles.Patches {
                 }
             }
 
+            if (Befriender.befriender != null && Befriender.befriender == CachedPlayer.LocalPlayer.PlayerControl) {
+                int visibleCounter = 0;
+                Vector3 newBottomLeft = IntroCutsceneOnDestroyPatch.bottomLeft;
+                var BottomLeft = newBottomLeft + new Vector3(-0.25f, -0.25f, 0);
+                foreach (PlayerControl p in CachedPlayer.AllPlayers) {
+                    if (!TORMapOptions.playerIcons.ContainsKey(p.PlayerId)) continue;
+                    if (p.Data.IsDead || p.Data.Disconnected) {
+                        TORMapOptions.playerIcons[p.PlayerId].gameObject.SetActive(false);
+                    } else {
+                        TORMapOptions.playerIcons[p.PlayerId].transform.localPosition = newBottomLeft + Vector3.right * visibleCounter * 0.35f;
+                        visibleCounter++;
+                    }
+                }
+            }
+
             // Deputy check Promotion, see if the sheriff still exists. The promotion will be after the meeting.
             if (Deputy.deputy != null)
             {

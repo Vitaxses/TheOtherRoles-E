@@ -121,7 +121,7 @@ namespace TheOtherRoles
         StopStart,
         SetHost,
         SetRoleTeam,
-        setBetrayerHasBetrayed,
+        setImpostor,
 
         // Role functionality
         BefrienderWin,
@@ -945,6 +945,65 @@ namespace TheOtherRoles
                 Ninja.ninjaMarked = null;
         }
 
+        public static void setImpostor(byte playerId) {
+            PlayerControl target = Helpers.playerById(playerId);
+            PlayerControl local = CachedPlayer.LocalPlayer.PlayerControl;
+
+            if (target == null) return;
+
+            if (target == Betrayer.betrayer) {
+                Betrayer.hasBetrayedYet = true;
+
+                RoleManager.Instance.SetRole(Betrayer.betrayer, RoleTypes.Impostor);
+
+                RPCProcedure.setRole((byte)RoleId.Impostor, Betrayer.betrayer.PlayerId);
+                RPCProcedure.setRoleTeam((byte)RoleTypes.Impostor, Betrayer.betrayer.PlayerId);
+
+                if (Betrayer.betrayer == local) {
+                    Betrayer.betrayer.ClearTasks();
+                    HudManager.Instance.ImpostorVentButton.Show();
+                    HudManager.Instance.ImpostorVentButton.SetEnabled();
+
+                    HudManager.Instance.KillButton.Show();
+                    HudManager.Instance.KillButton.SetEnabled();
+
+                    HudManager.Instance.SabotageButton.Show();
+                    HudManager.Instance.SabotageButton.SetEnabled();
+                }
+                if (local.Data.Role.IsImpostor || local.Data.IsDead) {
+                    Color myColor;
+                    if (local.Data.IsDead) {
+                        myColor = Betrayer.color;
+                        Betrayer.betrayer.cosmetics.nameText.text = Helpers.cs(myColor, Betrayer.betrayer.Data.PlayerName) + Helpers.cs(Palette.ImpostorRed, " (B)");
+                    } else {
+                        myColor = Palette.ImpostorRed;
+                        Betrayer.betrayer.cosmetics.nameText.text = Helpers.cs(myColor, Betrayer.betrayer.Data.PlayerName) + Helpers.cs(Betrayer.color, " (B)");
+                    }
+                }
+            }
+            else {
+                RoleManager.Instance.SetRole(target, RoleTypes.Impostor);
+
+                RPCProcedure.setRole((byte)RoleId.Impostor, target.PlayerId);
+                RPCProcedure.setRoleTeam((byte)RoleTypes.Impostor, target.PlayerId);
+
+                if (target == local) {
+                    target.ClearTasks();
+                    HudManager.Instance.ImpostorVentButton.Show();
+                    HudManager.Instance.ImpostorVentButton.SetEnabled();
+
+                    HudManager.Instance.KillButton.Show();
+                    HudManager.Instance.KillButton.SetEnabled();
+
+                    HudManager.Instance.SabotageButton.Show();
+                    HudManager.Instance.SabotageButton.SetEnabled();
+                }
+                if (local.Data.Role.IsImpostor) {
+                    target.cosmetics.nameText.color = Palette.ImpostorRed;
+                }
+            }
+        }
+
         public static void setRecruited(byte playerId) {
             PlayerControl recruited = Helpers.playerById(playerId);
 
@@ -1758,9 +1817,9 @@ namespace TheOtherRoles
                     byte PI = reader.ReadByte();
                     RPCProcedure.setRoleTeam(roleteam, PI);
                     break;
-                case (byte)CustomRPC.setBetrayerHasBetrayed:
-                    byte flag1 = reader.ReadByte();
-                    RPCProcedure.setBetrayerHasBetrayed(flag1);
+                case (byte)CustomRPC.setImpostor:
+                    byte PI1 = reader.ReadByte();
+                    RPCProcedure.setImpostor(PI1);
                     break;
                     
                 // Game mode
