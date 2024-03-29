@@ -994,6 +994,8 @@ namespace TheOtherRoles.Patches {
             if (Mini.mini != null && CachedPlayer.LocalPlayer.PlayerControl == Mini.mini) {
                 var multiplier = Mini.isGrownUp() ? 0.66f : 2f;
                 HudManagerStartPatch.sheriffKillButton.MaxTimer = Sheriff.cooldown * multiplier;
+                HudManagerStartPatch.swooperSweepsButton.MaxTimer = Swooper.cooldownUse * multiplier;
+                HudManagerStartPatch.sniperSnipeButton.MaxTimer = Sniper.SnipeCD * multiplier;
                 HudManagerStartPatch.vampireKillButton.MaxTimer = Vampire.cooldown * multiplier;
                 HudManagerStartPatch.jackalKillButton.MaxTimer = Jackal.cooldown * multiplier;
                 HudManagerStartPatch.sidekickKillButton.MaxTimer = Sidekick.cooldown * multiplier;
@@ -1303,6 +1305,12 @@ namespace TheOtherRoles.Patches {
 
             if (Sacrificer.target != null && Sacrificer.target == target) {
                 Helpers.MurderPlayer(Sacrificer.sacrificer, __instance, false);
+                GameHistory.overrideDeathReasonAndKiller(target, DeadPlayer.CustomDeathReason.Kill, target);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.RevivePlayer, SendOption.Reliable, -1);
+                writer.Write(target.PlayerId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.RevivePlayer(target.PlayerId);
+
                 resetToDead = true;
                 Sacrificer.sacrificer.MurderPlayer(Sacrificer.sacrificer, MurderResultFlags.Succeeded);
             }
@@ -1404,6 +1412,9 @@ namespace TheOtherRoles.Patches {
 
                 if (Bait.showKillFlash && __instance == CachedPlayer.LocalPlayer.PlayerControl) Helpers.showFlash(new Color(204f / 255f, 102f / 255f, 0f / 255f));
             }
+
+            if (Sniper.sniper != null && CachedPlayer.LocalPlayer.PlayerControl == Sniper.sniper && __instance == Sniper.sniper && HudManagerStartPatch.sniperSnipeButton != null)
+                HudManagerStartPatch.sniperSnipeButton.Timer = HudManagerStartPatch.sniperSnipeButton.MaxTimer;
 
             // Add Bloody Modifier
             if (Bloody.bloody.FindAll(x => x.PlayerId == target.PlayerId).Count > 0) {

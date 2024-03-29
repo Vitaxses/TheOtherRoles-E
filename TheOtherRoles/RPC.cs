@@ -122,6 +122,7 @@ namespace TheOtherRoles
         SetHost,
         SetRoleTeam,
         setImpostor,
+        RevivePlayer,
 
         // Role functionality
         BefrienderWin,
@@ -943,6 +944,13 @@ namespace TheOtherRoles
             new NinjaTrace(position, Ninja.traceTime);
             if (CachedPlayer.LocalPlayer.PlayerControl != Ninja.ninja)
                 Ninja.ninjaMarked = null;
+        }
+
+        public static void RevivePlayer(byte playerId) {
+            PlayerControl target = Helpers.playerById(playerId);
+            if (target == null) return;
+
+            target.Data.IsDead = false;
         }
 
         public static void setImpostor(byte playerId) {
@@ -1821,7 +1829,12 @@ namespace TheOtherRoles
                     byte PI1 = reader.ReadByte();
                     RPCProcedure.setImpostor(PI1);
                     break;
-                    
+                
+                case (byte)CustomRPC.RevivePlayer:
+                    byte PI2 = reader.ReadByte();
+                    RPCProcedure.RevivePlayer(PI2);
+                    break;
+
                 // Game mode
                 case (byte)CustomRPC.SetGuesserGm:
                     byte guesserGm = reader.ReadByte();

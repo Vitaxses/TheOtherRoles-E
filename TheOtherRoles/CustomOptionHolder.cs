@@ -181,6 +181,7 @@ namespace TheOtherRoles {
 
         public static CustomOption sheriffSpawnRate;
         public static CustomOption sheriffCooldown;
+        public static CustomOption sheriffCanClickOnPlayer;
         public static CustomOption sheriffCanKillNeutrals;
         public static CustomOption deputySpawnRate;
 
@@ -673,9 +674,10 @@ namespace TheOtherRoles {
             engineerHighlightForImpostors = CustomOption.Create(92, Types.Crewmate, "Impostors See Vents Highlighted", true, engineerSpawnRate);
             engineerHighlightForTeamJackal = CustomOption.Create(93, Types.Crewmate, "Jackal and Sidekick See Vents Highlighted ", true, engineerSpawnRate);
 
-            sheriffSpawnRate = CustomOption.Create(100, Types.Crewmate, cs(Sheriff.color, "Sheriff"), rates, null, true);
-            sheriffCooldown = CustomOption.Create(101, Types.Crewmate, "Sheriff Cooldown", 30f, 10f, 60f, 2.5f, sheriffSpawnRate);
-            sheriffCanKillNeutrals = CustomOption.Create(102, Types.Crewmate, "Sheriff Can Kill Neutrals", false, sheriffSpawnRate);
+            sheriffSpawnRate = CustomOption.Create(99, Types.Crewmate, cs(Sheriff.color, "Sheriff"), rates, null, true);
+            sheriffCooldown = CustomOption.Create(100, Types.Crewmate, "Sheriff Cooldown", 30f, 10f, 60f, 2.5f, sheriffSpawnRate);
+            sheriffCanKillNeutrals = CustomOption.Create(101, Types.Crewmate, "Sheriff Can Kill Neutrals", false, sheriffSpawnRate);
+            sheriffCanClickOnPlayer = CustomOption.Create(102, Types.Crewmate, "Click on a Player to kill", false, sheriffSpawnRate);
             deputySpawnRate = CustomOption.Create(103, Types.Crewmate, "Sheriff Has A Deputy", rates, sheriffSpawnRate);
             deputyNumberOfHandcuffs = CustomOption.Create(104, Types.Crewmate, "Deputy Number Of Handcuffs", 3f, 1f, 10f, 1f, deputySpawnRate);
             deputyHandcuffCooldown = CustomOption.Create(105, Types.Crewmate, "Handcuff Cooldown", 30f, 10f, 60f, 2.5f, deputySpawnRate);

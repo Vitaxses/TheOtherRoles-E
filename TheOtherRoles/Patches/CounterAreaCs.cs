@@ -11,7 +11,7 @@ namespace TheOtherRoles.Patches.Added;
     class CounterAreaUpdateCountPatch {
 
         static void Prefix(RoomTracker __instance) {
-            if((Haunter.haunter != null && CachedPlayer.LocalPlayer.PlayerControl == Haunter.haunter) || (Swooper.swooper != null && CachedPlayer.LocalPlayer.PlayerControl == Swooper.swooper && Swooper.isInvisible)) {
+            if ((Haunter.haunter != null && CachedPlayer.LocalPlayer.PlayerControl == Haunter.haunter) || (Swooper.swooper != null && CachedPlayer.LocalPlayer.PlayerControl == Swooper.swooper && Swooper.isInvisible)) {
                 __instance.LastRoom = null;
                 __instance.playerCollider = null;
             }

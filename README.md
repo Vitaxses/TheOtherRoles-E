@@ -973,6 +973,7 @@ If they try to kill a Crewmate, they die instead.\
 | Sheriff Spawn Chance | -
 | Sheriff Cooldown | -
 | Sheriff Can Kill Neutrals | -
+| Sheriff Can Click on a Player to kill | -
 | Sheriff Has A Deputy | Deputy can not be in game without Sheriff
 -----------------------
 
