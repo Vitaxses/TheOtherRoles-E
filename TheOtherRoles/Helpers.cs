@@ -424,9 +424,10 @@ namespace TheOtherRoles {
                     roleCouldUse = false;
                 else if (Mafioso.mafioso != null && Mafioso.mafioso == CachedPlayer.LocalPlayer.PlayerControl && Godfather.godfather != null && !Godfather.godfather.Data.IsDead)
                     roleCouldUse = false;
-                else if (/*(Tasker.tasker && Tasker.tasker == player) || */(!Swooper.canVent && Swooper.swooper != null && Swooper.swooper == player)) {
+                else if (/*(Tasker.tasker && Tasker.tasker == player) || */(!Swooper.canVent && Swooper.swooper != null && Swooper.swooper == player))
                 roleCouldUse = false;
-            }
+                else if (Sniper.sniper && Sniper.sniper == player && !Sniper.canVent) 
+                roleCouldUse = false;
                 else
                     roleCouldUse = true;
             }

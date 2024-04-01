@@ -27,7 +27,8 @@ namespace TheOtherRoles
 
         public static CustomButton sacraficeButton;
 
-        public static CustomButton teleporterButton;
+        public static CustomButton teleporterMarkButton;
+        public static CustomButton teleporterTpButton;
 
         public static CustomButton ghostTpButton;
 
@@ -35,7 +36,8 @@ namespace TheOtherRoles
         public static CustomButton modifier1TimeKiller;
         public static CustomButton evilTrapperSelectButton;
 
-        public static CustomButton befrienderButton;
+        public static CustomButton befrienderBefriendButton;
+        public static CustomButton befrienderAllButton;
 
         private static CustomButton engineerRepairButton;
         private static CustomButton janitorCleanButton;
@@ -123,14 +125,16 @@ namespace TheOtherRoles
             haunterHauntButton.MaxTimer = Haunter.hauntCooldown;
             haunterKillButton.MaxTimer = Haunter.killCD;
 
-            teleporterButton.MaxTimer = Teleporter.Cooldown;
+            teleporterMarkButton.MaxTimer = Teleporter.Cooldown;
+            teleporterTpButton.MaxTimer = 2f;
             
             sniperSnipeButton.MaxTimer = Sniper.SnipeCD;
             ghostTpButton.MaxTimer = 0f;
             sacraficeButton.MaxTimer = 0f;
             modifier1TimeKiller.MaxTimer = 0f;
             evilTrapperSelectButton.MaxTimer = 0.5f;
-            befrienderButton.MaxTimer = Befriender.cooldown;
+            befrienderBefriendButton.MaxTimer = Befriender.cooldown;
+            befrienderAllButton.MaxTimer = 0f;
 
             engineerRepairButton.MaxTimer = 0f;
             janitorCleanButton.MaxTimer = Janitor.cooldown;
@@ -390,41 +394,70 @@ namespace TheOtherRoles
 
                 TheOtherRolesPlugin.Logger.LogMessage("Reveale done!");
 
-            befrienderButton = new CustomButton(
+            befrienderAllButton = new CustomButton(
+                () => {},
+                () => { return Befriender.befriender != null && Befriender.befriender == CachedPlayer.LocalPlayer.PlayerControl && Befriender.befriendedEveryoneAlive(); },
+                () => {
+                    bool befriendedEveryoneAlive = Befriender.befriendedEveryoneAlive();
+
+                    return CachedPlayer.LocalPlayer.PlayerControl.CanMove && (befriendedEveryoneAlive || Befriender.currentTarget != null);
+                },
+                () => {
+                },
+                Befriender.getBefriendAllSprite(),
+                CustomButton.ButtonPositions.lowerRowRight,
+                __instance,
+                KeyCode.F,
+                true,
+                1.5f,
                 () => {
                     bool BefriendedEveryoneAlive = Befriender.befriendedEveryoneAlive();
                     if (BefriendedEveryoneAlive) {
                         MessageWriter winWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.BefrienderWin, Hazel.SendOption.Reliable, -1);
                         AmongUsClient.Instance.FinishRpcImmediately(winWriter);
                         RPCProcedure.befrienderWin();
-                        befrienderButton.HasEffect = false;
-                    } else if (Arsonist.currentTarget != null) {
+                    }
+                },
+                false,
+                "Befriend All"
+            );
+
+            befrienderBefriendButton = new CustomButton(
+                () => {
+                    /*bool BefriendedEveryoneAlive = Befriender.befriendedEveryoneAlive();
+                    if (BefriendedEveryoneAlive) {
+                        MessageWriter winWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.BefrienderWin, Hazel.SendOption.Reliable, -1);
+                        AmongUsClient.Instance.FinishRpcImmediately(winWriter);
+                        RPCProcedure.befrienderWin();
+                        befrienderBefriendButton.HasEffect = false;
+                    }*/
+                    if (Befriender.currentTarget != null) {
                         Befriender.befrienderTarget = Befriender.currentTarget;
-                        befrienderButton.HasEffect = true;
+                        befrienderBefriendButton.HasEffect = true;
                         SoundEffectsManager.play("arsonistDouse");
                     }
                 },
-                () => { return Befriender.befriender != null && Befriender.befriender == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead; },
+                () => { return Befriender.befriender != null && Befriender.befriender == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead && !Befriender.befriendedEveryoneAlive(); },
                 () => {
                     bool dousedEveryoneAlive = Befriender.befriendedEveryoneAlive();
-                    if (dousedEveryoneAlive) {
-                        befrienderButton.actionButton.graphic.sprite = Befriender.getIgniteSprite(); 
-                    }
+                    /*if (dousedEveryoneAlive) {
+                        befrienderBefriendButton.actionButton.graphic.sprite = Befriender.getIgniteSprite(); 
+                    }*/
                     
-                    if (befrienderButton.isEffectActive && Befriender.befrienderTarget != Befriender.currentTarget) {
+                    if (befrienderBefriendButton.isEffectActive && Befriender.befrienderTarget != Befriender.currentTarget) {
                         Befriender.befrienderTarget = null;
-                        befrienderButton.Timer = 0f;
-                        befrienderButton.isEffectActive = false;
+                        befrienderBefriendButton.Timer = 0f;
+                        befrienderBefriendButton.isEffectActive = false;
                     }
 
                     return CachedPlayer.LocalPlayer.PlayerControl.CanMove && (dousedEveryoneAlive || Befriender.currentTarget != null);
                 },
                 () => {
-                    befrienderButton.Timer = befrienderButton.MaxTimer;
-                    befrienderButton.isEffectActive = false;
+                    befrienderBefriendButton.Timer = befrienderBefriendButton.MaxTimer;
+                    befrienderBefriendButton.isEffectActive = false;
                     Befriender.befrienderTarget = null;
                 },
-                Befriender.getDouseSprite(),
+                Befriender.getBefriendSprite(),
                 CustomButton.ButtonPositions.lowerRowRight,
                 __instance,
                 KeyCode.F,
@@ -433,7 +466,7 @@ namespace TheOtherRoles
                 () => {
                     if (Befriender.befrienderTarget != null) Befriender.befriendedPlayers.Add(Befriender.befrienderTarget);
                     
-                    befrienderButton.Timer = Befriender.befriendedEveryoneAlive() ? 0 : befrienderButton.MaxTimer;
+                    befrienderBefriendButton.Timer = Befriender.befriendedEveryoneAlive() ? 0 : befrienderBefriendButton.MaxTimer;
 
                     foreach (PlayerControl p in Befriender.befriendedPlayers) {
                         if (TORMapOptions.playerIcons.ContainsKey(p.PlayerId)) {
@@ -449,7 +482,9 @@ namespace TheOtherRoles
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                     Befriender.befrienderTarget = null;
-                }
+                },
+                false,
+                "Befriend"
             );
 
             TheOtherRolesPlugin.Logger.LogMessage("Befriender done!");
@@ -527,27 +562,29 @@ namespace TheOtherRoles
 
             TheOtherRolesPlugin.Logger.LogMessage("Sacrificer done!");
 
-            teleporterButton = new CustomButton(
+            teleporterTpButton = new CustomButton(
                 () => {
-                if (!Teleporter.hasPlacedLoc()) {
-                    Teleporter.loc = Teleporter.teleporter.transform.position;
-                    teleporterButton.Sprite = Teleporter.getTpSprite();
-                    teleporterButton.Timer = 1.99f;
-                    Teleporter.hasPlacedLocation = true;
-                    /// SAT LOCATION!
-                } else {
                     Teleporter.teleporter.transform.position = Teleporter.loc;
-                    teleporterButton.Sprite = Teleporter.getPlaceSprite();
-
-                    teleporterButton.Timer = teleporterButton.MaxTimer;
+                    teleporterMarkButton.Timer = teleporterMarkButton.MaxTimer;
                     Teleporter.hasPlacedLocation = false;
                     Teleporter.loc = new Vector3(0,0,0);
-                    // TPED
-                }},
-            () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl; },
+                },
+                () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl && Teleporter.hasPlacedLoc(); },
+                () => { return Teleporter.teleporter != null; },
+                () => { Teleporter.loc = new Vector3(0, 0, 0); Teleporter.hasPlacedLocation = false; },
+                Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "Teleport"
+            );
+
+            teleporterMarkButton = new CustomButton(
+                () => {
+                    Teleporter.loc = Teleporter.teleporter.transform.position;
+                    teleporterTpButton.Timer = 1.99f;
+                    Teleporter.hasPlacedLocation = true;
+                    },
+            () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl && !Teleporter.hasPlacedLoc(); },
             () => { return Teleporter.teleporter != null; },
-            () => { Teleporter.loc = new Vector3(0, 0, 0); },
-            Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {});
+            () => { Teleporter.loc = new Vector3(0, 0, 0); Teleporter.hasPlacedLocation = false; },
+            Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "Mark");
 
             TheOtherRolesPlugin.Logger.LogMessage("Teleporter done!");
 
@@ -674,7 +711,7 @@ namespace TheOtherRoles
                 () => { return Recruiter.currentTarget && Recruiter.FutureRecruited == null && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
                 () => {},
                 Recruiter.getRecruitSprite(),
-                CustomButton.ButtonPositions.upperRowFarLeft,
+                CustomButton.ButtonPositions.lowerRowLeft,
                 __instance,
                 null,
                 false,

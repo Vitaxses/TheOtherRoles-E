@@ -314,6 +314,10 @@ namespace TheOtherRoles.Patches {
             }
         }
 
+        static void updateSniper() {
+
+        }
+
         static void updateShielded() {
             if (Medic.shielded == null) return;
 
@@ -379,6 +383,8 @@ namespace TheOtherRoles.Patches {
             else if (Swooper.swooper != null && Swooper.swooper == CachedPlayer.LocalPlayer.PlayerControl && !Swooper.isInvisible) {
                 enabled = false; }
             else if (Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl && !Haunter.isHaunting) {
+                enabled = false; }
+            else if (Sniper.sniper != null && Sniper.sniper == CachedPlayer.LocalPlayer.PlayerControl) {    
                 enabled = false; }
             
             if (enabled) __instance.KillButton.Show();

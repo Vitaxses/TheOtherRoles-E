@@ -13,7 +13,7 @@ public static class clickPatch {
     public static void Prefix(PlayerControl __instance) {
         if (Sheriff.canClickOnPlayer) {
             PlayerControl local = CachedPlayer.LocalPlayer.PlayerControl;
-            if (Sheriff.sheriff != null && local == Sheriff.sheriff) {
+            if (Sheriff.sheriff != null && local == Sheriff.sheriff && __instance == Sheriff.currentTarget) {
                 if (HudManagerStartPatch.sheriffKillButton.Timer < 0.1f) {
                     MurderAttemptResult murderAttemptResult = Helpers.checkMurderAttempt(Sheriff.sheriff, Sheriff.currentTarget);
                         if (murderAttemptResult == MurderAttemptResult.SuppressKill) return;

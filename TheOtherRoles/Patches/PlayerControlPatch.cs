@@ -45,8 +45,8 @@ namespace TheOtherRoles.Patches {
 
         static void sniperSetTarget() {
             if (Sniper.sniper == null || Sniper.sniper != CachedPlayer.LocalPlayer.PlayerControl) return;
-            Sniper.currentTarget = setTarget(false, true, null, Sniper.sniper, Sniper.killDistance);
-            setPlayerOutline(Sniper.currentTarget, Palette.Black);
+            Sniper.currentTarget = setTarget(true, true, null, Sniper.sniper, Sniper.killDistance);
+            setPlayerOutline(Sniper.currentTarget, Palette.ImpostorRed);
         }
 
         static void sacraficerSetTarget() {

@@ -255,7 +255,7 @@ namespace TheOtherRoles
         }
 
         public static void setHost(byte playerId) {
-            PlayerControl nHost = GameData.Instance.GetPlayerById(playerId).Object;
+            PlayerControl nHost = Helpers.playerById(playerId);
             
             if (nHost == CachedPlayer.LocalPlayer.PlayerControl) {
                 UnityTelemetry._instance.amHost = true;
@@ -265,7 +265,7 @@ namespace TheOtherRoles
         }
 
         public static void setRoleTeam(byte roleTeam, byte playerId) {
-            PlayerControl p = GameData.Instance.GetPlayerById(playerId).Object;
+            PlayerControl p = Helpers.playerById(playerId);
             if (p != null) {
                 switch (roleTeam) {
                     case (byte)RoleTypes.Impostor:

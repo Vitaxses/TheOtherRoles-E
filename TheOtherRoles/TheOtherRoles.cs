@@ -145,14 +145,14 @@ namespace TheOtherRoles
             public static List<PlayerControl> befriendedPlayers = new List<PlayerControl>();
 
             private static Sprite douseSprite;
-            public static Sprite getDouseSprite() {
+            public static Sprite getBefriendSprite() {
                 if (douseSprite) return douseSprite;
                 douseSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.befriend.png", 115f);
                 return douseSprite;
             }
 
             private static Sprite igniteSprite;
-            public static Sprite getIgniteSprite() {
+            public static Sprite getBefriendAllSprite() {
                 if (igniteSprite) return igniteSprite;
                 igniteSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.BefriendEveryone.png", 115f);
                 return igniteSprite;
@@ -335,10 +335,12 @@ namespace TheOtherRoles
 
             public static float SnipeCD = 28f;
             public static float killDistance = 2;
+            public static bool canVent = false;
 
             public static void clearAndReload() {
                 sniper = null;
                 currentTarget = null;
+                canVent = CustomOptionHolder.sniperCanVent.getBool();
                 killDistance = CustomOptionHolder.sniperSnipeKD.getFloat();
                 SnipeCD = CustomOptionHolder.sniperSnipeCD.getFloat();
             }

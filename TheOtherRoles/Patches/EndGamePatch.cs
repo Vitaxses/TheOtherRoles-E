@@ -156,8 +156,9 @@ namespace TheOtherRoles.Patches {
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls) {
                     if (!p.Data.IsDead) {
-                        GameData.PlayerInfo d = p.Data;
-                        TempData.winners.Add(new WinningPlayerData(d));
+                        p.clearCustomRole();
+                        Helpers.MurderPlayer(Befriender.befriender, p, true);
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
                     }
                 }
             }
