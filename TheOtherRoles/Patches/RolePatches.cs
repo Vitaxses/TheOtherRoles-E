@@ -14,37 +14,27 @@ namespace TheOtherRoles.Patches;
 
 public class RolePatches {
 
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
-    public class EvilTrapperKill {
-
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)]GameData.PlayerInfo target) {
-            if (target != null && EvilTrapper.trappedBodys.Contains(target)) {
-                if (EvilTrapper.trappedBodys.Count < EvilTrapper.maxCountOfTrappedBodys) {
-                    Helpers.MurderPlayer(EvilTrapper.player, __instance);
-                    EvilTrapper.trappedBodys.Add(__instance.Data);
-                }
-            }
-        }
-
-    }
-
     /*[HarmonyPatch(typeof(Console), nameof(Console.CanUse))]    
     public class UseCanInterract {
     
         public static float PreFix(GameData.PlayerInfo pc, out bool canUse, out bool couldUse) {
-            PlayerControl me = pc.Object;
+            PlayerControl pc = pc.Object;
+            PlayerControl me = CachedPlayer.LocalPlayer.PlayerControl;
         
-            float num = float.MaxValue;
+            if (me == pc) {
 
-		    couldUse = me.CanMove;
-		    canUse = couldUse;
-            if (me == Tasker.tasker) {
-                canUse = true;
-            }
-            if (canUse)
-            {
-                num = Vector2.Distance(me.GetTruePosition(), me.transform.position);
-                canUse &= num <= 1f;
+                float num = float.MaxValue;
+            
+                couldUse = me.CanMove;
+                canUse = couldUse;
+                if (me == Tasker.tasker) {
+                    canUse = true;
+                }
+                if (canUse)
+                {
+                    num = Vector2.Distance(me.GetTruePosition(), me.transform.position);
+                    canUse &= num <= 1f;
+                }
             }
 		return num;
         }

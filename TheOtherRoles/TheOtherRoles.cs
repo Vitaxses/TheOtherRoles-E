@@ -180,9 +180,7 @@ namespace TheOtherRoles
             public static PlayerControl player;
 
             public static Color color = Palette.ImpostorRed;
-
-            public static List<GameData.PlayerInfo> trappedBodys = new();
-            public static GameData.PlayerInfo currentSelectedBody;
+            public static DeadBody trappedBody;
             public static bool hasSelectedBody = false;
             public static Sprite trapSprite = null;
             public static Sprite getTrapSprite() {
@@ -191,14 +189,10 @@ namespace TheOtherRoles
                 return trapSprite;
             }
 
-            public static float maxCountOfTrappedBodys = 4f;
-
             public static void clearAndReload() {
                 player = null;
-                currentSelectedBody = null;
+                trappedBody = null;
                 hasSelectedBody = false;
-                trappedBodys = new List<GameData.PlayerInfo>();
-                maxCountOfTrappedBodys = CustomOptionHolder.evilTrapperMaxCountOfDeadBodys.getFloat();
             }
         }
         public static class Betrayer {
@@ -1260,6 +1254,7 @@ namespace TheOtherRoles
     public static class Snitch {
         public static PlayerControl snitch;
         public static Color color = new Color32(184, 251, 79, byte.MaxValue);
+        public static bool arrowPointingToSnitchWhen1TaskLeft = true;
         public enum Mode {
             Chat = 0,
             Map = 1,
@@ -1273,14 +1268,18 @@ namespace TheOtherRoles
         public static Mode mode = Mode.Chat;
         public static Targets targets = Targets.EvilPlayers;
         public static int taskCountForReveal = 1;
-
+        public static Arrow arrowPointingToSnitch;
         public static bool isRevealed = false;
         public static Dictionary<byte, byte> playerRoomMap = new Dictionary<byte, byte>();
         public static TMPro.TextMeshPro text = null;
         public static bool needsUpdate = true;
 
         public static void clearAndReload() {
+            arrowPointingToSnitch = new Arrow(color);
+            arrowPointingToSnitchWhen1TaskLeft = CustomOptionHolder.snitch1TaskLeftImpArrow.getBool();
             taskCountForReveal = Mathf.RoundToInt(CustomOptionHolder.snitchLeftTasksForReveal.getFloat());
+            if (arrowPointingToSnitch != null && arrowPointingToSnitch.arrow != null) UnityEngine.Object.Destroy(arrowPointingToSnitch.arrow);
+            arrowPointingToSnitch = null;
             snitch = null;
             isRevealed = false;
             playerRoomMap = new Dictionary<byte, byte>();

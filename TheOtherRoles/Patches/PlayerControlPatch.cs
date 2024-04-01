@@ -728,6 +728,32 @@ namespace TheOtherRoles.Patches {
             if (numberOfTasks <= Snitch.taskCountForReveal) Snitch.isRevealed = true;
         }
 
+        static void snitchArrowUpdate() {
+            
+            PlayerControl local = CachedPlayer.LocalPlayer.PlayerControl;
+
+            if (Snitch.snitch == null || Snitch.snitch == local) return;
+            float timer = 0f;
+            timer -= Time.deltaTime;
+
+
+            if (timer <= 0) {
+
+                var myTasks = Snitch.snitch.Data.Tasks.ToArray();
+                var tasksLeft = myTasks.Count(x => !x.Complete);
+                if (tasksLeft == 1) {
+                    if ((Helpers.isKiller(local) && Helpers.isNeutral(local)) || local.Data.Role.IsImpostor) {
+                        Snitch.arrowPointingToSnitch.Update(Snitch.snitch.transform.position, Snitch.color);
+                    }
+                }
+                if (Snitch.snitch.Data.IsDead) {
+                    if (Snitch.arrowPointingToSnitch != null || Snitch.arrowPointingToSnitch.arrow != null) UnityEngine.Object.Destroy(Snitch.arrowPointingToSnitch.arrow);
+                    Snitch.arrowPointingToSnitch = null;
+                }
+                timer = 1f;
+            }
+        }
+
         static void bountyHunterUpdate() {
             if (BountyHunter.bountyHunter == null || CachedPlayer.LocalPlayer.PlayerControl != BountyHunter.bountyHunter) return;
 
@@ -1168,6 +1194,7 @@ namespace TheOtherRoles.Patches {
                 arsonistSetTarget();
                 // Snitch
                 snitchUpdate();
+                snitchArrowUpdate();
                 // BountyHunter
                 bountyHunterUpdate();
                 // Vulture

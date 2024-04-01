@@ -24,27 +24,18 @@ namespace TheOtherRoles {
         public static CustomOption anyPlayerCanStopStart;
         public static CustomOption enableEventMode;
 
-        // ADDED:
-        public static CustomOption whisperSpawnRate;
-        public static CustomOption whisperCooldown;
-        public static CustomOption whisperDuration;
-
         public static CustomOption enableCodenameHorsemode;
         public static CustomOption enableCodenameDisableHorses;
-
-        //ADDED:
 
         public static CustomOption swooperSpawnRate;
         public static CustomOption swooperTimeInvisible;
         public static CustomOption swooperCooldown;
         public static CustomOption swooperCanVent;
 
-        //ADDED:
         public static CustomOption modifierFlashSpawnRate;
         public static CustomOption modifierFlashQuantity;
         public static CustomOption modifierFlashSpeed;
 
-        //ADDED:
         public static CustomOption modifierGiantSpawnRate;
         public static CustomOption modifierGiantQuantity;
         public static CustomOption modifierGiantSpeed;
@@ -85,7 +76,6 @@ namespace TheOtherRoles {
         public static CustomOption modifierOneTimeKillerSpawnRate;
 
         public static CustomOption evilTrapperSpawnRate;
-        public static CustomOption evilTrapperMaxCountOfDeadBodys;
 
         public static CustomOption befrienderSpawnRate;
         public static CustomOption befrienderDuration;
@@ -247,6 +237,7 @@ namespace TheOtherRoles {
         public static CustomOption snitchLeftTasksForReveal;
         public static CustomOption snitchMode;
         public static CustomOption snitchTargets;
+        public static CustomOption snitch1TaskLeftImpArrow;
 
         public static CustomOption spySpawnRate;
         public static CustomOption spyCanDieToSheriff;
@@ -547,7 +538,6 @@ namespace TheOtherRoles {
             modifierOneTimeKillerSpawnRate = CustomOption.Create(4036, Types.Modifier, cs(Sheriff.color, "1-TimeKiller"), rates, null, true);
 
             evilTrapperSpawnRate = CustomOption.Create(4037, Types.Impostor, cs(Palette.ImpostorRed, "Evil-Trapper"), rates, null, true);
-            evilTrapperMaxCountOfDeadBodys = CustomOption.Create(4038, Types.Impostor, "Max body's trapped", 4, 1, 12, 1f, evilTrapperSpawnRate);
 
             befrienderSpawnRate = CustomOption.Create(4039, Types.Neutral, cs(Befriender.color, "Befriender"), rates, null, true);
             befrienderCooldown = CustomOption.Create(4040, Types.Neutral, "Cooldown", 10.5f, 0.5f, 30f, 1.5f, befrienderSpawnRate);
@@ -744,6 +734,7 @@ namespace TheOtherRoles {
             snitchLeftTasksForReveal = CustomOption.Create(219, Types.Crewmate, "Task Count Where The Snitch Will Be Revealed", 5f, 0f, 25f, 1f, snitchSpawnRate);
             snitchMode = CustomOption.Create(211, Types.Crewmate, "Information Mode", new string[] { "Chat", "Map", "Chat & Map"}, snitchSpawnRate);
             snitchTargets = CustomOption.Create(212, Types.Crewmate, "Targets", new string[] { "All Evil Players", "Killing Players" }, snitchSpawnRate);
+            snitch1TaskLeftImpArrow = CustomOption.Create(213, Types.Crewmate, "Arrow points to snitch when 1 Task left", true, snitchSpawnRate);
 
             spySpawnRate = CustomOption.Create(240, Types.Crewmate, cs(Spy.color, "Spy"), rates, null, true);
             spyCanDieToSheriff = CustomOption.Create(241, Types.Crewmate, "Spy Can Die To Sheriff", false, spySpawnRate);

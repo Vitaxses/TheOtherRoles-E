@@ -34,7 +34,7 @@ namespace TheOtherRoles
 
         public static CustomButton sniperSnipeButton;
         public static CustomButton modifier1TimeKiller;
-        public static CustomButton evilTrapperSelectButton;
+        public static CustomButton evilTrapperButton;
 
         public static CustomButton befrienderBefriendButton;
         public static CustomButton befrienderAllButton;
@@ -132,7 +132,7 @@ namespace TheOtherRoles
             ghostTpButton.MaxTimer = 0f;
             sacraficeButton.MaxTimer = 0f;
             modifier1TimeKiller.MaxTimer = 0f;
-            evilTrapperSelectButton.MaxTimer = 0.5f;
+            evilTrapperButton.MaxTimer = 0.5f;
             befrienderBefriendButton.MaxTimer = Befriender.cooldown;
             befrienderAllButton.MaxTimer = 0f;
 
@@ -489,35 +489,28 @@ namespace TheOtherRoles
 
             TheOtherRolesPlugin.Logger.LogMessage("Befriender done!");
 
-            evilTrapperSelectButton = new CustomButton(
+            evilTrapperButton = new CustomButton(
                 () => {
-                foreach (Collider2D collider2D in Physics2D.OverlapCircleAll(CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition(), CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance, Constants.PlayersOnlyMask)) {
-                        if (collider2D.tag == "DeadBody")
-                        {
-                            GameData.PlayerInfo component = collider2D.GetComponent<GameData.PlayerInfo>();
-                            if (component != null && component.IsDead)
-                            {
-                                Vector2 truePosition = CachedPlayer.LocalPlayer.PlayerControl.GetTruePosition();
-                                Vector2 truePosition2 = component.Object.GetTruePosition();
-                                if (Vector2.Distance(truePosition2, truePosition) <= CachedPlayer.LocalPlayer.PlayerControl.MaxReportDistance && CachedPlayer.LocalPlayer.PlayerControl.CanMove && !PhysicsHelpers.AnythingBetween(truePosition, truePosition2, Constants.ShipAndObjectsMask, false))
-                                {
-                                    EvilTrapper.currentSelectedBody = component;
-                                    if (!EvilTrapper.trappedBodys.Contains(EvilTrapper.currentSelectedBody)) EvilTrapper.trappedBodys.Add(EvilTrapper.currentSelectedBody);
-                                    EvilTrapper.hasSelectedBody = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    evilTrapperSelectButton.Timer = evilTrapperSelectButton.MaxTimer;
+                    GameObject deadBody = GameManager.Instance.DeadBodyPrefab.gameObject;
+                    deadBody.AddComponent<DeadBody>();
+                    DeadBody d = deadBody.GetComponent<DeadBody>();
+                    
+                    EvilTrapper.trappedBody = d;
+
+                    evilTrapperButton.Timer = evilTrapperButton.MaxTimer;
                     },
-                    () => { return EvilTrapper.player && EvilTrapper.player == CachedPlayer.LocalPlayer.PlayerControl && !EvilTrapper.hasSelectedBody; },
-                    () => { return __instance.ReportButton.graphic.color == Palette.EnabledColor && !EvilTrapper.hasSelectedBody && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
-                    () => {EvilTrapper.trappedBodys = new(); EvilTrapper.hasSelectedBody = false; EvilTrapper.currentSelectedBody = null; },
+                    () => { return EvilTrapper.player && EvilTrapper.player == CachedPlayer.LocalPlayer.PlayerControl; },
+                    () => { return !EvilTrapper.hasSelectedBody && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
+                    () => { EvilTrapper.hasSelectedBody = false; EvilTrapper.trappedBody = null; },
                     EvilTrapper.getTrapSprite(),
                     CustomButton.ButtonPositions.upperRowLeft,
                     __instance,
                     null,
+                    true,
+                    1.4f,
+                    () => {
+                        EvilTrapper.trappedBody.enabled = true;
+                    },
                     false,
                     "Trap"
                     );
