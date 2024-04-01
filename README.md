@@ -148,7 +148,7 @@ TheOtherRoles - For The Coding Framework
 
 The Other Roles Enhanced Credits:
 
-[Town-Of-Us]((https://github.com/slushiegoose/Town-Of-Us)) - For the Swooper role, The Revealer role & The Teleporter role
+[Town-Of-Us](https://github.com/slushiegoose/Town-Of-Us) - For the Swooper role, The Revealer role & The Teleporter role
 
 The Other Roles Credits: 
 
