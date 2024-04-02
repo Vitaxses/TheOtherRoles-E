@@ -44,7 +44,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
-| 2024.3.5s| v1.0.0| [Download](https://github.com/Vitaxses/TheOtherRoles-E/releases/download/v1.0.0/TheOtherRoles-E.zip)
+| 2024.3.5s| v1.0.0| [Download](https://github.com/Vitaxses/TheOtherRoles-E/releases/download/1.0.0/TheOtherRoles-E.zip)
   
 # Changelog
 <details>
