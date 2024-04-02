@@ -563,7 +563,7 @@ namespace TheOtherRoles
                     Teleporter.loc = new Vector3(0,0,0);
                 },
                 () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl && Teleporter.hasPlacedLoc(); },
-                () => { return Teleporter.teleporter != null; },
+                () => { return Teleporter.teleporter != null && Teleporter.teleporter.CanMove; },
                 () => { Teleporter.loc = new Vector3(0, 0, 0); Teleporter.hasPlacedLocation = false; },
                 Teleporter.getTpSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "Teleport"
             );
@@ -575,7 +575,7 @@ namespace TheOtherRoles
                     Teleporter.hasPlacedLocation = true;
                     },
             () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl && !Teleporter.hasPlacedLoc(); },
-            () => { return Teleporter.teleporter != null; },
+            () => { return Teleporter.teleporter != null && Teleporter.teleporter.CanMove; },
             () => { Teleporter.loc = new Vector3(0, 0, 0); Teleporter.hasPlacedLocation = false; },
             Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "Mark");
 
@@ -655,7 +655,7 @@ namespace TheOtherRoles
                     haunterKillButton.Timer = haunterKillButton.MaxTimer; 
                     Haunter.currentTarget = null;
                 },
-                () => { return Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl && !CachedPlayer.LocalPlayer.Data.IsDead; },
+                () => { return Haunter.haunter != null && Haunter.haunter == CachedPlayer.LocalPlayer.PlayerControl && Haunter.isHaunting && !CachedPlayer.LocalPlayer.Data.IsDead; },
                 () => { return Haunter.currentTarget != null && Haunter.isHaunting && CachedPlayer.LocalPlayer.PlayerControl.CanMove; },
                 () => { haunterKillButton.Timer = haunterKillButton.MaxTimer;},
                 __instance.KillButton.graphic.sprite,

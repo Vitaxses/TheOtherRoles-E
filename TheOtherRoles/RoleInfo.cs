@@ -334,6 +334,11 @@ namespace TheOtherRoles
                         roleName = Helpers.cs(BountyHunter.color, "(bounty) ") + roleName;
                     if (Arsonist.dousedPlayers.Contains(p))
                         roleName = Helpers.cs(Arsonist.color, "♨ ") + roleName;
+                    if (Befriender.befriendedPlayers.Contains(p))
+                        roleName = Helpers.cs(Befriender.color, "🌫 ") + roleName;
+                    if (p == Befriender.befriender) {
+                        roleName = roleName + Helpers.cs(Befriender.color, $" ({CachedPlayer.AllPlayers.Count(x => { return x.PlayerControl != Befriender.befriender && !x.Data.IsDead && !x.Data.Disconnected && !Befriender.befriendedPlayers.Any(y => y.PlayerId == x.PlayerId); })} left)");
+                    }
                     if (p == Arsonist.arsonist)
                         roleName = roleName + Helpers.cs(Arsonist.color, $" ({CachedPlayer.AllPlayers.Count(x => { return x.PlayerControl != Arsonist.arsonist && !x.Data.IsDead && !x.Data.Disconnected && !Arsonist.dousedPlayers.Any(y => y.PlayerId == x.PlayerId); })} left)");
                     if (p == Jackal.fakeSidekick)
