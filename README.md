@@ -33,7 +33,7 @@ Updated Consistently.
 | [Swooper](#swooper) | [Security Guard](#security-guard) |  |  |
 | [Sniper](#sniper) | [Medium](#medium) |  |  |
 | [Teleporter](#teleporter) | [Trapper](#trapper) |  |  |
-| [EvilTrapper](#eviltrapper) | [Nice Guesser](#guesser) | |  |
+| | [Nice Guesser](#guesser) | |  |
 | | [Ghost](#ghost) | | |
 | | [Sacrificer](#sacrificer) | | |
 | | [Betrayer](#betrayer) | | |
