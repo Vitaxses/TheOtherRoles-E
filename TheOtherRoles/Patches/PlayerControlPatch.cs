@@ -732,16 +732,24 @@ namespace TheOtherRoles.Patches {
             
             PlayerControl local = CachedPlayer.LocalPlayer.PlayerControl;
 
-            if (Snitch.snitch == null || Snitch.snitch == local) return;
+            if (Snitch.snitch == null || Snitch.snitch == local || !Snitch.arrowPointingToSnitchWhen1TaskLeft) return;
+            
             float timer = 0f;
-            timer -= Time.deltaTime;
+            timer -= Time.fixedDeltaTime;
 
 
             if (timer <= 0) {
 
+                var (playerCompleted, playerTotal) = TasksHandler.taskInfo(Snitch.snitch.Data);
+
+                if (playerTotal == 0) return;
+
+                int numberOfTasks = playerTotal - playerCompleted;
+
                 var myTasks = Snitch.snitch.Data.Tasks.ToArray();
                 var tasksLeft = myTasks.Count(x => !x.Complete);
-                if (tasksLeft == 1) {
+
+                if (numberOfTasks == 1) {
                     if ((Helpers.isKiller(local) && Helpers.isNeutral(local)) || local.Data.Role.IsImpostor) {
                         Snitch.arrowPointingToSnitch.Update(Snitch.snitch.transform.position, Snitch.color);
                     }
@@ -751,6 +759,7 @@ namespace TheOtherRoles.Patches {
                     Snitch.arrowPointingToSnitch = null;
                 }
                 timer = 1f;
+                Snitch.arrowPointingToSnitch.Update();
             }
         }
 

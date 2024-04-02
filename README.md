@@ -57,7 +57,6 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
   - Added Role: (Impostor) Swooper: go Invisible Temporarily.
   - Added Role: (Impostor) Teleporter: Teleport to a set location.
   - Added Role: (Impostor) Sniper: People lunch when killing, I don't.
-  - Added Role: (Impostor) EvilTrapper: Make a Trapped dead body.
 
   - Added Role: (Neutral) Haunter: Haun't to kill.
   - Added Role: (Neutral) Befriender: Befriend Everyone to make Everyone win.
@@ -295,16 +294,6 @@ The Sniper doesn't Lunge at people when killing Unlike the normal Impostor.
 | Sniper Cooldown | - 
 -----------------------
 
-## EvilTrapper
-### **Team: Impostors**
-Make a trapped fake dead body and kill who try's to report.
-
-### Game Options
-
-| Name | Description |
-|----------|:-------------:|
-| EvilTrapper Spawn Chance | -
------------------------
 
 ## Teleporter
 ### **Team: Impostors**

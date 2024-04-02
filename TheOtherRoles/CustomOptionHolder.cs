@@ -537,7 +537,7 @@ namespace TheOtherRoles {
            
             modifierOneTimeKillerSpawnRate = CustomOption.Create(4036, Types.Modifier, cs(Sheriff.color, "1-TimeKiller"), rates, null, true);
 
-            evilTrapperSpawnRate = CustomOption.Create(4037, Types.Impostor, cs(Palette.ImpostorRed, "Evil-Trapper"), rates, null, true);
+            //evilTrapperSpawnRate = CustomOption.Create(4037, Types.Impostor, cs(Palette.ImpostorRed, "Evil-Trapper"), rates, null, true);
 
             befrienderSpawnRate = CustomOption.Create(4039, Types.Neutral, cs(Befriender.color, "Befriender"), rates, null, true);
             befrienderCooldown = CustomOption.Create(4040, Types.Neutral, "Cooldown", 10.5f, 0.5f, 30f, 1.5f, befrienderSpawnRate);

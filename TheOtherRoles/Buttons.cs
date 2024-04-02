@@ -565,7 +565,7 @@ namespace TheOtherRoles
                 () => { return Teleporter.teleporter != null && Teleporter.teleporter == CachedPlayer.LocalPlayer.PlayerControl && Teleporter.hasPlacedLoc(); },
                 () => { return Teleporter.teleporter != null; },
                 () => { Teleporter.loc = new Vector3(0, 0, 0); Teleporter.hasPlacedLocation = false; },
-                Teleporter.getPlaceSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "Teleport"
+                Teleporter.getTpSprite(), CustomButton.ButtonPositions.upperRowLeft, __instance, null, true, 1f, () => {}, false, "Teleport"
             );
 
             teleporterMarkButton = new CustomButton(

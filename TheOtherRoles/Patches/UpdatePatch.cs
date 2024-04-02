@@ -87,8 +87,8 @@ namespace TheOtherRoles.Patches {
                     }
 
                     if (Revealer.revealRole) {
-                            p.cosmetics.nameText.text = p.cosmetics.nameText.text + "\n" + role.name;
-                        }
+                        p.cosmetics.nameText.text = role.name + "\n" + p.cosmetics.nameText.text;
+                    }
                 }
             }
         }
