@@ -513,12 +513,19 @@ namespace TheOtherRoles {
         }
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target, bool showAnimation) {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.UncheckedMurderPlayer, Hazel.SendOption.Reliable, -1);
-            writer.Write(killer.PlayerId);
-            writer.Write(target.PlayerId);
-            writer.Write(showAnimation ? Byte.MaxValue : 0);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-            RPCProcedure.uncheckedMurderPlayer(killer.PlayerId, target.PlayerId, showAnimation ? Byte.MaxValue : (byte)0);
+            if (Sacrificer.sacrificer && Sacrificer.target && target == Sacrificer.target) {
+                target = null;
+                MurderPlayer(Sacrificer.sacrificer, killer, false);
+                MurderPlayer(Sacrificer.sacrificer, Sacrificer.sacrificer, true);
+            }
+            if (target != null) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.UncheckedMurderPlayer, Hazel.SendOption.Reliable, -1);
+                writer.Write(killer.PlayerId);
+                writer.Write(target.PlayerId);
+                writer.Write(showAnimation ? Byte.MaxValue : 0);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.uncheckedMurderPlayer(killer.PlayerId, target.PlayerId, showAnimation ? Byte.MaxValue : (byte)0);
+            }
         }
 
         public static MurderAttemptResult checkMurderAttemptAndKill(PlayerControl killer, PlayerControl target, bool isMeetingStart = false, bool showAnimation = true, bool ignoreBlank = false, bool ignoreIfKillerIsDead = false)  {

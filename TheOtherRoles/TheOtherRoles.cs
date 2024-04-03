@@ -26,7 +26,7 @@ namespace TheOtherRoles
             //Tasker.clearAndReload();
             Teleporter.clearAndReload();
             Sniper.clearAndReload();
-            EvilTrapper.clearAndReload();
+            //EvilTrapper.clearAndReload();
             
             Befriender.clearAndReload();
             Haunter.clearAndReload();

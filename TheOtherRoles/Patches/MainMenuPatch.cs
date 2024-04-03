@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.UI.Button;
 using Object = UnityEngine.Object;
-using TheOtherRoles.Patches;
 using UnityEngine.SceneManagement;
-using TheOtherRoles.Utilities;
 using AmongUs.Data;
 using Assets.InnerNet;
-using System.Linq;
+using UnityEngine.UI;
 
-namespace TheOtherRoles.Modules {
+namespace TheOtherRoles.Modules
+{
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public class MainMenuPatch {
         private static bool horseButtonState = TORMapOptions.enableHorseMode;
@@ -42,12 +38,12 @@ namespace TheOtherRoles.Modules {
 
             var textDiscord = buttonDiscord.transform.GetComponentInChildren<TMPro.TMP_Text>();
             __instance.StartCoroutine(Effects.Lerp(0.5f, new System.Action<float>((p) => {
-                textDiscord.SetText("TOR Discord");
+                textDiscord.SetText("TORE Discord");
             })));
             PassiveButton passiveButtonDiscord = buttonDiscord.GetComponent<PassiveButton>();
             
             passiveButtonDiscord.OnClick = new Button.ButtonClickedEvent();
-            passiveButtonDiscord.OnClick.AddListener((System.Action)(() => Application.OpenURL("https://discord.gg/77RkMJHWsM")));
+            passiveButtonDiscord.OnClick.AddListener((System.Action)(() => Application.OpenURL("https://discord.com/invite/SH44JD3G8x")));
 
 
             
@@ -60,7 +56,7 @@ namespace TheOtherRoles.Modules {
 
             var textCreditsButton = creditsButton.transform.GetComponentInChildren<TMPro.TMP_Text>();
             __instance.StartCoroutine(Effects.Lerp(0.5f, new System.Action<float>((p) => {
-                textCreditsButton.SetText("TOR Credits");
+                textCreditsButton.SetText("TORE Credits");
             })));
             PassiveButton passiveCreditsButton = creditsButton.GetComponent<PassiveButton>();
 
@@ -84,7 +80,6 @@ Vitaxses
 <b>TOR-Team + TOR-Devs:</b>
 Devs: EnoPM    twix    NesTT, Rest of torTeam: Mallöris    K3ndo    Bavari    Gendelo
 
-Special Thanks to TheOtherRoles Team for letting me make this mod!
 
 Thanks to miniduikboot & GD for hosting modded servers (and so much more)
 
@@ -92,6 +87,7 @@ Thanks to miniduikboot & GD for hosting modded servers (and so much more)
                 creditsString += $@"<size=60%> <b>Other Credits & Resources:</b>
 TheOtherRoles - For The Coding Framework
 
+Town-Of-Us - For the Swooper role, The Revealer role & The Teleporter role
 
 The Other Roles Credits: 
 

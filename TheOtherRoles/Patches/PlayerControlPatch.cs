@@ -38,7 +38,6 @@ namespace TheOtherRoles.Patches {
                 me.cosmetics.nameText.text =me.Data.PlayerName;
                 if (me == CachedPlayer.LocalPlayer.PlayerControl) {
                     // me.killTimer = 0.1f;
-                    // im using KillButtonPatch.cs to do this better
                 }
             }
         }
@@ -1342,13 +1341,9 @@ namespace TheOtherRoles.Patches {
             if (Sacrificer.target != null && Sacrificer.target == target) {
                 Helpers.MurderPlayer(Sacrificer.sacrificer, __instance, false);
                 GameHistory.overrideDeathReasonAndKiller(target, DeadPlayer.CustomDeathReason.Kill, target);
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.RevivePlayer, SendOption.Reliable, -1);
-                writer.Write(target.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPCProcedure.RevivePlayer(target.PlayerId);
 
                 resetToDead = true;
-                Sacrificer.sacrificer.MurderPlayer(Sacrificer.sacrificer, MurderResultFlags.Succeeded);
+                Sacrificer.sacrificer.RpcMurderPlayer(Sacrificer.sacrificer, true);
             }
         }
 
@@ -1357,6 +1352,13 @@ namespace TheOtherRoles.Patches {
             // Collect dead player info
             DeadPlayer deadPlayer = new DeadPlayer(target, DateTime.UtcNow, DeadPlayer.CustomDeathReason.Kill, __instance);
             GameHistory.deadPlayers.Add(deadPlayer);
+
+            if (Sacrificer.target && Sacrificer.target == target) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.RevivePlayer, SendOption.Reliable, -1);
+                writer.Write(target.PlayerId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.RevivePlayer(target.PlayerId);
+            }
 
             // Reset killer to crewmate if resetToCrewmate
             if (resetToCrewmate) __instance.Data.Role.TeamType = RoleTeamTypes.Crewmate;
