@@ -180,6 +180,7 @@ namespace TheOtherRoles.Patches {
                 __instance.BackgroundBar.material.color = neutralColor;
                 __instance.TeamTitle.text = "Neutral";
                 __instance.TeamTitle.color = neutralColor;
+                __instance.YouAreText.text.color = roleInfo.color;
             }
         }
 
